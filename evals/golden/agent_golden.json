@@ -1,0 +1,10 @@
+[
+  {"query": "Is the iPhone 15 a good deal right now?", "expected_intent": "deal"},
+  {"query": "Tata Salt ka price theek hai kya?", "expected_intent": "deal"},
+  {"query": "Fortune Sunflower Oil is out of stock, alternative?", "expected_intent": "substitute"},
+  {"query": "iPhone mehnga hai, koi sasta option batao", "expected_intent": "substitute"},
+  {"query": "Delivery boy ne COD pe extra paise liye", "expected_intent": "triage"},
+  {"query": "Mera refund 15 din se nahi aaya", "expected_intent": "triage"},
+  {"query": "Ye product fake lag raha hai", "expected_intent": "triage"},
+  {"query": "Should I wait for Diwali to buy a laptop?", "expected_intent": "deal"}
+]

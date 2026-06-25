@@ -1,0 +1,13 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="800" height="418" viewBox="0 0 800 418">
+  <defs><linearGradient id="bg" x1="0" y1="0" x2="1" y2="1">
+    <stop offset="0" stop-color="#0f172a"/><stop offset="1" stop-color="#1e293b"/></linearGradient></defs>
+  <rect width="800" height="418" fill="url(#bg)"/>
+  <text x="40" y="70" fill="#f8fafc" font-family="Inter,Arial" font-size="26" font-weight="700">India Commerce SignalForge</text>
+  <text x="40" y="100" fill="#94a3b8" font-family="Inter,Arial" font-size="16">Diwali</text>
+  <text x="40" y="190" fill="#f1f5f9" font-family="Inter,Arial" font-size="34" font-weight="700">Tom &amp; Jerry &lt;b&gt;</text>
+  <text x="40" y="260" fill="#e2e8f0" font-family="Inter,Arial" font-size="48" font-weight="800">₹100</text>
+  <text x="40" y="300" fill="#94a3b8" font-family="Inter,Arial" font-size="18">band ₹90 – ₹110</text>
+  <rect x="40" y="330" rx="10" width="220" height="56" fill="#16a34a"/>
+  <text x="150" y="367" fill="#ffffff" font-family="Inter,Arial" font-size="24" font-weight="700" text-anchor="middle">BUY NOW</text>
+  <text x="760" y="400" fill="#475569" font-family="Inter,Arial" font-size="12" text-anchor="end">demo data — not a live quote</text>
+</svg>

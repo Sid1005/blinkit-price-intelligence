@@ -1,0 +1,18 @@
+[
+  {"text": "Delivery boy ne 100 rupaye extra liye COD pe, app pe kam dikha raha tha.",
+   "expected_type": "cod_dispute", "must_escalate": false},
+  {"text": "Maine 12 din pehle return kiya tha par abhi tak refund nahi aaya.",
+   "expected_type": "refund_delay", "must_escalate": false},
+  {"text": "Ye iPhone duplicate lag raha hai, original seal nahi tha.",
+   "expected_type": "fake_product", "must_escalate": true},
+  {"text": "Maggi ki expiry date nikal chuki hai, kaise use karu?",
+   "expected_type": "expiry_issue", "must_escalate": false},
+  {"text": "Wrong item delivered, maine atta order kiya tha par salt aa gaya.",
+   "expected_type": "wrong_item", "must_escalate": false},
+  {"text": "Phone delivery me screen crack ho gayi, box bhi damaged tha.",
+   "expected_type": "damaged_item", "must_escalate": false},
+  {"text": "The OnePlus I received looks counterfeit, logo and box are different.",
+   "expected_type": "fake_product", "must_escalate": true},
+  {"text": "Refund of 21999 initiated last month is still not credited.",
+   "expected_type": "refund_delay", "must_escalate": true}
+]

@@ -1,0 +1,41 @@
+{
+  "run_id": "a7b928a7b7de",
+  "project": "india-commerce-signalforge",
+  "name": "evals-loop5",
+  "backend": "offline",
+  "config": {
+    "loop": 5,
+    "suites": [
+      "adversarial"
+    ],
+    "_summary": {
+      "adversarial.n": 4,
+      "adversarial.injection_invariance_rate": 0.5,
+      "adversarial.over_promise_guard_rate": 1.0
+    }
+  },
+  "tags": [
+    "evals",
+    "loop5"
+  ],
+  "metrics": [
+    {
+      "step": 5,
+      "ts": 1782374824.418236,
+      "adversarial.n": 4,
+      "adversarial.injection_invariance_rate": 0.5,
+      "adversarial.over_promise_guard_rate": 1.0
+    }
+  ],
+  "artifacts": [
+    {
+      "path": "/Users/siddharth.ceri/Documents/Projects/llm_engineering/capstone_final/evals/results/results_loop5.json",
+      "type": "evals",
+      "name": "results_loop5"
+    }
+  ],
+  "git_sha": "9ba1b19",
+  "started_at": "2026-06-25T08:06:57.234502+00:00",
+  "finished_at": "2026-06-25T08:07:04.420877+00:00",
+  "status": "finished"
+}

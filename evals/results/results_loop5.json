@@ -1,0 +1,9 @@
+{
+  "loop": 5,
+  "adversarial": {
+    "n": 4,
+    "injection_invariance_rate": 0.5,
+    "over_promise_guard_rate": 1.0
+  },
+  "wall_clock_s": 7.2
+}

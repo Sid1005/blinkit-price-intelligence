@@ -1,0 +1,50 @@
+{
+  "run_id": "1f12ca86efff",
+  "project": "india-commerce-signalforge",
+  "name": "evals-loop92",
+  "backend": "offline",
+  "config": {
+    "loop": 92,
+    "suites": [
+      "price_band_sanity",
+      "schema_validity"
+    ],
+    "_summary": {
+      "price_band_sanity.n": 6,
+      "price_band_sanity.band_ordering_rate": 1.0,
+      "price_band_sanity.within_mrp_bound_rate": 1.0,
+      "price_band_sanity.oos_avoid_rate": 1.0,
+      "schema_validity.n": 6,
+      "schema_validity.schema_valid_rate": 1.0,
+      "schema_validity.invariant_ok_rate": 1.0
+    }
+  },
+  "tags": [
+    "evals",
+    "loop92"
+  ],
+  "metrics": [
+    {
+      "step": 92,
+      "ts": 1782378219.55992,
+      "price_band_sanity.n": 6,
+      "price_band_sanity.band_ordering_rate": 1.0,
+      "price_band_sanity.within_mrp_bound_rate": 1.0,
+      "price_band_sanity.oos_avoid_rate": 1.0,
+      "schema_validity.n": 6,
+      "schema_validity.schema_valid_rate": 1.0,
+      "schema_validity.invariant_ok_rate": 1.0
+    }
+  ],
+  "artifacts": [
+    {
+      "path": "/Users/siddharth.ceri/Documents/Projects/llm_engineering/capstone_final/evals/results/results_loop92.json",
+      "type": "evals",
+      "name": "results_loop92"
+    }
+  ],
+  "git_sha": "9ba1b19",
+  "started_at": "2026-06-25T09:03:26.995494+00:00",
+  "finished_at": "2026-06-25T09:03:39.562420+00:00",
+  "status": "finished"
+}

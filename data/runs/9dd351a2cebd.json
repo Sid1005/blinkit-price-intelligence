@@ -1,0 +1,139 @@
+{
+  "run_id": "9dd351a2cebd",
+  "project": "india-commerce-signalforge",
+  "name": "lora-commerce-signal",
+  "backend": "offline",
+  "config": {
+    "base_model": "prajjwal1/bert-tiny",
+    "epochs": 10,
+    "batch_size": 16,
+    "lr": 0.001,
+    "max_length": 64,
+    "labels": [
+      "festival_discount",
+      "demand_spike",
+      "review_sentiment",
+      "complaint_policy",
+      "catalog_substitution",
+      "noise"
+    ],
+    "method": "lora_peft",
+    "seed": 7,
+    "_summary": {
+      "test_accuracy": 0.8857,
+      "macro_f1": 0.7697,
+      "eval_loss": 0.5256,
+      "wall_clock_s": 5.1,
+      "trainable_params": 8966,
+      "adapter_path": "/Users/siddharth.ceri/Documents/Projects/llm_engineering/capstone_final/data/lora_adapter"
+    }
+  },
+  "tags": [
+    "week7",
+    "lora",
+    "hinglish"
+  ],
+  "metrics": [
+    {
+      "step": 0,
+      "ts": 1782371372.620068,
+      "train_loss": 1.6904,
+      "eval_loss": 1.769,
+      "eval_accuracy": 0.4286,
+      "eval_macro_f1": 0.3106,
+      "learning_rate": 0.001
+    },
+    {
+      "step": 1,
+      "ts": 1782371372.738603,
+      "train_loss": 1.5828,
+      "eval_loss": 1.7489,
+      "eval_accuracy": 0.4286,
+      "eval_macro_f1": 0.2887,
+      "learning_rate": 0.001
+    },
+    {
+      "step": 2,
+      "ts": 1782371372.85215,
+      "train_loss": 1.4738,
+      "eval_loss": 1.5566,
+      "eval_accuracy": 0.4857,
+      "eval_macro_f1": 0.3519,
+      "learning_rate": 0.001
+    },
+    {
+      "step": 3,
+      "ts": 1782371372.957796,
+      "train_loss": 1.278,
+      "eval_loss": 1.3208,
+      "eval_accuracy": 0.5143,
+      "eval_macro_f1": 0.3895,
+      "learning_rate": 0.001
+    },
+    {
+      "step": 4,
+      "ts": 1782371373.0620952,
+      "train_loss": 1.0625,
+      "eval_loss": 1.1309,
+      "eval_accuracy": 0.6,
+      "eval_macro_f1": 0.4735,
+      "learning_rate": 0.001
+    },
+    {
+      "step": 5,
+      "ts": 1782371373.163386,
+      "train_loss": 0.8877,
+      "eval_loss": 0.9539,
+      "eval_accuracy": 0.7714,
+      "eval_macro_f1": 0.6567,
+      "learning_rate": 0.001
+    },
+    {
+      "step": 6,
+      "ts": 1782371373.268949,
+      "train_loss": 0.7426,
+      "eval_loss": 0.8658,
+      "eval_accuracy": 0.7714,
+      "eval_macro_f1": 0.6668,
+      "learning_rate": 0.001
+    },
+    {
+      "step": 7,
+      "ts": 1782371373.3753102,
+      "train_loss": 0.6075,
+      "eval_loss": 0.7027,
+      "eval_accuracy": 0.8857,
+      "eval_macro_f1": 0.7651,
+      "learning_rate": 0.001
+    },
+    {
+      "step": 8,
+      "ts": 1782371373.479676,
+      "train_loss": 0.5094,
+      "eval_loss": 0.6767,
+      "eval_accuracy": 0.8857,
+      "eval_macro_f1": 0.7651,
+      "learning_rate": 0.001
+    },
+    {
+      "step": 9,
+      "ts": 1782371373.584569,
+      "train_loss": 0.3828,
+      "eval_loss": 0.5256,
+      "eval_accuracy": 0.8857,
+      "eval_macro_f1": 0.7697,
+      "learning_rate": 0.001
+    }
+  ],
+  "artifacts": [
+    {
+      "path": "/Users/siddharth.ceri/Documents/Projects/llm_engineering/capstone_final/data/lora_adapter",
+      "type": "model",
+      "name": "lora-adapter"
+    }
+  ],
+  "git_sha": "9ba1b19",
+  "started_at": "2026-06-25T07:09:29.096849+00:00",
+  "finished_at": "2026-06-25T07:09:34.149216+00:00",
+  "status": "finished"
+}

@@ -1,0 +1,70 @@
+{
+  "run_id": "17fe9aeb8dd1",
+  "project": "india-commerce-signalforge",
+  "name": "evals-loop93",
+  "backend": "offline",
+  "config": {
+    "loop": 93,
+    "suites": [
+      "schema_validity",
+      "price_band_sanity",
+      "substitution_guardrails",
+      "determinism"
+    ],
+    "_summary": {
+      "schema_validity.n": 6,
+      "schema_validity.schema_valid_rate": 1.0,
+      "schema_validity.invariant_ok_rate": 1.0,
+      "price_band_sanity.n": 6,
+      "price_band_sanity.band_ordering_rate": 1.0,
+      "price_band_sanity.within_mrp_bound_rate": 1.0,
+      "price_band_sanity.oos_avoid_rate": 1.0,
+      "substitution_guardrails.n": 10,
+      "substitution_guardrails.never_returns_original_rate": 1.0,
+      "substitution_guardrails.scores_sorted_in_range_rate": 1.0,
+      "substitution_guardrails.in_scope_rate": 1.0,
+      "substitution_guardrails.instock_first_rate": 1.0,
+      "determinism.substitution_reproducible": true,
+      "determinism.unit_norm_reproducible": true,
+      "determinism.deal_recommendation_reproducible": true,
+      "determinism.passed": true
+    }
+  },
+  "tags": [
+    "evals",
+    "loop93"
+  ],
+  "metrics": [
+    {
+      "step": 93,
+      "ts": 1782378653.664971,
+      "schema_validity.n": 6,
+      "schema_validity.schema_valid_rate": 1.0,
+      "schema_validity.invariant_ok_rate": 1.0,
+      "price_band_sanity.n": 6,
+      "price_band_sanity.band_ordering_rate": 1.0,
+      "price_band_sanity.within_mrp_bound_rate": 1.0,
+      "price_band_sanity.oos_avoid_rate": 1.0,
+      "substitution_guardrails.n": 10,
+      "substitution_guardrails.never_returns_original_rate": 1.0,
+      "substitution_guardrails.scores_sorted_in_range_rate": 1.0,
+      "substitution_guardrails.in_scope_rate": 1.0,
+      "substitution_guardrails.instock_first_rate": 1.0,
+      "determinism.substitution_reproducible": true,
+      "determinism.unit_norm_reproducible": true,
+      "determinism.deal_recommendation_reproducible": true,
+      "determinism.passed": true
+    }
+  ],
+  "artifacts": [
+    {
+      "path": "/Users/siddharth.ceri/Documents/Projects/llm_engineering/capstone_final/evals/results/results_loop93.json",
+      "type": "evals",
+      "name": "results_loop93"
+    }
+  ],
+  "git_sha": "9ba1b19",
+  "started_at": "2026-06-25T09:10:39.393330+00:00",
+  "finished_at": "2026-06-25T09:10:53.667546+00:00",
+  "status": "finished"
+}

@@ -1,0 +1,77 @@
+{
+  "run_id": "032fded118ce",
+  "project": "india-commerce-signalforge",
+  "name": "evals-loop90",
+  "backend": "offline",
+  "config": {
+    "loop": 90,
+    "suites": [
+      "tool_correctness",
+      "severity",
+      "determinism",
+      "calibration",
+      "substitution_guardrails"
+    ],
+    "_summary": {
+      "tool_correctness.n": 8,
+      "tool_correctness.pass_rate": 1.0,
+      "tool_correctness.passed": true,
+      "severity.n": 7,
+      "severity.severity_accuracy": 1.0,
+      "determinism.substitution_reproducible": true,
+      "determinism.unit_norm_reproducible": true,
+      "determinism.deal_recommendation_reproducible": true,
+      "determinism.passed": true,
+      "calibration.n": 36,
+      "calibration.accuracy": 0.917,
+      "calibration.mean_confidence": 0.795,
+      "calibration.ece": 0.1849,
+      "calibration.overconfidence": -0.122,
+      "substitution_guardrails.n": 10,
+      "substitution_guardrails.never_returns_original_rate": 1.0,
+      "substitution_guardrails.scores_sorted_in_range_rate": 1.0,
+      "substitution_guardrails.in_scope_rate": 1.0,
+      "substitution_guardrails.instock_first_rate": 1.0
+    }
+  },
+  "tags": [
+    "evals",
+    "loop90"
+  ],
+  "metrics": [
+    {
+      "step": 90,
+      "ts": 1782377645.653975,
+      "tool_correctness.n": 8,
+      "tool_correctness.pass_rate": 1.0,
+      "tool_correctness.passed": true,
+      "severity.n": 7,
+      "severity.severity_accuracy": 1.0,
+      "determinism.substitution_reproducible": true,
+      "determinism.unit_norm_reproducible": true,
+      "determinism.deal_recommendation_reproducible": true,
+      "determinism.passed": true,
+      "calibration.n": 36,
+      "calibration.accuracy": 0.917,
+      "calibration.mean_confidence": 0.795,
+      "calibration.ece": 0.1849,
+      "calibration.overconfidence": -0.122,
+      "substitution_guardrails.n": 10,
+      "substitution_guardrails.never_returns_original_rate": 1.0,
+      "substitution_guardrails.scores_sorted_in_range_rate": 1.0,
+      "substitution_guardrails.in_scope_rate": 1.0,
+      "substitution_guardrails.instock_first_rate": 1.0
+    }
+  ],
+  "artifacts": [
+    {
+      "path": "/Users/siddharth.ceri/Documents/Projects/llm_engineering/capstone_final/evals/results/results_loop90.json",
+      "type": "evals",
+      "name": "results_loop90"
+    }
+  ],
+  "git_sha": "9ba1b19",
+  "started_at": "2026-06-25T08:54:02.016516+00:00",
+  "finished_at": "2026-06-25T08:54:05.654698+00:00",
+  "status": "finished"
+}
