@@ -1,15 +1,14 @@
 """Multi-agent ensemble + planning loop (week 8).
 
-Shared spine, three decision surfaces:
+Shared spine, two decision surfaces:
 
   scout      -> gather evidence (user snippets, Tavily web search, catalog).
   classifier -> ensemble commerce-signal label (LoRA + zero-shot HF + Groq vote).
   verifier   -> Groq judge guards against prompt-injection / spoofed evidence.
-  router     -> pick decision surface (deal / substitute / triage).
+  router     -> pick decision surface (predictor / substitute).
   decide:
-    deal      -> PriceForecast  (meta-learner + Groq + RAG playbook + festival).
-    substitute -> SubstitutionSet (catalog ranking + value improvement).
-    triage    -> Resolution     (complaint type + policy-grounded steps).
+    predictor  -> PriceForecast    (5-arm price comparison; see predictor_agent).
+    substitute -> SubstitutionSet  (catalog ranking + value improvement).
 
 Outputs are validated with pydantic and persisted to memory.
 """
@@ -22,7 +21,7 @@ import numpy as np
 
 from app import commerce_data, config
 from app.agents import intent_router, memory, meta_learner, tools
-from app.agents.schemas import (Brief, PriceForecast, Resolution, Signal,
+from app.agents.schemas import (Brief, PriceForecast, Signal,
                                 SubstituteCandidate, SubstitutionSet)
 from app.llm import groq_client, router
 from app.nlp import hf_pipeline
@@ -105,73 +104,123 @@ def trend_strength(signals: list[Signal]) -> str:
     return "low"
 
 
-# --- DEAL surface ----------------------------------------------------------------
+# --- PREDICTOR surface (5-arm price comparison) ---------------------------------
 def _price_history(sku: str) -> list[dict]:
     return [r for r in commerce_data.load_prices() if r["sku"] == sku]
 
 
-def deal_agent(query: str, current_month: int | None = None) -> PriceForecast:
-    """Festival-aware INR price band + buy/wait/avoid via meta-learner + Groq + RAG."""
+def _arm(price: float | None) -> dict:
+    """Wrap an arm's output with a status for the comparison table."""
+    if price is None or price <= 0:
+        return {"price": None, "status": "unavailable"}
+    return {"price": round(float(price), 2), "status": "ok"}
+
+
+def _rf_arm(item: dict | None, fest_key: str | None, hist: list[float]) -> float | None:
+    if not item:
+        return None
+    ml = meta_learner.predict_point(item["sku"], fest_key)
+    if ml:
+        return ml["point_inr"]
+    return float(np.median(hist)) if hist else item.get("price_inr")
+
+
+def _lora_arm(title: str, festival: str, platform: str) -> float | None:
+    try:
+        from app.finetune import infer_price_lora
+        return infer_price_lora.predict(title, festival, platform)
+    except Exception:  # noqa: BLE001 — adapter optional / heavy import may fail
+        return None
+
+
+def _frontier_arm(title: str, festival: str) -> float | None:
+    try:
+        from app.finetune import frontier_pricer
+        return frontier_pricer.estimate(title, festival)
+    except Exception:  # noqa: BLE001 — Anthropic optional
+        return None
+
+
+def predictor_agent(query: str, current_month: int | None = None) -> PriceForecast:
+    """Festival-aware INR price prediction across five independent arms.
+
+    Arms: (1) RandomForest stack, (2) LoRA regression, (3) Claude frontier zero-shot,
+    (4) Groq + RAG, (5) Groq ensemble arbitrator that reasons over the other four. The
+    arbitrator's estimate is the reported point; arms that are unavailable return None
+    and are excluded from the arbitration.
+    """
     from datetime import datetime
     month = current_month or datetime.now().month
     fest = config.festival_for_month(month)
+    festival = fest["name"] if fest else "No Festival"
     fest_key = None
     if fest:
         fest_key = next((k for k, f in config.FESTIVAL_CALENDAR.items()
                          if f["name"] == fest["name"]), None)
 
     item = commerce_data.find_sku(query)
-    rag_ctx = rag.answer(f"What is a fair INR price band and buy/wait/avoid call for {query}?")["answer"]
+    title = item["title"] if item else query
+    platform = item["platform"] if item else "Blinkit"
+    hist = [r["price_inr"] for r in _price_history(item["sku"])] if item else []
+    rag_result = rag.answer(
+        f"What is a fair INR price for {title} during {festival}?")
+    rag_ctx = rag_result["answer"]
+    rag_context = {k: rag_result[k] for k in ("question", "answer", "contexts", "sources")}
 
-    if item:
-        hist = [r["price_inr"] for r in _price_history(item["sku"])]
-        low = float(min(hist)) if hist else item["price_inr"] * 0.85
-        high = float(max(hist)) if hist else item["mrp_inr"]
-        ml = meta_learner.predict_point(item["sku"], fest_key)
-        ml_point = ml["point_inr"] if ml else float(np.median(hist)) if hist else item["price_inr"]
-        # Clamp the (possibly noisy) Groq estimate to a plausible band around MRP before
-        # blending, so a hallucinated number can't distort the forecast.
-        raw_groq = _groq_price_estimate(query, rag_ctx, hint=item)
-        groq_point = min(max(raw_groq, 0.2 * item["mrp_inr"]), 1.2 * item["mrp_inr"]) if raw_groq else 0.0
-        blend = round(0.7 * ml_point + 0.3 * groq_point, 2) if groq_point else ml_point
-        # The reported point must lie within the historical [low, high] band; clamp it
-        # rather than widening the band with an out-of-range estimate.
-        point = round(min(max(blend, low), high), 2)
-        # Recommendation uses the DETERMINISTIC meta-learner point and the historical low
-        # so the buy/wait/avoid call is reproducible and provably independent of any
-        # scraped snippet (injection cannot reach this path).
-        rec = _buy_wait_avoid(item, ml_point, low, month)
+    # --- the four base arms (each best-effort -> None on failure) ---
+    rf_price = _rf_arm(item, fest_key, hist)
+    lora_price = _lora_arm(title, festival, platform)
+    frontier_price = _frontier_arm(title, festival)
+    groq_rag_price = _groq_rag_price_estimate(title, rag_ctx, hint=item) or None
+
+    base_arms = {"random_forest": rf_price, "lora_regression": lora_price,
+                 "claude_frontier": frontier_price, "groq_rag": groq_rag_price}
+
+    # --- arm 5: ensemble arbitrator over the available base arms ---
+    ens = _groq_ensemble_arbitrate(base_arms, title, festival)
+
+    comparison = {name: _arm(p) for name, p in base_arms.items()}
+    comparison["ensemble_arbitrator"] = _arm(ens.get("price"))
+    comparison["ensemble_reasoning"] = ens.get("reasoning", "")
+
+    # --- final point + band ---
+    usable = [p for p in (*base_arms.values(), ens.get("price")) if p and p > 0]
+    point = ens.get("price") or rf_price or (float(np.median(hist)) if hist else None)
+    if not point and usable:
+        point = float(np.median(usable))
+    if not point:
         return PriceForecast(
-            sku=item["sku"], title=item["title"], low_inr=round(low, 2),
-            high_inr=round(high, 2), point_inr=point,
-            unit_price_inr=item.get("unit_price_inr"), unit=item["unit"],
-            festival_context=fest["name"] if fest else "no active festival",
-            recommendation=rec,
-            rationale=(f"Meta-learner + Groq blend. Trailing low {config.CURRENCY_SYMBOL}{low:.0f}, "
-                       f"point {config.CURRENCY_SYMBOL}{point:.0f}. "
-                       f"{'Festival: ' + fest['name'] if fest else 'No active festival.'}"),
-            estimator="meta_learner+groq+rag")
-    # unknown SKU: fall back to Groq grounded estimate
-    groq_point = _groq_price_estimate(query, rag_ctx) or 0.0
-    if groq_point <= 0:
-        # no catalog history and no usable estimate -> do not fabricate a price band
-        return PriceForecast(
-            sku="", title=query, low_inr=0.0, high_inr=0.0, point_inr=0.0,
-            festival_context=fest["name"] if fest else "no active festival",
-            recommendation="avoid",
-            rationale="Insufficient evidence: unknown SKU and no reliable price estimate. "
-                      "Add it to the catalog or provide a price snippet for a forecast.",
-            estimator="insufficient_evidence")
+            sku=item["sku"] if item else "", title=title,
+            low_inr=0.0, high_inr=0.0, point_inr=0.0,
+            festival_context=festival, comparison=comparison,
+            rationale="Insufficient evidence: no arm produced a usable price estimate.",
+            estimator="insufficient_evidence",
+            rag_context=rag_context)
+
+    if hist:
+        low, high = float(min(hist)), float(max(hist))
+    else:
+        spread = usable or [point]
+        low, high = min(spread) * 0.9, max(spread) * 1.15
+    point = min(max(point, low), high)
+    # Guard the low <= point <= high invariant even when the band collapses.
+    low, high = round(min(low, point), 2), round(max(high, point), 2)
+    point = round(point, 2)
+
     return PriceForecast(
-        sku="", title=query, low_inr=round(groq_point * 0.9, 2),
-        high_inr=round(groq_point * 1.15, 2), point_inr=round(groq_point, 2),
-        festival_context=fest["name"] if fest else "no active festival",
-        recommendation="wait",
-        rationale="Unknown SKU — Groq estimate grounded in pricing playbook (no catalog history).",
-        estimator="groq+rag")
+        sku=item["sku"] if item else "", title=title,
+        low_inr=round(low, 2), high_inr=round(high, 2), point_inr=point,
+        unit_price_inr=item.get("unit_price_inr") if item else None,
+        unit=item["unit"] if item else None,
+        festival_context=festival, comparison=comparison,
+        rationale=(f"5-arm comparison; ensemble point {config.CURRENCY_SYMBOL}{point:.0f}. "
+                   + (ens.get("reasoning") or "")),
+        estimator="ensemble_arbitrator",
+        rag_context=rag_context)
 
 
-def _groq_price_estimate(query: str, rag_ctx: str, hint: dict | None = None) -> float:
+def _groq_rag_price_estimate(query: str, rag_ctx: str, hint: dict | None = None) -> float:
+    """Arm 4: Groq pricing analyst grounded in the retrieved RAG playbook context."""
     hint_txt = ""
     if hint:
         hint_txt = (f"\nCatalog: MRP {config.CURRENCY_SYMBOL}{hint['mrp_inr']}, "
@@ -189,20 +238,32 @@ def _groq_price_estimate(query: str, rag_ctx: str, hint: dict | None = None) -> 
         return 0.0
 
 
-def _buy_wait_avoid(item: dict, point: float, low: float, month: int) -> str:
-    """Playbook heuristic: buy/wait/avoid."""
-    big_fests = {"big_billion_days", "great_indian_fest", "diwali"}
-    upcoming_big = any(config.FESTIVAL_CALENDAR[k]["month"] in (month, (month % 12) + 1)
-                       for k in big_fests)
-    if not item["in_stock"]:
-        return "avoid"
-    if item["price_inr"] <= low * 1.02:
-        return "buy_now"
-    if upcoming_big and item["category"] == "electronics":
-        return "wait"
-    if item["price_inr"] > point * 1.10:
-        return "avoid"
-    return "buy_now" if item["price_inr"] <= point else "wait"
+def _groq_ensemble_arbitrate(arms: dict, title: str, festival: str) -> dict:
+    """Arm 5: Groq reasons over the available base-arm estimates and picks a final price.
+
+    Only arms with a usable price are shown to the arbitrator. Returns
+    ``{"price": float|None, "reasoning": str}``; price is None if no arm is available.
+    """
+    available = {name: round(float(p), 2) for name, p in arms.items() if p and p > 0}
+    if not available:
+        return {"price": None, "reasoning": "no base arms available"}
+    listing = ", ".join(f"{name}={config.CURRENCY_SYMBOL}{p}" for name, p in available.items())
+    data = groq_client.chat_json(
+        [{"role": "system", "content":
+          "You are a pricing arbitrator. You are given independent price estimates from "
+          "different models for the same product. Reason about which to trust and output "
+          'strict JSON {"price_inr": <number>, "reasoning": "<one or two sentences>"}.'},
+         {"role": "user", "content":
+          f"Product: {title}\nFestival context: {festival}\nEstimates: {listing}"}],
+        model=config.GROQ_MODELS["strong"])
+    try:
+        price = float(data.get("price_inr", 0) or 0)
+    except (TypeError, ValueError):
+        price = 0.0
+    if price <= 0:  # arbitrator failed -> fall back to the median of available arms
+        price = float(np.median(list(available.values())))
+    return {"price": round(price, 2), "reasoning": str(data.get("reasoning", ""))[:300]}
+
 
 
 # --- SUBSTITUTE surface ----------------------------------------------------------
@@ -212,6 +273,10 @@ def substitute_agent(query: str) -> SubstitutionSet:
         return SubstitutionSet(original_title=query,
                                reason_for_substitution="original SKU not found in catalog")
     reason = _substitution_reason(original)
+    # Ground the substitution rationale in the retrieved guide (week 5 RAG reuse).
+    guide = rag.answer(f"How should I choose a substitute for {original['title']}?")
+    if guide.get("answer") and "insufficient evidence" not in guide["answer"].lower():
+        reason = f"{reason}; {guide['answer'][:160]}"
     cands = tools.find_substitutes(original["sku"], k=3)
     candidates = [SubstituteCandidate(
         sku=c["sku"], title=c["title"], platform=c["platform"], price_inr=c["price_inr"],
@@ -251,73 +316,6 @@ def _candidate_reason(original: dict, cand: dict) -> str:
     return ", ".join(bits) or "comparable alternative"
 
 
-# --- TRIAGE surface --------------------------------------------------------------
-def triage_agent(query: str) -> Resolution:
-    ctype = classify_complaint(query)
-    policy = rag.answer(f"What is the policy and resolution steps for a {ctype.replace('_', ' ')} complaint?")
-    severity = _severity(ctype)
-    escalate = ctype in ("fake_product",) or (ctype == "refund_delay" and "month" in query.lower())
-    data = groq_client.chat_json([
-        {"role": "system", "content":
-         "You are a careful Indian-marketplace complaint triager. Output strict JSON with keys: "
-         "steps (list of short action strings grounded in the policy context), "
-         "draft_message (a short empathetic reply to the customer, INR where relevant). "
-         "Cite policy facts only from the context. NEVER promise a specific refund for "
-         "counterfeit claims before verification, and never over-promise timelines."},
-        {"role": "user", "content":
-         f"Complaint: {query}\nComplaint type: {ctype}\nPolicy context:\n{policy['answer'][:900]}"}],
-        model=router.route("resolution"))
-    steps = data.get("steps") if isinstance(data.get("steps"), list) else []
-    draft = str(data.get("draft_message", ""))[:600]
-    return Resolution(
-        complaint_type=ctype, severity=severity,
-        steps=[str(s)[:200] for s in steps][:6],
-        policy_citations=policy["sources"], escalate=escalate,
-        requires_confirmation=True, draft_message=draft)
-
-
-def classify_complaint(text: str, model: str | None = None) -> str:
-    """Classify complaint text into a COMPLAINT_TYPES label (Groq + heuristic fallback)."""
-    try:
-        data = groq_client.chat_json(
-            [{"role": "system", "content":
-              "Classify the complaint into exactly one of: " + ", ".join(config.COMPLAINT_TYPES) +
-              ". Output JSON {\"type\": <label>}. Hinglish input is expected."},
-             {"role": "user", "content": text}],
-            model=model or router.route("classify"))
-        t = data.get("type")
-        if t in config.COMPLAINT_TYPES:
-            return t
-    except Exception:  # noqa: BLE001
-        pass
-    return _complaint_heuristic(text)
-
-
-def _complaint_heuristic(text: str) -> str:
-    t = text.lower()
-    if any(k in t for k in ("cod", "cash", "extra", "charged", "rupaye", "overcharg")):
-        return "cod_dispute"
-    if any(k in t for k in ("refund", "wapas", "credited")):
-        return "refund_delay"
-    if any(k in t for k in ("fake", "duplicate", "counterfeit", "genuine", "original nahi")):
-        return "fake_product"
-    if any(k in t for k in ("expir", "expiry", "near-expiry")):
-        return "expiry_issue"
-    if any(k in t for k in ("wrong", "kuch aur", "different product", "missing")):
-        return "wrong_item"
-    if any(k in t for k in ("damaged", "broken", "toot", "crack")):
-        return "damaged_item"
-    return "other"
-
-
-def _severity(ctype: str) -> str:
-    if ctype in ("fake_product", "expiry_issue"):
-        return "high"
-    if ctype in ("cod_dispute", "refund_delay", "wrong_item", "damaged_item"):
-        return "medium"
-    return "low"
-
-
 # --- orchestration ---------------------------------------------------------------
 def run(query: str, snippets: list[str] | None = None, intent: str | None = None,
         use_web: bool = False, persist: bool = True, verify: bool = True,
@@ -332,20 +330,16 @@ def run(query: str, snippets: list[str] | None = None, intent: str | None = None
     if verify and signals:
         signals = verifier_agent(signals)
 
-    if intent == "deal":
-        decision = deal_agent(query, current_month=current_month)
-    elif intent == "substitute":
+    if intent == "substitute":
         decision = substitute_agent(query)
     else:
-        decision = triage_agent(query)
+        decision = predictor_agent(query, current_month=current_month)
 
     citations = sorted({s.source for s in signals if s.source and s.label != "noise"})
-    if isinstance(decision, Resolution):
-        citations = sorted(set(citations) | set(decision.policy_citations))
-    elif intent == "deal":
-        citations = sorted(set(citations) | {"pricing_playbook.md", "festival_calendar.md"})
-    elif intent == "substitute":
+    if intent == "substitute":
         citations = sorted(set(citations) | {"substitution_guide.md"})
+    else:
+        citations = sorted(set(citations) | {"pricing_playbook.md", "festival_calendar.md"})
 
     brief = Brief(intent=intent, query=query, signals=signals, decision=decision,
                   trend_strength=trend_strength(signals), citations=citations,
@@ -364,8 +358,7 @@ def run(query: str, snippets: list[str] | None = None, intent: str | None = None
 
 
 if __name__ == "__main__":
-    for q in ["Is iPhone 15 a good deal right now?",
-              "Fortune Sunflower Oil is out of stock, alternative?",
-              "Delivery boy ne 100 rupaye extra liye COD pe"]:
+    for q in ["Cadbury Dairy Milk Silk ka price kya hoga?",
+              "Snickers is out of stock, alternative?"]:
         print("\n===", q)
-        print(json.dumps(run(q, verify=False), indent=2, ensure_ascii=False)[:1200])
+        print(json.dumps(run(q, verify=False), indent=2, ensure_ascii=False)[:1500])

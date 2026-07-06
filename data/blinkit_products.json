@@ -1,0 +1,1316 @@
+[
+  {
+    "product_name": "Cadbury Dairy Milk Milkinis Milk Chocolate Bar",
+    "category": "chocolates",
+    "price_inr": 35.0,
+    "mrp_inr": 36.0,
+    "unit": "0.034 kg",
+    "in_stock": true,
+    "rating": 4.2
+  },
+  {
+    "product_name": "Nestle KitKat 4 Fingers Choco Coated Wafer Bar",
+    "category": "chocolates",
+    "price_inr": 30.0,
+    "mrp_inr": 32,
+    "unit": "0.0385 kg",
+    "in_stock": true,
+    "rating": 4.2
+  },
+  {
+    "product_name": "Cadbury Dairy Milk Chocolate Bar Cricket Pack",
+    "category": "chocolates",
+    "price_inr": 26.0,
+    "mrp_inr": 27,
+    "unit": "0.026 kg",
+    "in_stock": true,
+    "rating": 4.2
+  },
+  {
+    "product_name": "Cadbury Dairy Milk Silk Oreo Milk Chocolate Bar",
+    "category": "chocolates",
+    "price_inr": 100.0,
+    "mrp_inr": 105,
+    "unit": "0.0585 kg",
+    "in_stock": true,
+    "rating": 4.2
+  },
+  {
+    "product_name": "Snickers Peanut Nougat & Caramel Chocolate Filled Bar",
+    "category": "chocolates",
+    "price_inr": 45.0,
+    "mrp_inr": 47,
+    "unit": "0.04 kg",
+    "in_stock": true,
+    "rating": 4.2
+  },
+  {
+    "product_name": "Cadbury Bournville Rich Cocoa 70% Dark Chocolate Bar",
+    "category": "chocolates",
+    "price_inr": 135.0,
+    "mrp_inr": 150.0,
+    "unit": "0.075 kg",
+    "in_stock": true,
+    "rating": 4.2
+  },
+  {
+    "product_name": "Cadbury Dairy Milk Silk Milk Chocolate Bar",
+    "category": "chocolates",
+    "price_inr": 96.0,
+    "mrp_inr": 102.0,
+    "unit": "0.06 kg",
+    "in_stock": true,
+    "rating": 4.2
+  },
+  {
+    "product_name": "Kinder Joy Tweety 20 g",
+    "category": "chocolates",
+    "price_inr": 50.0,
+    "mrp_inr": 52,
+    "unit": "0.02 kg",
+    "in_stock": true,
+    "rating": 4.2
+  },
+  {
+    "product_name": "Snickers Butterscotch Flavoured Chocolate Filled Bar",
+    "category": "chocolates",
+    "price_inr": 67.0,
+    "mrp_inr": 70.0,
+    "unit": "0.04 kg",
+    "in_stock": true,
+    "rating": 4.2
+  },
+  {
+    "product_name": "Amul Dark Chocolate Bar",
+    "category": "chocolates",
+    "price_inr": 45.0,
+    "mrp_inr": 47,
+    "unit": "0.035 kg",
+    "in_stock": true,
+    "rating": 4.2
+  },
+  {
+    "product_name": "M&M's Chocolate Candy",
+    "category": "chocolates",
+    "price_inr": 150.0,
+    "mrp_inr": 179.0,
+    "unit": "0.045 kg",
+    "in_stock": true,
+    "rating": 4.2
+  },
+  {
+    "product_name": "The Select Aisle Dark Choco Chips",
+    "category": "chocolates",
+    "price_inr": 55.0,
+    "mrp_inr": 65.0,
+    "unit": "0.05 kg",
+    "in_stock": true,
+    "rating": 4.2
+  },
+  {
+    "product_name": "M&M's Peanut Candy",
+    "category": "chocolates",
+    "price_inr": 150.0,
+    "mrp_inr": 179.0,
+    "unit": "0.045 kg",
+    "in_stock": true,
+    "rating": 4.2
+  },
+  {
+    "product_name": "The Select Aisle Mini Marshmallow - Vegan",
+    "category": "chocolates",
+    "price_inr": 59.0,
+    "mrp_inr": 62,
+    "unit": "0.02 kg",
+    "in_stock": true,
+    "rating": 4.2
+  },
+  {
+    "product_name": "Beanly Choco Hazelnut Spread with Breadsticks",
+    "category": "chocolates",
+    "price_inr": 99.0,
+    "mrp_inr": 133.0,
+    "unit": "0.052 kg",
+    "in_stock": true,
+    "rating": 4.2
+  },
+  {
+    "product_name": "Tony's Chocolonely Caramel & Sea Salt Milk Chocolate Bar",
+    "category": "chocolates",
+    "price_inr": 349.0,
+    "mrp_inr": 366,
+    "unit": "0.047 kg",
+    "in_stock": true,
+    "rating": 4.2
+  },
+  {
+    "product_name": "The Select Aisle Milk Choco Chips",
+    "category": "chocolates",
+    "price_inr": 64.0,
+    "mrp_inr": 80.0,
+    "unit": "0.05 kg",
+    "in_stock": true,
+    "rating": 4.2
+  },
+  {
+    "product_name": "Tony's Chocolonely Milk Chocolate Bar",
+    "category": "chocolates",
+    "price_inr": 349.0,
+    "mrp_inr": 366,
+    "unit": "0.05 kg",
+    "in_stock": true,
+    "rating": 4.2
+  },
+  {
+    "product_name": "Tony's Chocolonely Almond & Sea Salt Dark Chocolate Bar",
+    "category": "chocolates",
+    "price_inr": 349.0,
+    "mrp_inr": 366,
+    "unit": "0.047 kg",
+    "in_stock": true,
+    "rating": 4.2
+  },
+  {
+    "product_name": "Cadbury Dairy Milk Chocolate Bar",
+    "category": "chocolates",
+    "price_inr": 26.0,
+    "mrp_inr": 27,
+    "unit": "0.026 kg",
+    "in_stock": true,
+    "rating": 4.2
+  },
+  {
+    "product_name": "Amul Sugar Free Dark Chocolate Bar",
+    "category": "chocolates",
+    "price_inr": 180.0,
+    "mrp_inr": 189,
+    "unit": "0.15 kg",
+    "in_stock": true,
+    "rating": 4.2
+  },
+  {
+    "product_name": "Cadbury Dairy Milk Fruit & Nut Chocolate Bar Cricket Pack",
+    "category": "chocolates",
+    "price_inr": 50.0,
+    "mrp_inr": 52,
+    "unit": "0.036 kg",
+    "in_stock": true,
+    "rating": 4.2
+  },
+  {
+    "product_name": "Hershey's Exotic Dark Dark Chocolate Pack (Blueberry & Acai)",
+    "category": "chocolates",
+    "price_inr": 146.35,
+    "mrp_inr": 165.0,
+    "unit": "0.0891 kg",
+    "in_stock": true,
+    "rating": 4.2
+  },
+  {
+    "product_name": "Hershey's Exotic Dark Dark Chocolate Pack (Raspberry & Goji)",
+    "category": "grocery",
+    "price_inr": 137.0,
+    "mrp_inr": 155.0,
+    "unit": "0.1 kg",
+    "in_stock": true,
+    "rating": 4.2
+  },
+  {
+    "product_name": "Hershey's Exotic Dark Dark Chocolate Pack (Californian Almonds)",
+    "category": "grocery",
+    "price_inr": 141.0,
+    "mrp_inr": 160.0,
+    "unit": "0.09 kg",
+    "in_stock": true,
+    "rating": 4.2
+  },
+  {
+    "product_name": "Hershey's Dark Chocolate Bar",
+    "category": "grocery",
+    "price_inr": 149.0,
+    "mrp_inr": 165.0,
+    "unit": "0.09 kg",
+    "in_stock": true,
+    "rating": 4.2
+  },
+  {
+    "product_name": "Hershey's Kisses Special Dark N Almonds Dark Chocolate Pack",
+    "category": "grocery",
+    "price_inr": 147.0,
+    "mrp_inr": 170.0,
+    "unit": "0.1008 kg",
+    "in_stock": true,
+    "rating": 4.2
+  },
+  {
+    "product_name": "Hershey's Dark 'N' Rich Coffee Dark Chocolate Bar",
+    "category": "grocery",
+    "price_inr": 135.0,
+    "mrp_inr": 150.0,
+    "unit": "0.09 kg",
+    "in_stock": true,
+    "rating": 4.2
+  },
+  {
+    "product_name": "Darkins Chocolates Blueberry 70% Dark Chocolate",
+    "category": "grocery",
+    "price_inr": 207.0,
+    "mrp_inr": 220.0,
+    "unit": "0.05 kg",
+    "in_stock": true,
+    "rating": 4.2
+  },
+  {
+    "product_name": "Hershey's Kisses Choco Truffle Assorted Chocolate Pack",
+    "category": "grocery",
+    "price_inr": 79.0,
+    "mrp_inr": 88.0,
+    "unit": "0.045 kg",
+    "in_stock": true,
+    "rating": 4.2
+  },
+  {
+    "product_name": "Choko La Dessert Square Dark Chocolate Pack",
+    "category": "grocery",
+    "price_inr": 421.0,
+    "mrp_inr": 495.0,
+    "unit": "0.09 kg",
+    "in_stock": true,
+    "rating": 4.2
+  },
+  {
+    "product_name": "Fabelle Divine Minis Dark Chocolate Pack (64% Dark)",
+    "category": "grocery",
+    "price_inr": 152.0,
+    "mrp_inr": 165.0,
+    "unit": "0.0675 kg",
+    "in_stock": true,
+    "rating": 4.2
+  },
+  {
+    "product_name": "Cadbury Nutties Milk Chocolate Pack",
+    "category": "grocery",
+    "price_inr": 45.0,
+    "mrp_inr": 47,
+    "unit": "0.03 kg",
+    "in_stock": true,
+    "rating": 4.2
+  },
+  {
+    "product_name": "Cadbury Hot Chocolate Drink Powder Mix",
+    "category": "grocery",
+    "price_inr": 260.0,
+    "mrp_inr": 289.0,
+    "unit": "0.2 kg",
+    "in_stock": true,
+    "rating": 4.2
+  },
+  {
+    "product_name": "Hershey's Hot Chocolate Powder",
+    "category": "grocery",
+    "price_inr": 220.0,
+    "mrp_inr": 265.0,
+    "unit": "0.25 kg",
+    "in_stock": true,
+    "rating": 4.2
+  },
+  {
+    "product_name": "Hershey's Hot Chocolate Powder",
+    "category": "grocery",
+    "price_inr": 131.0,
+    "mrp_inr": 135.0,
+    "unit": "0.11 kg",
+    "in_stock": true,
+    "rating": 4.2
+  },
+  {
+    "product_name": "Christopher Cocoa Hot Chocolate",
+    "category": "grocery",
+    "price_inr": 75.0,
+    "mrp_inr": 99.0,
+    "unit": "0.03 kg",
+    "in_stock": true,
+    "rating": 4.2
+  },
+  {
+    "product_name": "The Select Aisle Drinking Hot Chocolate",
+    "category": "grocery",
+    "price_inr": 184.0,
+    "mrp_inr": 245.0,
+    "unit": "0.2 kg",
+    "in_stock": true,
+    "rating": 4.2
+  },
+  {
+    "product_name": "Cocosutra Hazelnut Hot Chocolate",
+    "category": "grocery",
+    "price_inr": 105.0,
+    "mrp_inr": 110,
+    "unit": "0.02 kg",
+    "in_stock": true,
+    "rating": 4.2
+  },
+  {
+    "product_name": "Cocosutra Hazelnut Sugar Free Hot Chocolate Mix",
+    "category": "grocery",
+    "price_inr": 180.0,
+    "mrp_inr": 189,
+    "unit": "1.0 piece",
+    "in_stock": true,
+    "rating": 4.2
+  },
+  {
+    "product_name": "Lumara Cocoa Karma Roasted Chana Sattu Hot Chocolate",
+    "category": "grocery",
+    "price_inr": 90.0,
+    "mrp_inr": 110.0,
+    "unit": "0.04 kg",
+    "in_stock": true,
+    "rating": 4.2
+  },
+  {
+    "product_name": "Cocosutra Mocha Hot Chocolate",
+    "category": "grocery",
+    "price_inr": 105.0,
+    "mrp_inr": 110,
+    "unit": "0.02 kg",
+    "in_stock": true,
+    "rating": 4.2
+  },
+  {
+    "product_name": "Choko La Hot Chocolate (Assorted Flavours)",
+    "category": "grocery",
+    "price_inr": 700.0,
+    "mrp_inr": 875.0,
+    "unit": "0.25 kg",
+    "in_stock": true,
+    "rating": 4.2
+  },
+  {
+    "product_name": "Red Rock Deli Baked Chips (Risotto) 40% Less Fat Snacks",
+    "category": "chips & crisps",
+    "price_inr": 51.0,
+    "mrp_inr": 60.0,
+    "unit": "0.053 kg",
+    "in_stock": true,
+    "rating": 4.2
+  },
+  {
+    "product_name": "Red Rock Deli Baked Chips (Risotto) 40% Less Fat Snacks",
+    "category": "chips & crisps",
+    "price_inr": 101.0,
+    "mrp_inr": 120.0,
+    "unit": "0.053 kg",
+    "in_stock": true,
+    "rating": 4.2
+  },
+  {
+    "product_name": "Red Rock Deli Baked Chips (Greek Salad) 40% Less Fat Snacks",
+    "category": "chips & crisps",
+    "price_inr": 51.0,
+    "mrp_inr": 60.0,
+    "unit": "0.053 kg",
+    "in_stock": true,
+    "rating": 4.2
+  },
+  {
+    "product_name": "Red Rock Deli Popped Chips (Buldak) No Palm Oil Snacks",
+    "category": "chips & crisps",
+    "price_inr": 99.0,
+    "mrp_inr": 125.0,
+    "unit": "0.075 kg",
+    "in_stock": true,
+    "rating": 4.2
+  },
+  {
+    "product_name": "Red Rock Deli Kettle Chips (Basil Thai) No Palm Oil Snacks",
+    "category": "chips & crisps",
+    "price_inr": 51.0,
+    "mrp_inr": 60.0,
+    "unit": "0.058 kg",
+    "in_stock": true,
+    "rating": 4.2
+  },
+  {
+    "product_name": "Lay's Rock Salt Potato Chips",
+    "category": "chips & crisps",
+    "price_inr": 190.0,
+    "mrp_inr": 199.0,
+    "unit": "0.048 kg",
+    "in_stock": true,
+    "rating": 4.2
+  },
+  {
+    "product_name": "Too Yumm Himalayan Pink Salt Gourmet Potato Chips",
+    "category": "chips & crisps",
+    "price_inr": 49.0,
+    "mrp_inr": 55.0,
+    "unit": "0.05 kg",
+    "in_stock": true,
+    "rating": 4.2
+  },
+  {
+    "product_name": "Kettle Studio Air Fried Sweet & Smoky BBQ Potato Chips",
+    "category": "chips & crisps",
+    "price_inr": 99.0,
+    "mrp_inr": 104,
+    "unit": "0.085 kg",
+    "in_stock": true,
+    "rating": 4.2
+  },
+  {
+    "product_name": "Kettle Studio Mature Cheddar & Red Onions Potato Chips",
+    "category": "chips & crisps",
+    "price_inr": 47.0,
+    "mrp_inr": 49.0,
+    "unit": "0.06 kg",
+    "in_stock": true,
+    "rating": 4.2
+  },
+  {
+    "product_name": "Too Yumm Lightly Salted Gourmet Potato Chips",
+    "category": "chips & crisps",
+    "price_inr": 49.0,
+    "mrp_inr": 55.0,
+    "unit": "0.05 kg",
+    "in_stock": true,
+    "rating": 4.2
+  },
+  {
+    "product_name": "Sweet Karam Coffee Kerala Nendran Banana Chips",
+    "category": "chips & crisps",
+    "price_inr": 60.0,
+    "mrp_inr": 64.0,
+    "unit": "0.065 kg",
+    "in_stock": true,
+    "rating": 4.2
+  },
+  {
+    "product_name": "Uncle Chipps Spicy Treat Flavour Potato Chips",
+    "category": "chips & crisps",
+    "price_inr": 20.0,
+    "mrp_inr": 21,
+    "unit": "0.053 kg",
+    "in_stock": true,
+    "rating": 4.2
+  },
+  {
+    "product_name": "Lay's India's Magic Masala Potato Chips",
+    "category": "chips & crisps",
+    "price_inr": 25.0,
+    "mrp_inr": 26,
+    "unit": "0.058 kg",
+    "in_stock": true,
+    "rating": 4.2
+  },
+  {
+    "product_name": "Kurkure Masala Munch Crisps",
+    "category": "chips & crisps",
+    "price_inr": 20.0,
+    "mrp_inr": 21,
+    "unit": "0.075 kg",
+    "in_stock": true,
+    "rating": 4.2
+  },
+  {
+    "product_name": "Sweet Karam Coffee Andhra Spicy Murukku (Chakli)",
+    "category": "chips & crisps",
+    "price_inr": 86.0,
+    "mrp_inr": 92.0,
+    "unit": "0.095 kg",
+    "in_stock": true,
+    "rating": 4.2
+  },
+  {
+    "product_name": "Lay's West Indies Hot n Sweet Chilli Flavour Potato Chips",
+    "category": "chips & crisps",
+    "price_inr": 25.0,
+    "mrp_inr": 26,
+    "unit": "0.058 kg",
+    "in_stock": true,
+    "rating": 4.2
+  },
+  {
+    "product_name": "Lay's Chile Limon Flavour Potato Chips",
+    "category": "chips & crisps",
+    "price_inr": 25.0,
+    "mrp_inr": 26,
+    "unit": "0.058 kg",
+    "in_stock": true,
+    "rating": 4.2
+  },
+  {
+    "product_name": "Lay's American Style Cream & Onion Potato Chips",
+    "category": "chips & crisps",
+    "price_inr": 25.0,
+    "mrp_inr": 26,
+    "unit": "0.058 kg",
+    "in_stock": true,
+    "rating": 4.2
+  },
+  {
+    "product_name": "4700BC Pineapple Salsa Nachos",
+    "category": "chips & crisps",
+    "price_inr": 47.0,
+    "mrp_inr": 60.0,
+    "unit": "0.06 kg",
+    "in_stock": true,
+    "rating": 4.2
+  },
+  {
+    "product_name": "Red Rock Deli Kettle Chips (Basil Thai) No Palm Oil Snacks",
+    "category": "chips & crisps",
+    "price_inr": 51.0,
+    "mrp_inr": 54,
+    "unit": "1.0 piece",
+    "in_stock": true,
+    "rating": 4.2
+  },
+  {
+    "product_name": "Lo Foods Gluten Free Millet Ragi Chips (No Palm Oil)",
+    "category": "chips & crisps",
+    "price_inr": 99.0,
+    "mrp_inr": 104,
+    "unit": "1.0 piece",
+    "in_stock": true,
+    "rating": 4.2
+  },
+  {
+    "product_name": "Red Rock Deli Baked Chips (Risotto) 40% Less Fat Snacks",
+    "category": "chips & crisps",
+    "price_inr": 51.0,
+    "mrp_inr": 54,
+    "unit": "1.0 piece",
+    "in_stock": true,
+    "rating": 4.2
+  },
+  {
+    "product_name": "Kettle Studio Rock Sea Salt & English Vinegar Potato Chips",
+    "category": "chips & crisps",
+    "price_inr": 99.0,
+    "mrp_inr": 104,
+    "unit": "1.0 piece",
+    "in_stock": true,
+    "rating": 4.2
+  },
+  {
+    "product_name": "Red Rock Deli Baked Chips (Greek Salad) 40% Less Fat Snacks",
+    "category": "chips & crisps",
+    "price_inr": 51.0,
+    "mrp_inr": 54,
+    "unit": "1.0 piece",
+    "in_stock": true,
+    "rating": 4.2
+  },
+  {
+    "product_name": "Protein Chef Crunchy Coated Peanuts (Indian Masala)",
+    "category": "grocery",
+    "price_inr": 69.0,
+    "mrp_inr": 72,
+    "unit": "1.0 piece",
+    "in_stock": true,
+    "rating": 4.2
+  },
+  {
+    "product_name": "DOKi Tokyo Teriyaki Chicken Jerky",
+    "category": "grocery",
+    "price_inr": 199.0,
+    "mrp_inr": 209,
+    "unit": "1.0 piece",
+    "in_stock": true,
+    "rating": 4.2
+  },
+  {
+    "product_name": "Crax Truffle Fries (Black Truffle & Parmesan Cheese)",
+    "category": "grocery",
+    "price_inr": 48.0,
+    "mrp_inr": 50,
+    "unit": "1.0 piece",
+    "in_stock": true,
+    "rating": 4.2
+  },
+  {
+    "product_name": "Paper Boat Mango Passion Sparkling Water",
+    "category": "chips & crisps",
+    "price_inr": 54.0,
+    "mrp_inr": 57,
+    "unit": "1.0 piece",
+    "in_stock": true,
+    "rating": 4.2
+  },
+  {
+    "product_name": "Coca-Cola Soft Drink",
+    "category": "chips & crisps",
+    "price_inr": 37.0,
+    "mrp_inr": 39,
+    "unit": "1.0 piece",
+    "in_stock": true,
+    "rating": 4.2
+  },
+  {
+    "product_name": "Coca-Cola Diet Coke Diets & Lights",
+    "category": "chips & crisps",
+    "price_inr": 50.0,
+    "mrp_inr": 52,
+    "unit": "1.0 piece",
+    "in_stock": true,
+    "rating": 4.2
+  },
+  {
+    "product_name": "Sprite Lime Flavored Soft Drink",
+    "category": "chips & crisps",
+    "price_inr": 37.0,
+    "mrp_inr": 39,
+    "unit": "1.0 piece",
+    "in_stock": true,
+    "rating": 4.2
+  },
+  {
+    "product_name": "Coca-Cola Zero Sugar Soft Drink",
+    "category": "chips & crisps",
+    "price_inr": 35.0,
+    "mrp_inr": 37,
+    "unit": "1.0 piece",
+    "in_stock": true,
+    "rating": 4.2
+  },
+  {
+    "product_name": "Thums Up Soft Drink",
+    "category": "chips & crisps",
+    "price_inr": 36.0,
+    "mrp_inr": 38,
+    "unit": "1.0 piece",
+    "in_stock": true,
+    "rating": 4.2
+  },
+  {
+    "product_name": "Limca Lemon 'N' Lime Soft Drink 750 ml",
+    "category": "chips & crisps",
+    "price_inr": 39.0,
+    "mrp_inr": 41,
+    "unit": "0.75 litre",
+    "in_stock": true,
+    "rating": 4.2
+  },
+  {
+    "product_name": "7UP Nimbooz with Lemon Juice",
+    "category": "chips & crisps",
+    "price_inr": 25.0,
+    "mrp_inr": 26,
+    "unit": "1.0 piece",
+    "in_stock": true,
+    "rating": 4.2
+  },
+  {
+    "product_name": "Lahori Zeera Masala Soda - Pack of 24",
+    "category": "chips & crisps",
+    "price_inr": 240.0,
+    "mrp_inr": 252,
+    "unit": "1.0 piece",
+    "in_stock": true,
+    "rating": 4.2
+  },
+  {
+    "product_name": "Amul Cow Milk",
+    "category": "milk",
+    "price_inr": 31.0,
+    "mrp_inr": 31.0,
+    "unit": "0.5 litre",
+    "in_stock": true,
+    "rating": 4.2
+  },
+  {
+    "product_name": "Amul Cow Milk",
+    "category": "milk",
+    "price_inr": 82.0,
+    "mrp_inr": 82.0,
+    "unit": "1.0 piece",
+    "in_stock": true,
+    "rating": 4.2
+  },
+  {
+    "product_name": "Mother Dairy Cow Milk",
+    "category": "milk",
+    "price_inr": 31.0,
+    "mrp_inr": 31.0,
+    "unit": "0.5 litre",
+    "in_stock": true,
+    "rating": 4.2
+  },
+  {
+    "product_name": "Amul Taaza Toned Milk",
+    "category": "milk",
+    "price_inr": 30.0,
+    "mrp_inr": 30.0,
+    "unit": "0.5 litre",
+    "in_stock": true,
+    "rating": 4.2
+  },
+  {
+    "product_name": "Amul Gold Full Cream Milk",
+    "category": "milk",
+    "price_inr": 36.0,
+    "mrp_inr": 36.0,
+    "unit": "0.5 litre",
+    "in_stock": true,
+    "rating": 4.2
+  },
+  {
+    "product_name": "Amul Taaza Toned Milk",
+    "category": "milk",
+    "price_inr": 17.0,
+    "mrp_inr": 17.0,
+    "unit": "0.2 litre",
+    "in_stock": true,
+    "rating": 4.2
+  },
+  {
+    "product_name": "Amul Moti Toned Milk (90 Days Shelf Life)",
+    "category": "milk",
+    "price_inr": 33.0,
+    "mrp_inr": 33.0,
+    "unit": "0.45 litre",
+    "in_stock": true,
+    "rating": 4.2
+  },
+  {
+    "product_name": "Amul Taaza Homogenised Toned Milk",
+    "category": "milk",
+    "price_inr": 77.0,
+    "mrp_inr": 77.0,
+    "unit": "1.0 piece",
+    "in_stock": true,
+    "rating": 4.2
+  },
+  {
+    "product_name": "Mother Dairy Full Cream Milk",
+    "category": "milk",
+    "price_inr": 36.0,
+    "mrp_inr": 36.0,
+    "unit": "0.5 litre",
+    "in_stock": true,
+    "rating": 4.2
+  },
+  {
+    "product_name": "Mother Dairy Toned Milk",
+    "category": "milk",
+    "price_inr": 30.0,
+    "mrp_inr": 30.0,
+    "unit": "0.5 litre",
+    "in_stock": true,
+    "rating": 4.2
+  },
+  {
+    "product_name": "Amul Masti Pouch Curd",
+    "category": "grocery",
+    "price_inr": 35.0,
+    "mrp_inr": 35.0,
+    "unit": "0.39 kg",
+    "in_stock": true,
+    "rating": 4.2
+  },
+  {
+    "product_name": "Harvest Gold 100% Atta Whole Wheat Bread",
+    "category": "grocery",
+    "price_inr": 62.0,
+    "mrp_inr": 65.0,
+    "unit": "0.45 kg",
+    "in_stock": true,
+    "rating": 4.2
+  },
+  {
+    "product_name": "Amul Lactose Free Milk",
+    "category": "milk",
+    "price_inr": 25.0,
+    "mrp_inr": 25.0,
+    "unit": "0.25 litre",
+    "in_stock": true,
+    "rating": 4.2
+  },
+  {
+    "product_name": "Amul Calci+ Calcium Rich High Protein Milk",
+    "category": "grocery",
+    "price_inr": 26.0,
+    "mrp_inr": 27,
+    "unit": "0.25 litre",
+    "in_stock": true,
+    "rating": 4.2
+  },
+  {
+    "product_name": "Amul Slim 'n' Trim Skimmed Milk (Zero Cholesterol)",
+    "category": "grocery",
+    "price_inr": 85.0,
+    "mrp_inr": 89,
+    "unit": "1.0 piece",
+    "in_stock": true,
+    "rating": 4.2
+  },
+  {
+    "product_name": "Amul Gold Milk",
+    "category": "grocery",
+    "price_inr": 83.0,
+    "mrp_inr": 87,
+    "unit": "1.0 piece",
+    "in_stock": true,
+    "rating": 4.2
+  },
+  {
+    "product_name": "Mother Dairy FIT Life Homogenized Double Toned Milk",
+    "category": "grocery",
+    "price_inr": 10.0,
+    "mrp_inr": 10,
+    "unit": "0.115 litre",
+    "in_stock": true,
+    "rating": 4.2
+  },
+  {
+    "product_name": "Mother Dairy FIT Life Homogenized Double Toned Milk",
+    "category": "grocery",
+    "price_inr": 32.0,
+    "mrp_inr": 34,
+    "unit": "0.45 litre",
+    "in_stock": true,
+    "rating": 4.2
+  },
+  {
+    "product_name": "Nestle a+ Slim Skimmed Milk",
+    "category": "grocery",
+    "price_inr": 93.0,
+    "mrp_inr": 97.0,
+    "unit": "1.0 piece",
+    "in_stock": true,
+    "rating": 4.2
+  },
+  {
+    "product_name": "Nestle a+ Toned Milk",
+    "category": "grocery",
+    "price_inr": 104.0,
+    "mrp_inr": 108.0,
+    "unit": "1.0 piece",
+    "in_stock": true,
+    "rating": 4.2
+  },
+  {
+    "product_name": "Mother Dairy Toned Milk",
+    "category": "grocery",
+    "price_inr": 77.0,
+    "mrp_inr": 81,
+    "unit": "1.0 piece",
+    "in_stock": true,
+    "rating": 4.2
+  },
+  {
+    "product_name": "Country Delight Cow Milk",
+    "category": "milk",
+    "price_inr": 46.0,
+    "mrp_inr": 48.0,
+    "unit": "0.45 litre",
+    "in_stock": true,
+    "rating": 4.2
+  },
+  {
+    "product_name": "Amul Buffalo A2 Milk",
+    "category": "milk",
+    "price_inr": 40.0,
+    "mrp_inr": 42,
+    "unit": "0.5 litre",
+    "in_stock": true,
+    "rating": 4.2
+  },
+  {
+    "product_name": "Maggi Veg Atta Instant Noodles",
+    "category": "grocery",
+    "price_inr": 30.0,
+    "mrp_inr": 32,
+    "unit": "0.0725 kg",
+    "in_stock": true,
+    "rating": 4.2
+  },
+  {
+    "product_name": "Top Ramen Atta Masala Noodles",
+    "category": "grocery",
+    "price_inr": 93.0,
+    "mrp_inr": 103.0,
+    "unit": "0.28 kg",
+    "in_stock": true,
+    "rating": 4.2
+  },
+  {
+    "product_name": "MAGGI Nutri-licious Masala Oats & Millet Noodles",
+    "category": "grocery",
+    "price_inr": 140.0,
+    "mrp_inr": 147,
+    "unit": "0.298 kg",
+    "in_stock": true,
+    "rating": 4.2
+  },
+  {
+    "product_name": "Yippee Power up Atta Instant Noodles – Made with Aashirvaad Atta",
+    "category": "grocery",
+    "price_inr": 111.0,
+    "mrp_inr": 116.0,
+    "unit": "0.2988 kg",
+    "in_stock": true,
+    "rating": 4.2
+  },
+  {
+    "product_name": "Maggi Masala - 2 Minutes Instant Noodles Made With Quality Spices",
+    "category": "grocery",
+    "price_inr": 58.0,
+    "mrp_inr": 61,
+    "unit": "0.3 kg",
+    "in_stock": true,
+    "rating": 4.2
+  },
+  {
+    "product_name": "Yu Whole Wheat Noodles (Zero Maida)",
+    "category": "grocery",
+    "price_inr": 47.0,
+    "mrp_inr": 55.0,
+    "unit": "0.15 kg",
+    "in_stock": true,
+    "rating": 4.2
+  },
+  {
+    "product_name": "WickedGud Masala No Maida & No Oil Instant Noodles",
+    "category": "grocery",
+    "price_inr": 32.0,
+    "mrp_inr": 60.0,
+    "unit": "0.069 kg",
+    "in_stock": true,
+    "rating": 4.2
+  },
+  {
+    "product_name": "Maggi Double Masala Instant Noodles",
+    "category": "grocery",
+    "price_inr": 20.0,
+    "mrp_inr": 21,
+    "unit": "0.095 kg",
+    "in_stock": true,
+    "rating": 4.2
+  },
+  {
+    "product_name": "Slurrp Farm Magic Masala Millet Instant Noodles",
+    "category": "grocery",
+    "price_inr": 76.0,
+    "mrp_inr": 80.0,
+    "unit": "0.12 kg",
+    "in_stock": true,
+    "rating": 4.2
+  },
+  {
+    "product_name": "Maggi 2 Minutes Instant Noodles Made With Quality Spices",
+    "category": "grocery",
+    "price_inr": 79.0,
+    "mrp_inr": 90.0,
+    "unit": "0.42 kg",
+    "in_stock": true,
+    "rating": 4.2
+  },
+  {
+    "product_name": "Oral-B Pro Clean Sensitive & Gums Toothbrush Extra Soft",
+    "category": "oral care",
+    "price_inr": 50.0,
+    "mrp_inr": 52,
+    "unit": "1.0 piece",
+    "in_stock": true,
+    "rating": 4.2
+  },
+  {
+    "product_name": "Colgate Strong Teeth Anticavity Toothpaste",
+    "category": "oral care",
+    "price_inr": 103.0,
+    "mrp_inr": 108,
+    "unit": "0.15 kg",
+    "in_stock": true,
+    "rating": 4.2
+  },
+  {
+    "product_name": "Sensodyne Sensitive Toothbrush With Soft Bristles",
+    "category": "oral care",
+    "price_inr": 59.0,
+    "mrp_inr": 65.0,
+    "unit": "1.0 piece",
+    "in_stock": true,
+    "rating": 4.2
+  },
+  {
+    "product_name": "Sensodyne Deep Clean Sensitive Toothpaste",
+    "category": "oral care",
+    "price_inr": 145.0,
+    "mrp_inr": 152,
+    "unit": "0.07 kg",
+    "in_stock": true,
+    "rating": 4.2
+  },
+  {
+    "product_name": "Colgate Visible White Purple Whitening Toothpaste",
+    "category": "oral care",
+    "price_inr": 99.0,
+    "mrp_inr": 110.0,
+    "unit": "0.075 kg",
+    "in_stock": true,
+    "rating": 4.2
+  },
+  {
+    "product_name": "Listerine Cool Mint Mouthwash",
+    "category": "oral care",
+    "price_inr": 189.0,
+    "mrp_inr": 210.0,
+    "unit": "0.25 litre",
+    "in_stock": true,
+    "rating": 4.2
+  },
+  {
+    "product_name": "Zebronics Compact Soundbar (Juke Bar 200 A)",
+    "category": "audio & accessories",
+    "price_inr": 499.0,
+    "mrp_inr": 3499.0,
+    "unit": "1.0 piece",
+    "in_stock": true,
+    "rating": 4.2
+  },
+  {
+    "product_name": "Hammer Ultra Pods TWS Earbuds (Sky Blue)",
+    "category": "audio & accessories",
+    "price_inr": 499.0,
+    "mrp_inr": 3499.0,
+    "unit": "1.0 piece",
+    "in_stock": true,
+    "rating": 4.2
+  },
+  {
+    "product_name": "Dubstep Buzz X11 TWS Earbuds (Blue)",
+    "category": "audio & accessories",
+    "price_inr": 499.0,
+    "mrp_inr": 5999.0,
+    "unit": "1.0 piece",
+    "in_stock": true,
+    "rating": 4.2
+  },
+  {
+    "product_name": "Apple EarPods (USB-C)",
+    "category": "audio & accessories",
+    "price_inr": 1749.0,
+    "mrp_inr": 2000.0,
+    "unit": "1.0 piece",
+    "in_stock": true,
+    "rating": 4.2
+  },
+  {
+    "product_name": "Zebronics Portable Bluetooth Speaker (Sonic Pod 15)",
+    "category": "audio & accessories",
+    "price_inr": 699.0,
+    "mrp_inr": 1799.0,
+    "unit": "1.0 piece",
+    "in_stock": true,
+    "rating": 4.2
+  },
+  {
+    "product_name": "Hammer Drop 5W Wireless Bluetooth Speaker (Green)",
+    "category": "audio & accessories",
+    "price_inr": 499.0,
+    "mrp_inr": 3499.0,
+    "unit": "1.0 piece",
+    "in_stock": true,
+    "rating": 4.2
+  },
+  {
+    "product_name": "Apple AirPods 4",
+    "category": "audio & accessories",
+    "price_inr": 12499.0,
+    "mrp_inr": 12900.0,
+    "unit": "1.0 piece",
+    "in_stock": true,
+    "rating": 4.2
+  },
+  {
+    "product_name": "boAt Airdopes 311 Pro TWS Earbuds (Lavender)",
+    "category": "audio & accessories",
+    "price_inr": 1099.0,
+    "mrp_inr": 4990.0,
+    "unit": "1.0 piece",
+    "in_stock": true,
+    "rating": 4.2
+  },
+  {
+    "product_name": "Zebronics Bluetooth Speaker (Zeb-Sound Feast 500)",
+    "category": "audio & accessories",
+    "price_inr": 3999.0,
+    "mrp_inr": 9499.0,
+    "unit": "1.0 piece",
+    "in_stock": true,
+    "rating": 4.2
+  },
+  {
+    "product_name": "Portronics Conch Theta C Type C Wired Earphones (White)",
+    "category": "audio & accessories",
+    "price_inr": 322.0,
+    "mrp_inr": 799.0,
+    "unit": "1.0 piece",
+    "in_stock": true,
+    "rating": 4.2
+  },
+  {
+    "product_name": "boAt Bassheads 90C Wired Earphones (Black)",
+    "category": "audio & accessories",
+    "price_inr": 399.0,
+    "mrp_inr": 999.0,
+    "unit": "1.0 piece",
+    "in_stock": true,
+    "rating": 4.2
+  },
+  {
+    "product_name": "boAt Bassheads 95 Wired Earphones (Active Black)",
+    "category": "audio & accessories",
+    "price_inr": 249.0,
+    "mrp_inr": 1199.0,
+    "unit": "1.0 piece",
+    "in_stock": true,
+    "rating": 4.2
+  },
+  {
+    "product_name": "boAt Airdopes 219 TWS Earbuds (Carbon Black)",
+    "category": "audio & accessories",
+    "price_inr": 999.0,
+    "mrp_inr": 1049,
+    "unit": "1.0 piece",
+    "in_stock": true,
+    "rating": 4.2
+  },
+  {
+    "product_name": "Tata Tea Gold",
+    "category": "tea",
+    "price_inr": 180.0,
+    "mrp_inr": 189,
+    "unit": "1.0 piece",
+    "in_stock": true,
+    "rating": 4.2
+  },
+  {
+    "product_name": "Brooke Bond Taj Mahal Tea",
+    "category": "tea",
+    "price_inr": 180.0,
+    "mrp_inr": 189,
+    "unit": "1.0 piece",
+    "in_stock": true,
+    "rating": 4.2
+  },
+  {
+    "product_name": "Tata Tea Premium Tea",
+    "category": "tea",
+    "price_inr": 125.0,
+    "mrp_inr": 131,
+    "unit": "1.0 piece",
+    "in_stock": true,
+    "rating": 4.2
+  },
+  {
+    "product_name": "Brooke Bond Red Label Tea - 250 g",
+    "category": "tea",
+    "price_inr": 125.0,
+    "mrp_inr": 131,
+    "unit": "0.25 kg",
+    "in_stock": true,
+    "rating": 4.2
+  },
+  {
+    "product_name": "Brooke Bond Red Label Natural Care Tea",
+    "category": "tea",
+    "price_inr": 140.0,
+    "mrp_inr": 147,
+    "unit": "1.0 piece",
+    "in_stock": true,
+    "rating": 4.2
+  },
+  {
+    "product_name": "Wagh Bakri Premium Leaf Tea",
+    "category": "tea",
+    "price_inr": 165.0,
+    "mrp_inr": 173,
+    "unit": "1.0 piece",
+    "in_stock": true,
+    "rating": 4.2
+  },
+  {
+    "product_name": "Tata Tea Premium Tea (Mini Pack)",
+    "category": "tea",
+    "price_inr": 40.0,
+    "mrp_inr": 42,
+    "unit": "1.0 piece",
+    "in_stock": true,
+    "rating": 4.2
+  },
+  {
+    "product_name": "Paper Boat Swing Crispy Cranberry Juice",
+    "category": "fruit juice",
+    "price_inr": 51.0,
+    "mrp_inr": 130.0,
+    "unit": "1.0 piece",
+    "in_stock": true,
+    "rating": 4.2
+  },
+  {
+    "product_name": "7UP Nimbooz with Lemon Juice",
+    "category": "fruit juice",
+    "price_inr": 25.0,
+    "mrp_inr": 26,
+    "unit": "0.35 litre",
+    "in_stock": true,
+    "rating": 4.2
+  },
+  {
+    "product_name": "Maaza Mango Drink 600 ml",
+    "category": "fruit juice",
+    "price_inr": 38.0,
+    "mrp_inr": 40.0,
+    "unit": "0.6 litre",
+    "in_stock": true,
+    "rating": 4.2
+  },
+  {
+    "product_name": "Real Activ Cranberry Juice",
+    "category": "fruit juice",
+    "price_inr": 145.0,
+    "mrp_inr": 175.0,
+    "unit": "1.0 piece",
+    "in_stock": true,
+    "rating": 4.2
+  },
+  {
+    "product_name": "Paper Boat Swing Juice (Mixed Fruit Medley)",
+    "category": "fruit juice",
+    "price_inr": 51.0,
+    "mrp_inr": 130.0,
+    "unit": "1.0 piece",
+    "in_stock": true,
+    "rating": 4.2
+  },
+  {
+    "product_name": "Raw Pressery Valencia Orange Juice",
+    "category": "fruit juice",
+    "price_inr": 347.0,
+    "mrp_inr": 374.0,
+    "unit": "1.0 piece",
+    "in_stock": true,
+    "rating": 4.2
+  },
+  {
+    "product_name": "Real Fruit Power Mixed Fruit Juice 1 l",
+    "category": "fruit juice",
+    "price_inr": 115.0,
+    "mrp_inr": 125.0,
+    "unit": "1.0 piece",
+    "in_stock": true,
+    "rating": 4.2
+  },
+  {
+    "product_name": "Mogu Mogu Lychee Fruit Drink with Nata De Coco",
+    "category": "fruit juice",
+    "price_inr": 68.0,
+    "mrp_inr": 70.0,
+    "unit": "0.32 litre",
+    "in_stock": true,
+    "rating": 4.2
+  }
+]

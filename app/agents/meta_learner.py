@@ -18,14 +18,13 @@ member (see app/agents/ensemble.py::pricer_agent).
 from __future__ import annotations
 
 import json
-from pathlib import Path
 
 import numpy as np
 
 from app import commerce_data, config
 
-MODEL_PATH = config.DATA_DIR / "price_models.npz"
 META_PATH = config.DATA_DIR / "price_meta.json"
+RF_PATH = config.DATA_DIR / "rf_price_model.pkl"
 
 _CATEGORIES = ["grocery", "electronics", "personal_care", "baby"]
 
@@ -40,7 +39,7 @@ def _features(catalog_by_sku: dict, trailing: dict, row: dict) -> list[float]:
     bias = config.FESTIVAL_CALENDAR.get(fest_key, {}).get("discount_bias", 0.0) if fest_key else 0.0
     return [
         float(row["mrp_inr"]),
-        float(trailing[row["sku"]]),
+        float(trailing.get(row["sku"], row["mrp_inr"])),
         float(bias),
         float(item.get("stock", 0)),
         float(item.get("rating", 0.0)),
@@ -57,10 +56,23 @@ def _trailing_median() -> dict:
     return {sku: float(np.median(v)) for sku, v in by_sku.items()}
 
 
+def _stack_members(X: np.ndarray, rf_pred: np.ndarray) -> np.ndarray:
+    """Base members for the stacking meta-learner."""
+    m1 = X[:, 1]                       # trailing median
+    m2 = X[:, 0] * (1.0 - X[:, 2])     # MRP * (1 - festival bias)
+    m3 = rf_pred                       # RF prediction
+    return np.column_stack([m1, m2, m3])
+
+
 def train(seed: int = 7) -> dict:
-    """Fit the RandomForest price model + the linear stacking meta-learner."""
+    """Fit the RandomForest price model + linear stacking meta-learner on an 80/20 split.
+
+    Both train and held-out test MAE are reported so overfitting is visible: the model
+    is fit only on the 80% train split and scored on the unseen 20%.
+    """
     from sklearn.ensemble import RandomForestRegressor
     from sklearn.linear_model import LinearRegression
+    from sklearn.model_selection import train_test_split
 
     catalog = {c["sku"]: c for c in commerce_data.load_catalog()}
     prices = commerce_data.load_prices()
@@ -69,32 +81,36 @@ def train(seed: int = 7) -> dict:
     X = np.array([_features(catalog, trailing, r) for r in prices], dtype=float)
     y = np.array([float(r["price_inr"]) for r in prices], dtype=float)
 
+    X_tr, X_te, y_tr, y_te = train_test_split(X, y, test_size=0.2, random_state=seed)
+
     rf = RandomForestRegressor(n_estimators=120, max_depth=8, random_state=seed)
-    rf.fit(X, y)
-    rf_pred = rf.predict(X)
+    rf.fit(X_tr, y_tr)
 
-    # base members for the stack
-    m1 = X[:, 1]                       # trailing median
-    m2 = X[:, 0] * (1.0 - X[:, 2])     # MRP * (1 - festival bias)
-    m3 = rf_pred                       # RF prediction
-    stack_X = np.column_stack([m1, m2, m3])
+    # Fit the stacking meta-learner on the train split only.
     meta = LinearRegression()
-    meta.fit(stack_X, y)
+    meta.fit(_stack_members(X_tr, rf.predict(X_tr)), y_tr)
 
-    meta_pred = meta.predict(stack_X)
-    mae = float(np.mean(np.abs(meta_pred - y)))
-    rf_mae = float(np.mean(np.abs(rf_pred - y)))
+    def _mae(Xs, ys):
+        rf_p = rf.predict(Xs)
+        meta_p = meta.predict(_stack_members(Xs, rf_p))
+        return (float(np.mean(np.abs(meta_p - ys))), float(np.mean(np.abs(rf_p - ys))))
 
-    # Persist RF via its internal arrays is awkward; pickle it alongside numpy meta.
+    train_mae, rf_train_mae = _mae(X_tr, y_tr)
+    test_mae, rf_test_mae = _mae(X_te, y_te)
+
+    # Refit on the full dataset for the deployed predictor (after metrics are recorded).
+    rf.fit(X, y)
+    meta.fit(_stack_members(X, rf.predict(X)), y)
+
     import pickle
-    with open(config.DATA_DIR / "rf_price_model.pkl", "wb") as f:
+    with open(RF_PATH, "wb") as f:
         pickle.dump(rf, f)
-    np.savez(MODEL_PATH, coef=meta.coef_, intercept=np.array([meta.intercept_]))
     META_PATH.write_text(json.dumps({
         "meta_coef": meta.coef_.tolist(), "meta_intercept": float(meta.intercept_),
         "members": ["trailing_median", "mrp_x_(1-festival_bias)", "random_forest"],
-        "train_mae_inr": round(mae, 2), "rf_mae_inr": round(rf_mae, 2),
-        "n_train": len(y), "feature_order": [
+        "train_mae_inr": round(train_mae, 2), "test_mae_inr": round(test_mae, 2),
+        "rf_train_mae_inr": round(rf_train_mae, 2), "rf_test_mae_inr": round(rf_test_mae, 2),
+        "n_train": len(y_tr), "n_test": len(y_te), "feature_order": [
             "mrp_inr", "trailing_median", "festival_bias", "stock", "rating",
             "category_id", "pack_size"]}, indent=2))
     return json.loads(META_PATH.read_text())
@@ -102,10 +118,9 @@ def train(seed: int = 7) -> dict:
 
 def _load():
     import pickle
-    if not (MODEL_PATH.exists() and META_PATH.exists() and
-            (config.DATA_DIR / "rf_price_model.pkl").exists()):
+    if not (META_PATH.exists() and RF_PATH.exists()):
         train()
-    with open(config.DATA_DIR / "rf_price_model.pkl", "rb") as f:
+    with open(RF_PATH, "rb") as f:
         rf = pickle.load(f)
     meta = json.loads(META_PATH.read_text())
     return rf, meta

@@ -1,9 +1,0 @@
-[
-  {"complaint_type": "fake_product", "expected_severity": "high"},
-  {"complaint_type": "expiry_issue", "expected_severity": "high"},
-  {"complaint_type": "cod_dispute", "expected_severity": "medium"},
-  {"complaint_type": "refund_delay", "expected_severity": "medium"},
-  {"complaint_type": "wrong_item", "expected_severity": "medium"},
-  {"complaint_type": "damaged_item", "expected_severity": "medium"},
-  {"complaint_type": "other", "expected_severity": "low"}
-]

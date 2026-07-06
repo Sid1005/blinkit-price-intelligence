@@ -2,9 +2,8 @@
 
 One ``Brief`` envelope carries exactly one decision variant depending on the routed
 intent:
-  * deal      -> PriceForecast
+  * predictor  -> PriceForecast    (5-arm price comparison)
   * substitute -> SubstitutionSet
-  * triage    -> Resolution
 """
 from __future__ import annotations
 
@@ -12,16 +11,11 @@ from typing import Literal, Union
 
 from pydantic import BaseModel, Field
 
-Intent = Literal["deal", "substitute", "triage"]
+Intent = Literal["predictor", "substitute"]
 
 SignalLabel = Literal[
-    "festival_discount", "demand_spike", "review_sentiment",
+    "festival_discount", "demand_spike",
     "complaint_policy", "catalog_substitution", "noise",
-]
-
-ComplaintType = Literal[
-    "cod_dispute", "refund_delay", "fake_product",
-    "expiry_issue", "wrong_item", "damaged_item", "other",
 ]
 
 Confidence = Literal["low", "medium", "high"]
@@ -46,9 +40,13 @@ class PriceForecast(BaseModel):
     unit_price_inr: float | None = None
     unit: str | None = None
     festival_context: str | None = None
-    recommendation: Literal["buy_now", "wait", "avoid"] = "wait"
     rationale: str = ""
     estimator: str = ""
+    # Per-arm price comparison: {arm_name: {"price": float|None, "status": str}, ...}
+    # plus an "ensemble_reasoning" string. Populated by the predictor surface.
+    comparison: dict = Field(default_factory=dict)
+    # RAG retrieval results displayed in the UI to show retrieval is happening.
+    rag_context: dict | None = None
 
 
 # --- Substitution surface --------------------------------------------------------
@@ -73,19 +71,7 @@ class SubstitutionSet(BaseModel):
     value_improvement_pct: float | None = None
 
 
-# --- Triage surface --------------------------------------------------------------
-class Resolution(BaseModel):
-    kind: Literal["resolution"] = "resolution"
-    complaint_type: ComplaintType = "other"
-    severity: Confidence = "medium"
-    steps: list[str] = []
-    policy_citations: list[str] = []
-    escalate: bool = False
-    requires_confirmation: bool = True
-    draft_message: str = ""
-
-
-Decision = Union[PriceForecast, SubstitutionSet, Resolution]
+Decision = Union[PriceForecast, SubstitutionSet]
 
 
 class Brief(BaseModel):

@@ -1,18 +1,21 @@
 {
   "meta_coef": [
-    -0.07131505277697875,
-    -0.04632778522270916,
-    1.125217888439392
+    -0.06513217061788086,
+    -0.06253375736802563,
+    1.1407192242489175
   ],
-  "meta_intercept": 2.7633875170340616,
+  "meta_intercept": 1.0513436580422422,
   "members": [
     "trailing_median",
     "mrp_x_(1-festival_bias)",
     "random_forest"
   ],
-  "train_mae_inr": 145.96,
-  "rf_mae_inr": 148.04,
-  "n_train": 300,
+  "train_mae_inr": 105.73,
+  "test_mae_inr": 390.61,
+  "rf_train_mae_inr": 107.13,
+  "rf_test_mae_inr": 345.12,
+  "n_train": 336,
+  "n_test": 84,
   "feature_order": [
     "mrp_inr",
     "trailing_median",

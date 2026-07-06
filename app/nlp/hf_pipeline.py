@@ -20,7 +20,6 @@ from app import config
 _SIGNAL_CANDIDATES = {
     "festival discount / sale price cut": "festival_discount",
     "price increase due to demand or low stock": "demand_spike",
-    "product quality or authenticity review sentiment": "review_sentiment",
     "customer complaint needing a policy resolution": "complaint_policy",
     "product unavailable or poor value needing a substitute": "catalog_substitution",
     "irrelevant marketing or noise": "noise",

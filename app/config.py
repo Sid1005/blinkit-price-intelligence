@@ -23,7 +23,8 @@ KB_DIR = APP_DIR / "knowledge_base"
 FIXTURES_DIR = CAPSTONE_DIR / "fixtures"
 CHROMA_DIR = DATA_DIR / "chroma"
 MEMORY_DB = DATA_DIR / "memory.sqlite"
-ADAPTER_DIR = DATA_DIR / "lora_adapter"
+ADAPTER_DIR = DATA_DIR / "lora_adapter"            # signal classifier (week 7)
+PRICE_ADAPTER_DIR = DATA_DIR / "price_lora_adapter"  # price regression LoRA (notebook)
 RUNS_DIR = DATA_DIR / "runs"          # offline experiment-tracking logs
 
 for _d in (DATA_DIR, KB_DIR, FIXTURES_DIR, RUNS_DIR):
@@ -48,10 +49,14 @@ def _load_dotenv() -> None:
 _load_dotenv()
 
 GROQ_API_KEY = os.environ.get("GROQ_API_KEY", "")
+ANTHROPIC_API_KEY = os.environ.get("ANTHROPIC_API_KEY", "")
 HF_TOKEN = os.environ.get("HF_TOKEN", "") or os.environ.get("HUGGINGFACE_TOKEN", "")
 TAVILY_API_KEY = os.environ.get("TAVILY_API_KEY", "")
 GEMINI_API_KEY = os.environ.get("GEMINI_API_KEY", "")
 WANDB_API_KEY = os.environ.get("WANDB_API_KEY", "")
+
+# Anthropic frontier model for the Claude pricing arm (zero-shot, no RAG).
+ANTHROPIC_PRICE_MODEL = "claude-haiku-4-5"
 
 # --- Groq model registry — tiers used by the multi-model router (weeks 2 & 4). ---
 # Names verified against the live Groq API at build time.
@@ -74,28 +79,16 @@ HF_NER_MODEL = "dslim/bert-base-NER"
 HF_FINETUNE_BASE = "prajjwal1/bert-tiny"
 
 # --- India commerce taxonomy ----------------------------------------------------
-# Intents the router dispatches across the three decision surfaces.
-INTENTS = ["deal", "substitute", "triage"]
+# Intents the router dispatches across the two decision surfaces.
+INTENTS = ["predictor", "substitute"]
 
 # Commerce signal labels (the LoRA classifier target, week 7).
 SIGNAL_LABELS = [
     "festival_discount",     # genuine festival/sale price cut
     "demand_spike",          # price up / low stock from demand
-    "review_sentiment",      # quality/authenticity sentiment signal
     "complaint_policy",      # complaint requiring a policy-grounded resolution
     "catalog_substitution",  # SKU unavailable / poor value -> needs alternative
     "noise",                 # marketing fluff / irrelevant
-]
-
-# Complaint categories for the triage surface.
-COMPLAINT_TYPES = [
-    "cod_dispute",       # cash-on-delivery amount / payment dispute
-    "refund_delay",      # refund not received / delayed
-    "fake_product",      # counterfactual authenticity claim
-    "expiry_issue",      # expired / near-expiry perishable
-    "wrong_item",        # wrong / missing item delivered
-    "damaged_item",      # physically damaged on delivery
-    "other",
 ]
 
 # Review aspects extracted by the Hinglish NLP enrichment layer (week 3).
@@ -128,6 +121,12 @@ def require_groq() -> str:
     if not GROQ_API_KEY:
         raise RuntimeError("GROQ_API_KEY missing — set it in the repo-root .env")
     return GROQ_API_KEY
+
+
+def require_anthropic() -> str:
+    if not ANTHROPIC_API_KEY:
+        raise RuntimeError("ANTHROPIC_API_KEY missing — set it in the repo-root .env")
+    return ANTHROPIC_API_KEY
 
 
 def festival_for_month(month: int) -> dict | None:

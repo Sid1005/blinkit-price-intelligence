@@ -1,9 +1,54 @@
 {
   "loop": 5,
-  "adversarial": {
-    "n": 4,
-    "injection_invariance_rate": 0.5,
-    "over_promise_guard_rate": 1.0
+  "suites_run": [
+    "intent",
+    "substitution",
+    "unit_norm",
+    "price_comparison",
+    "schema_validity",
+    "guardrails",
+    "rag_retrieval"
+  ],
+  "intent": {
+    "intent_accuracy": 1.0,
+    "n_correct": 15,
+    "n_total": 15
   },
-  "wall_clock_s": 7.2
+  "substitution": {
+    "mrr": 1.0,
+    "substitution_coverage": 1.0,
+    "substitution_mrr": 1.0,
+    "n_total": 7,
+    "n_evaluable": 6
+  },
+  "unit_norm": {
+    "unit_price_accuracy": 1.0,
+    "n_correct": 10,
+    "n_total": 10
+  },
+  "price_comparison": {
+    "band_coverage": 0.6,
+    "n_total": 5,
+    "n_in_band": 3,
+    "ensemble_mae": 34.87,
+    "meta_train_mae_inr": 105.73,
+    "meta_test_mae_inr": 390.61
+  },
+  "schema_validity": {
+    "schema_valid_rate": 1.0,
+    "n_checks": 9,
+    "n_passed": 9
+  },
+  "guardrails": {
+    "injection_invariance_rate": null,
+    "in_scope_rate": null,
+    "note": "set RUN_LIVE_EVALS=1 to run live guardrail tests (requires Groq)",
+    "n_total": 5
+  },
+  "rag_retrieval": {
+    "retrieval_recall": 0.8571,
+    "retrieval_mrr": 0.9286,
+    "n_total": 7,
+    "n_evaluable": 7
+  }
 }

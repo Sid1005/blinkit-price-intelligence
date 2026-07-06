@@ -1,8 +1,0 @@
-[
-  {"price_inr": 255, "pack_size": 5, "unit": "kg", "expected_unit_price": 51.0, "basis": "per kg"},
-  {"price_inr": 142, "pack_size": 1, "unit": "litre", "expected_unit_price": 142.0, "basis": "per litre"},
-  {"price_inr": 449, "pack_size": 2, "unit": "litre", "expected_unit_price": 224.5, "basis": "per litre"},
-  {"price_inr": 89, "pack_size": 150, "unit": "g", "expected_unit_price": 59.33, "basis": "per 100g"},
-  {"price_inr": 339, "pack_size": 400, "unit": "ml", "expected_unit_price": 84.75, "basis": "per 100ml"},
-  {"price_inr": 67999, "pack_size": 1, "unit": "piece", "expected_unit_price": 67999.0, "basis": "per piece"}
-]

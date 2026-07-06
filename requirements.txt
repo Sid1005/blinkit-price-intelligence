@@ -2,6 +2,7 @@
 # Runtime LLM inference = Groq only. Open models/datasets/Hub = Hugging Face only.
 # Web evidence = Tavily. Experiment tracking = Weights & Biases (optional, offline fallback).
 groq>=0.11
+anthropic>=0.39
 requests>=2.31
 beautifulsoup4>=4.12
 tavily-python>=0.5

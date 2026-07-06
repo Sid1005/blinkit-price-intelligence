@@ -1,108 +1,95 @@
 {
-  "meta": {
-    "project": "India Commerce SignalForge — festival-aware deal prediction, substitution intelligence, complaint triage",
-    "scoring": "covered = runnable code evidences the concept; evidence -> file/path; eval_evidence -> harness fn / smoke / dashboard metric / runbook step",
-    "provider_policy": "Runtime LLM = Groq only; open models/Hub = Hugging Face; web evidence = Tavily; tracking = W&B/offline; translate = Gemini/Groq"
-  },
+  "project": "Blinkit Price Intelligence",
+  "description": "Festival-aware Indian quick-commerce price intelligence with two decision surfaces",
+  "surfaces": ["Predictor", "Substitute"],
   "weeks": {
     "week1": {
       "title": "Frontier APIs, scraping, prompting, markdown, JSON",
       "concepts": {
-        "w1_frontier_chat": {"desc": "Groq chat completion for runtime LLM calls", "status": "covered", "evidence": "app/llm/groq_client.py::chat", "eval_evidence": "evals/harness.py::eval_e2e"},
-        "w1_web_scrape": {"desc": "Tavily search/extract + BeautifulSoup fallback", "status": "covered", "evidence": "app/ingest/scraper.py::search,extract", "eval_evidence": "smoke: python -m app.ingest.scraper"},
-        "w1_summarization": {"desc": "LLM markdown signal brief of a page", "status": "covered", "evidence": "app/ingest/scraper.py::summarize", "eval_evidence": "smoke: scraper.summarize"},
-        "w1_system_user_prompts": {"desc": "System vs user prompt engineering", "status": "covered", "evidence": "app/ingest/scraper.py::ANALYST_SYSTEM", "eval_evidence": "evals/harness.py::model_tournament (system prompts)"},
-        "w1_streaming": {"desc": "Token streaming", "status": "covered", "evidence": "app/llm/groq_client.py::stream", "eval_evidence": "app/ui.py::chat_fn (live)"},
-        "w1_markdown_output": {"desc": "Markdown shopping briefs", "status": "covered", "evidence": "app/ingest/scraper.py::summarize", "eval_evidence": "app/ui.py deal/substitute markdown"},
-        "w1_json_extraction": {"desc": "Strict JSON SKU/price/link extraction", "status": "covered", "evidence": "app/ingest/scraper.py::extract_signals_json", "eval_evidence": "smoke: extract_signals_json"},
-        "w1_token_budget": {"desc": "Conversation history + token-budget awareness", "status": "covered", "evidence": "app/nlp/hf_pipeline.py::count_tokens", "eval_evidence": "app/ui.py::chat_fn history"}
-      }
+        "groq_chat": {"desc": "Groq chat completion for runtime LLM calls", "file": "app/llm/groq_client.py", "demo": "Predictor tab: any query routes through Groq"},
+        "tavily_scrape": {"desc": "Tavily search/extract + BeautifulSoup fallback", "file": "app/ingest/scraper.py", "demo": "Enable web evidence toggle in ensemble.py scout()"},
+        "markdown_briefs": {"desc": "LLM markdown signal brief of a page", "file": "app/agents/ensemble.py::scout", "demo": "Evidence records become structured text"},
+        "prompt_engineering": {"desc": "System vs user prompt engineering", "file": "app/agents/ensemble.py::verifier_agent", "demo": "Verifier judge uses system prompt guardrails"},
+        "token_streaming": {"desc": "Token streaming", "file": "app/llm/groq_client.py::stream", "demo": "Translate tab streams Gemini/Groq tokens"},
+        "strict_json": {"desc": "Strict JSON SKU/price extraction", "file": "app/llm/groq_client.py::chat_json", "demo": "All agent arms output strict JSON"},
+        "blinkit_scrape": {"desc": "Real Blinkit product scraping", "file": "app/ingest/scrape_blinkit.py", "demo": "BL-* catalog entries from live Blinkit"}
+      },
+      "proof_commands": ["python -m app.ingest.scraper", "python -m app.llm.groq_client"]
     },
     "week2": {
       "title": "Multi-model APIs, Gradio, chat, tools, multimodal",
       "concepts": {
-        "w2_multi_model": {"desc": "Groq fast/strong/OSS tier router", "status": "covered", "evidence": "app/llm/router.py::route", "eval_evidence": "evals/harness.py::model_tournament"},
-        "w2_gradio_ui": {"desc": "Gradio app, Deal/Substitute/Triage/RAG/Chat/Analytics", "status": "covered", "evidence": "app/ui.py::build_demo", "eval_evidence": "smoke: build_demo() imports"},
-        "w2_streaming_chat": {"desc": "Streaming ChatInterface", "status": "covered", "evidence": "app/ui.py::chat_fn", "eval_evidence": "manual UI"},
-        "w2_tools_function_calling": {"desc": "Catalog/unit/substitute/policy/web tools", "status": "covered", "evidence": "app/agents/tools.py::run_with_tools", "eval_evidence": "evals/harness.py::eval_unit_norm,eval_substitution"},
-        "w2_multimodal_vision": {"desc": "Groq vision on product screenshots/receipts", "status": "covered", "evidence": "app/llm/groq_client.py::vision + app/ui.py::vision_fn", "eval_evidence": "fixtures/ + UI Substitute tab"},
-        "w2_multimodal_gen_image": {"desc": "Festival deal-card image generation hook", "status": "covered", "evidence": "app/media/generate.py::generate_deal_card", "eval_evidence": "smoke: generate_deal_card(use_hf=False) -> SVG; HF path in RUNBOOK"},
-        "w2_multimodal_gen_tts": {"desc": "TTS spoken summary hook", "status": "covered", "evidence": "app/media/generate.py::tts_brief", "eval_evidence": "smoke: tts_brief(use_hf=False); HF/external in RUNBOOK"}
-      }
+        "model_router": {"desc": "Groq fast/strong/OSS tier router", "file": "app/llm/router.py", "demo": "Router picks model tier per task (summarize vs pricing vs strong)"},
+        "gradio_cockpit": {"desc": "Gradio app with Predictor, Substitute, Translate, Analytics tabs", "file": "app/ui.py", "demo": "Launch app: Predictor tab shows 5-arm comparison"},
+        "callable_tools": {"desc": "Catalog/unit/substitute/web tools", "file": "app/agents/tools.py", "demo": "Substitute tab calls find_substitutes tool"},
+        "vision": {"desc": "Groq vision on product screenshots/receipts", "file": "app/llm/groq_client.py::vision", "demo": "Substitute tab: upload product image for analysis"},
+        "multimodal_gen": {"desc": "Deal-card image + TTS generation hooks", "file": "app/media/generate.py", "demo": "Generate deal card SVG offline; TTS via HF inference"}
+      },
+      "proof_commands": ["python -m app.ui  (then open :7860)"]
     },
     "week3": {
       "title": "HuggingFace pipelines, tokenizers, open models, audio/image",
       "concepts": {
-        "w3_hf_pipeline": {"desc": "Zero-shot signal + aspect sentiment", "status": "covered", "evidence": "app/nlp/hf_pipeline.py::classify_signal,aspect_sentiment", "eval_evidence": "evals/harness.py::eval_classifier"},
-        "w3_sentiment": {"desc": "Sentiment over Hinglish reviews", "status": "covered", "evidence": "app/nlp/hf_pipeline.py::sentiment", "eval_evidence": "smoke over data/reviews"},
-        "w3_ner": {"desc": "NER over brands/SKUs", "status": "covered", "evidence": "app/nlp/hf_pipeline.py::extract_entities", "eval_evidence": "smoke: extract_entities"},
-        "w3_tokenizers": {"desc": "Tokenizer token counting / chunk budget", "status": "covered", "evidence": "app/nlp/hf_pipeline.py::count_tokens", "eval_evidence": "app/rag/store.py chunking"},
-        "w3_open_model_inference": {"desc": "Local open-weight inference", "status": "covered", "evidence": "app/nlp/hf_pipeline.py", "eval_evidence": "evals/harness.py::eval_classifier (sklearn/pytorch local)"},
-        "w3_embeddings_model": {"desc": "Sentence-transformer embeddings", "status": "covered", "evidence": "app/nlp/embeddings.py", "eval_evidence": "evals/harness.py::eval_rag"},
-        "w3_audio_transcription": {"desc": "Voice complaint transcription (Groq Whisper)", "status": "covered", "evidence": "app/llm/groq_client.py::transcribe + app/media/generate.py::transcribe_voice", "eval_evidence": "app/ui.py::voice_fn; format notes in RUNBOOK"},
-        "w3_translation": {"desc": "Hinglish/regional translation", "status": "covered", "evidence": "app/i18n.py::translate + app/nlp/hf_pipeline.py::translate", "eval_evidence": "smoke: python -m app.i18n"}
-      }
+        "hf_pipelines": {"desc": "Zero-shot signals, Hinglish aspect-sentiment, brand NER", "file": "app/nlp/hf_pipeline.py", "demo": "Classify evidence signals via zero-shot HF pipeline"},
+        "sentiment": {"desc": "Sentiment and aspect-sentiment analysis over Hinglish reviews", "file": "app/nlp/hf_pipeline.py::sentiment", "demo": "Run sentiment/aspect analysis on Hinglish review snippets"},
+        "tokenizer": {"desc": "Tokenizer token counting / chunk budget", "file": "app/nlp/hf_pipeline.py", "demo": "Chunk budget-aware KB indexing"},
+        "embeddings": {"desc": "Sentence-transformer embeddings", "file": "app/nlp/embeddings.py", "demo": "Chroma vector store uses ST embeddings for retrieval"},
+        "whisper": {"desc": "Groq Whisper speech-to-text", "file": "app/llm/groq_client.py::transcribe", "demo": "Voice input transcribes product queries"}
+      },
+      "proof_commands": ["python -m app.nlp.hf_pipeline", "python -m app.nlp.embeddings"]
     },
     "week4": {
-      "title": "Code generation, optimization, model comparison",
+      "title": "LLM-driven code generation, parser benchmarks, unit-normalization",
       "concepts": {
-        "w4_code_generation": {"desc": "Groq synthesizes product-listing parsers", "status": "covered", "evidence": "app/codegen/parser_synth.py::generate_parser", "eval_evidence": "app/codegen/parser_synth.py::benchmark"},
-        "w4_model_selection": {"desc": "Quality-per-dollar model selection", "status": "covered", "evidence": "app/llm/router.py::select_model + parser_synth.benchmark", "eval_evidence": "evals/harness.py::model_tournament"},
-        "w4_optimization_benchmark": {"desc": "Generated vs baseline parser F1", "status": "covered", "evidence": "app/codegen/parser_synth.py::score_parser", "eval_evidence": "smoke: parser_synth.benchmark"},
-        "w4_compile_and_time": {"desc": "Generate C++ unit-norm kernel, compile, equivalence + latency", "status": "covered", "evidence": "app/codegen/compile_bench.py::benchmark", "eval_evidence": "smoke: python -m app.codegen.compile_bench (runbook if no compiler)"},
-        "w4_model_tournament": {"desc": "Pairwise Groq-judged Elo across models", "status": "covered", "evidence": "evals/harness.py::model_tournament", "eval_evidence": "evals/results/latest.json::model_tournament"}
-      }
+        "parser_candidates": {"desc": "Deterministic + Groq-synthesised product-listing parsers benchmarked against gold", "file": "app/codegen/parser_bench.py", "demo": "Score each parser candidate against gold listings"},
+        "unit_norm_kernel": {"desc": "Python + Mojo-like unit-normalization kernel timed head-to-head", "file": "app/codegen/unit_norm_bench.py", "demo": "Normalize INR prices across kg/g/l/ml/piece with timing"},
+        "groq_codegen": {"desc": "Optional Groq-synthesised parser generation (offline-safe fallback)", "file": "app/codegen/parser_bench.py", "demo": "Set RUN_LIVE_CODEGEN=1 to use Groq; otherwise the benchmark uses a deterministic fallback"}
+      },
+      "proof_commands": ["python -m app.codegen.parser_bench", "python -m app.codegen.unit_norm_bench"]
     },
     "week5": {
-      "title": "RAG, LangChain, Chroma, embeddings, evals, advanced RAG",
+      "title": "RAG with LangChain, Chroma, hybrid retrieval, reranking",
       "concepts": {
-        "w5_document_loading": {"desc": "Load+chunk KB + catalog", "status": "covered", "evidence": "app/rag/store.py::build_index", "eval_evidence": "smoke: build_index returns chunk count"},
-        "w5_vector_store": {"desc": "Chroma persistent vector store", "status": "covered", "evidence": "app/rag/store.py", "eval_evidence": "evals/harness.py::eval_rag"},
-        "w5_retrieval": {"desc": "Hybrid vector+lexical retrieval", "status": "covered", "evidence": "app/rag/store.py::retrieve", "eval_evidence": "evals/harness.py::eval_retrieval_ablation"},
-        "w5_reranking": {"desc": "Rerank + chunk headlines + query rewrite", "status": "covered", "evidence": "app/rag/store.py::retrieve,rewrite_query,_with_headline", "eval_evidence": "evals/harness.py::eval_retrieval_ablation (precision_gain)"},
-        "w5_langchain": {"desc": "LangChain prompt templating", "status": "covered", "evidence": "app/rag/rag.py (ChatPromptTemplate)", "eval_evidence": "evals/harness.py::eval_rag"},
-        "w5_rag_generation": {"desc": "Grounded answer generation with citations", "status": "covered", "evidence": "app/rag/rag.py::answer", "eval_evidence": "evals/harness.py::eval_rag (faithfulness)"},
-        "w5_rag_evals": {"desc": "MRR/nDCG/precision/faithfulness/relevance", "status": "covered", "evidence": "evals/harness.py::eval_rag", "eval_evidence": "evals/results/latest.json::rag"}
-      }
+        "chroma_store": {"desc": "Chroma vector store over KB markdown + catalog", "file": "app/rag/store.py", "demo": "Build index, retrieve chunks for pricing questions"},
+        "hybrid_rerank": {"desc": "Hybrid vector + lexical reranking", "file": "app/rag/store.py::retrieve", "demo": "retrieve() blends vector similarity + lexical overlap"},
+        "query_rewrite": {"desc": "LLM query rewriting for sparse queries", "file": "app/rag/store.py::rewrite_query", "demo": "Colloquial Hinglish queries rewritten to keyword-rich search"},
+        "grounded_rag": {"desc": "LangChain-prompted grounded RAG generation", "file": "app/rag/rag.py", "demo": "Predictor tab: RAG context panel shows retrieved sources"},
+        "rag_evals": {"desc": "RAG evaluation: retrieval recall and MRR", "file": "evals/harness.py::_suite_rag_retrieval", "demo": "Eval harness scores retrieval quality against golden questions"}
+      },
+      "proof_commands": ["python -m app.rag.store", "python -m app.rag.rag"]
     },
     "week6": {
-      "title": "Data curation, preprocessing, baselines, classical ML, frontier FT structure",
+      "title": "Data curation, feature engineering, classical ML baselines, experiment tracking",
       "concepts": {
-        "w6_data_curation": {"desc": "Indian catalog/price/review/complaint + signal data", "status": "covered", "evidence": "app/commerce_data.py::build + app/finetune/dataset.py::build", "eval_evidence": "smoke: python -m app.commerce_data"},
-        "w6_splits_dedup_leakage": {"desc": "Train/val/test/golden + dedup + leakage check", "status": "covered", "evidence": "app/finetune/dataset.py::build,_leakage_check", "eval_evidence": "raises on leakage; counts in build() output"},
-        "w6_unit_features": {"desc": "Unit-normalization features (per kg/litre/piece/100ml)", "status": "covered", "evidence": "app/agents/tools.py::normalize_unit + app/commerce_data.py::_unit_price", "eval_evidence": "evals/harness.py::eval_unit_norm"},
-        "w6_baselines": {"desc": "random/constant/rule price + sklearn + PyTorch NN + Groq", "status": "covered", "evidence": "app/finetune/baseline.py", "eval_evidence": "evals/harness.py::eval_classifier + baseline.price_baselines"},
-        "w6_classical_ml": {"desc": "RandomForest price model + linear meta-learner", "status": "covered", "evidence": "app/agents/meta_learner.py::train", "eval_evidence": "data/price_meta.json (train MAE)"},
-        "w6_experiment_tracking": {"desc": "Track datasets/baselines/metrics (W&B/offline)", "status": "covered", "evidence": "app/monitoring/experiment_tracking.py", "eval_evidence": "data/runs/*.json; dashboard tracking pane"},
-        "w6_frontier_finetune": {"desc": "Frontier FT JSONL + job shape + W&B metadata (runbook)", "status": "covered", "evidence": "app/finetune/frontier_runbook.py", "eval_evidence": "smoke: record_job_metadata; RUNBOOK.md"}
-      }
+        "curated_data": {"desc": "Curated Indian commerce data: real Blinkit + synthetic SF-*", "file": "app/commerce_data.py", "demo": "146 BL-* real + 25 SF-* synthetic SKUs with price history"},
+        "unit_norm_features": {"desc": "Unit-price normalisation features (per kg/litre/piece)", "file": "app/commerce_data.py::_unit_price", "demo": "Compare unit prices across pack sizes and platforms"},
+        "baselines": {"desc": "Random/constant/rule/sklearn/PyTorch classification baselines", "file": "app/finetune/baseline.py", "demo": "Signal classifier baselines compared"},
+        "meta_learner": {"desc": "RandomForest + linear stacking meta-learner with train/test split", "file": "app/agents/meta_learner.py", "demo": "Train MAE 105 INR vs test MAE 390 INR on held-out 20%"},
+        "experiment_track": {"desc": "W&B / offline JSONL experiment tracking", "file": "app/monitoring/experiment_tracking.py", "demo": "All training runs logged with metrics, config, artifacts"}
+      },
+      "proof_commands": ["python -m app.commerce_data", "python -m app.agents.meta_learner", "python -m app.finetune.baseline"]
     },
     "week7": {
-      "title": "QLoRA/LoRA, PEFT, HF Hub, adapter inference",
+      "title": "LoRA/PEFT fine-tuning, HF Hub publishing, QLoRA runbook",
       "concepts": {
-        "w7_lora_peft": {"desc": "LoRA over bert-tiny on Hinglish commerce labels", "status": "covered", "evidence": "app/finetune/train_lora.py", "eval_evidence": "evals/harness.py::eval_classifier (lora_finetuned)"},
-        "w7_base_eval": {"desc": "Baseline eval before training", "status": "covered", "evidence": "app/finetune/baseline.py::evaluate", "eval_evidence": "evals/harness.py::eval_classifier (groq_baseline)"},
-        "w7_tokenized_splits": {"desc": "Tokenized prompt-format train/eval splits", "status": "covered", "evidence": "app/finetune/train_lora.py::_encode_rows", "eval_evidence": "train_lora logs eval_loss per epoch"},
-        "w7_peft_inference": {"desc": "PEFT adapter save/load + local inference", "status": "covered", "evidence": "app/finetune/infer_lora.py::classify", "eval_evidence": "smoke: python -m app.finetune.infer_lora"},
-        "w7_hub_publish": {"desc": "Publish adapter + dataset to HF Hub", "status": "covered", "evidence": "app/finetune/infer_lora.py::publish_adapter_to_hub,publish_dataset_to_hub", "eval_evidence": "RUNBOOK.md (uses HF_TOKEN)"},
-        "w7_finetune_vs_baselines": {"desc": "LoRA vs Groq/sklearn/PyTorch", "status": "covered", "evidence": "evals/harness.py::eval_classifier", "eval_evidence": "evals/results/latest.json::classifier"},
-        "w7_qlora_runbook": {"desc": "4-bit QLoRA CUDA/Colab variant", "status": "runbook", "evidence": "RUNBOOK.md (bitsandbytes 4-bit)", "eval_evidence": "RUNBOOK.md external step (Mac/MPS cannot run bnb 4-bit)"},
-        "w7_train_tracking": {"desc": "W&B/offline training metrics", "status": "covered", "evidence": "app/finetune/train_lora.py (tracking)", "eval_evidence": "data/runs/*.json (train/eval loss, macro-F1)"}
-      }
+        "lora_classifier": {"desc": "LoRA/PEFT fine-tune bert-tiny on Hinglish commerce labels", "file": "app/finetune/train_lora.py", "demo": "Train locally in seconds; logs macro-F1 per epoch"},
+        "lora_price_regression": {"desc": "LoRA price regression on distilbert-base (Colab notebook)", "file": "lora.ipynb", "demo": "Colab: train {product, festival, platform} -> INR price"},
+        "hf_hub_publish": {"desc": "Adapter + dataset publish to Hugging Face Hub", "file": "app/finetune/infer_lora.py::publish_adapter_to_hub", "demo": "Push LoRA adapter and signal dataset to HF Hub"},
+        "qlora_runbook": {"desc": "QLoRA 4-bit runbook for CUDA/Colab", "file": "RUNBOOK.md L70-80", "demo": "Bash commands for 4-bit QLoRA on GPU"}
+      },
+      "proof_commands": ["python -m app.finetune.train_lora", "python -m app.finetune.infer_lora"]
     },
     "week8": {
-      "title": "Agentic AI, deployment, memory, notifications, final app",
+      "title": "Agentic spine, decision surfaces, safety, deployment",
       "concepts": {
-        "w8_multi_agent": {"desc": "scout/classify/verify/route/decide spine", "status": "covered", "evidence": "app/agents/ensemble.py", "eval_evidence": "evals/harness.py::eval_e2e"},
-        "w8_intent_router": {"desc": "Route to deal/substitute/triage", "status": "covered", "evidence": "app/agents/intent_router.py", "eval_evidence": "evals/harness.py::eval_intent"},
-        "w8_structured_outputs": {"desc": "Brief + PriceForecast/SubstitutionSet/Resolution (pydantic)", "status": "covered", "evidence": "app/agents/schemas.py", "eval_evidence": "evals/harness.py::eval_e2e (schema checks)"},
-        "w8_ensemble_meta": {"desc": "Groq+RAG+LoRA+RF combined by trained meta-learner", "status": "covered", "evidence": "app/agents/ensemble.py::deal_agent + meta_learner", "eval_evidence": "evals/harness.py::eval_festival_counterfactual"},
-        "w8_scanner": {"desc": "Festival/sale feed scanner over catalog", "status": "covered", "evidence": "app/agents/ensemble.py::deal_agent (festival conditioning)", "eval_evidence": "evals/harness.py::eval_festival_counterfactual"},
-        "w8_memory": {"desc": "SQLite memory of briefs/SKUs/complaints", "status": "covered", "evidence": "app/agents/memory.py", "eval_evidence": "app/ui.py::analytics_fn (memory.stats)"},
-        "w8_notifications": {"desc": "Deal/escalation notification hook", "status": "covered", "evidence": "app/notify.py", "eval_evidence": "data/notifications.log; RUNBOOK webhook"},
-        "w8_robustness": {"desc": "Prompt-injection + over-promise guards", "status": "covered", "evidence": "app/agents/ensemble.py::verifier_agent + triage requires_confirmation", "eval_evidence": "evals/harness.py::eval_adversarial"},
-        "w8_deployment": {"desc": "Gradio app + Spaces/Modal runbook", "status": "covered", "evidence": "app/ui.py", "eval_evidence": "RUNBOOK.md deployment"}
-      }
+        "agent_spine": {"desc": "Agentic spine: scout -> classify -> verify -> route -> decide -> remember", "file": "app/agents/ensemble.py::run", "demo": "Single run() call executes full pipeline"},
+        "typed_briefs": {"desc": "Pydantic-typed Brief with two decision variants", "file": "app/agents/schemas.py", "demo": "PriceForecast and SubstitutionSet discriminated union"},
+        "meta_ensemble": {"desc": "Trained meta-learner ensemble blends classical + LLM arms", "file": "app/agents/meta_learner.py", "demo": "5-arm comparison: RF, LoRA, Claude, Groq+RAG, ensemble arbitrator"},
+        "memory": {"desc": "SQLite brief history persistence", "file": "app/agents/memory.py", "demo": "Analytics tab shows memory stats by intent"},
+        "safety": {"desc": "Prompt injection resistance via verifier agent", "file": "app/agents/ensemble.py::verifier_agent", "demo": "Verifier downgrades unsupported/injected signals"},
+        "deploy": {"desc": "Gradio deploy (local + HF Spaces + Modal runbook)", "file": "app/ui.py + RUNBOOK.md", "demo": "Launch on :7860; deploy to HF Spaces or Modal"}
+      },
+      "proof_commands": ["python -m app.ui", "python -m app.agents.memory"]
     }
   }
 }

@@ -1,9 +1,24 @@
 {
   "loop": 4,
-  "adversarial": {
-    "n": 4,
-    "injection_invariance_rate": 0.5,
-    "over_promise_guard_rate": 1.0
+  "suites_run": [
+    "intent",
+    "unit_norm",
+    "rag_retrieval"
+  ],
+  "intent": {
+    "intent_accuracy": 1.0,
+    "n_correct": 15,
+    "n_total": 15
   },
-  "wall_clock_s": 8.0
+  "unit_norm": {
+    "unit_price_accuracy": 1.0,
+    "n_correct": 10,
+    "n_total": 10
+  },
+  "rag_retrieval": {
+    "retrieval_recall": 0.8571,
+    "retrieval_mrr": 0.9286,
+    "n_total": 7,
+    "n_evaluable": 7
+  }
 }

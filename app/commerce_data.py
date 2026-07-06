@@ -1,10 +1,8 @@
 """Curated Indian commerce world-data (week 6 data curation).
 
-Generates and loads the four datasets the engine reasons over:
+Generates and loads the two datasets the engine reasons over:
   * catalog   — SKUs with pack size, unit, platform, MRP, price, stock, rating.
   * prices    — price observations across festivals (for deal forecasting).
-  * reviews   — Hinglish reviews with aspect labels (quality/delivery/auth/value).
-  * complaints — labelled complaint text for the triage surface.
 
 Data is curated + synthetically expanded with a fixed seed so it is reproducible
 and clearly demo data — we never claim live Blinkit/Amazon prices.
@@ -19,8 +17,7 @@ from app import config
 
 CATALOG_PATH = config.DATA_DIR / "catalog" / "products.json"
 PRICES_PATH = config.DATA_DIR / "prices" / "price_observations.jsonl"
-REVIEWS_PATH = config.DATA_DIR / "reviews" / "reviews.jsonl"
-COMPLAINTS_PATH = config.DATA_DIR / "complaints" / "complaints.jsonl"
+BLINKIT_PATH = config.DATA_DIR / "blinkit_products.json"
 
 # --- Seed catalog: realistic Indian SKUs across grocery + electronics. ----------
 # (title, category, pack_size, unit, platform, mrp_inr, price_inr, stock, rating, reviews)
@@ -64,63 +61,167 @@ _SUBSTITUTE_GROUPS = {
     "tws_earbuds": ["boAt Airdopes 161 TWS", "Sony WH-CH520 Headphones"],
 }
 
-# Hinglish review templates per aspect-sentiment, used to expand the review set.
-_REVIEW_TEMPLATES = [
-    ("Delivery time pe aa gaya, bahut accha service tha.", {"delivery": "pos"}),
-    ("Product theek hai par delivery 3 din late thi, bekar.", {"delivery": "neg", "quality": "neutral"}),
-    ("Quality bahut achhi hai, paisa vasool product.", {"quality": "pos", "value": "pos"}),
-    ("Ekdum ghatiya quality, paise barbaad ho gaye.", {"quality": "neg", "value": "neg"}),
-    ("Lagta hai duplicate piece bheja hai, original nahi hai.", {"authenticity": "neg"}),
-    ("100% genuine product mila, packaging sealed thi.", {"authenticity": "pos"}),
-    ("Itne price me itna achha product, value for money.", {"value": "pos"}),
-    ("MRP se zyada charge kiya, bilkul value nahi.", {"value": "neg"}),
-    ("Bahut achhi packaging, time se delivery, quality top.", {"delivery": "pos", "quality": "pos"}),
-    ("Fake product hai ye, market me sasta milta hai.", {"authenticity": "neg", "value": "neg"}),
-    ("Average product hai, kuch khaas nahi.", {"quality": "neutral"}),
-    ("Delivery boy ne bahut der lagayi par product sahi tha.", {"delivery": "neg", "quality": "pos"}),
-]
-
-# Complaint templates per type (mix of clean English + Hinglish), for triage labels.
-_COMPLAINT_TEMPLATES = {
-    "cod_dispute": [
-        "Delivery boy ne {amt} rupaye extra liye COD pe, jabki app pe {price} dikha raha tha.",
-        "I paid {amt} cash on delivery but the invoice says {price}, please refund the difference.",
-    ],
-    "refund_delay": [
-        "Maine 10 din pehle return kiya tha par abhi tak refund nahi aaya.",
-        "Refund of {price} initiated last week is still not credited to my account.",
-    ],
-    "fake_product": [
-        "Ye {item} duplicate lag raha hai, original seal nahi tha.",
-        "The {item} I received looks counterfeit, the logo and box are different.",
-    ],
-    "expiry_issue": [
-        "{item} ki expiry date nikal chuki hai, kaise use karu?",
-        "Received {item} that expires in 2 days, this is near-expiry stock.",
-    ],
-    "wrong_item": [
-        "Maine {item} order kiya tha par kuch aur hi aa gaya.",
-        "Wrong item delivered — I ordered {item} but got a different product.",
-    ],
-    "damaged_item": [
-        "{item} delivery me toot gaya, box bhi damaged tha.",
-        "The {item} arrived physically damaged with a cracked screen.",
-    ],
-}
-
 
 def _round_paise(x: float) -> int:
     return int(round(x))
 
 
+def _parse_pack_size(unit_str: str) -> tuple[float, str]:
+    """Parse a Blinkit unit string (e.g. '34 g', '20g', '1 kg') into (size, unit).
+
+    Grams/millilitres are normalized to kg/litre so unit-price math matches the rest of
+    the catalog. Handles a missing space between number and unit. Unrecognised strings
+    fall back to a single piece.
+    """
+    import re
+    m = re.search(r"(\d+(?:\.\d+)?)\s*(kg|g|gram|grams|litre|liter|l|ml)\b",
+                  (unit_str or "").strip().lower())
+    if not m:
+        return 1.0, "piece"
+    value, unit = float(m.group(1)), m.group(2)
+    if unit in ("g", "gram", "grams"):
+        return round(value / 1000.0, 4), "kg"
+    if unit == "ml":
+        return round(value / 1000.0, 4), "litre"
+    if unit in ("litre", "liter", "l"):
+        return value, "litre"
+    return value, "kg"  # kg
+
+
+def load_blinkit_raw() -> list[dict]:
+    """Load the real scraped Blinkit products; default MRP to price*1.05 when missing."""
+    if not BLINKIT_PATH.exists():
+        return []
+    raw = json.loads(BLINKIT_PATH.read_text())
+    if not isinstance(raw, list):
+        return []
+    out = []
+    for r in raw:
+        price = float(r["price_inr"])
+        mrp = r.get("mrp_inr")
+        mrp = float(mrp) if mrp else round(price * 1.05)
+        out.append({**r, "price_inr": price, "mrp_inr": mrp})
+    return out
+
+
+# Map Blinkit category strings → internal category + substitute_group.
+_BL_CATEGORY_MAP = {
+    # Chocolates & confectionery
+    "chocolates": ("grocery", "chocolate"),
+    "chocolates & candies": ("grocery", "chocolate"),
+    "chocolate packs": ("grocery", "chocolate"),
+    # Chips & snacks
+    "chips & crisps": ("grocery", "chips"),
+    "chips": ("grocery", "chips"),
+    "snacks": ("grocery", "chips"),
+    # Dairy
+    "milk": ("grocery", "milk"),
+    "dairy": ("grocery", "milk"),
+    # Beverages
+    "tea": ("grocery", "tea"),
+    "coffee": ("grocery", "coffee"),
+    "fruit juice": ("grocery", "juice"),
+    "beverages": ("grocery", "juice"),
+    # Personal care / oral care
+    "oral care": ("personal_care", "toothpaste"),
+    "personal care": ("personal_care", None),
+    # Electronics / audio
+    "audio & accessories": ("electronics", "earbuds"),
+    "audio accessories": ("electronics", "earbuds"),
+    "electronics": ("electronics", None),
+}
+
+
+def _bl_cat_and_group(blinkit_category: str | None) -> tuple[str, str | None]:
+    """Resolve internal category and substitute_group from a raw Blinkit category string."""
+    key = (blinkit_category or "").strip().lower()
+    return _BL_CATEGORY_MAP.get(key, ("grocery", None))
+
+
+def build_real_catalog(start_index: int = 0) -> list[dict]:
+    """Convert real Blinkit products to the internal catalog schema (BL-#### SKUs).
+
+    Category and substitute_group are derived from the scraped Blinkit category field so
+    the substitute surface produces cross-brand alternatives within the right product class.
+    """
+    catalog = []
+    for i, r in enumerate(load_blinkit_raw()):
+        size, unit = _parse_pack_size(r.get("unit", ""))
+        price, mrp = r["price_inr"], r["mrp_inr"]
+        in_stock = bool(r.get("in_stock", True))
+        category, sub_group = _bl_cat_and_group(r.get("category"))
+        catalog.append({
+            "sku": f"BL-{1000 + start_index + i}",
+            "title": r["product_name"], "category": category,
+            "pack_size": size, "unit": unit, "platform": "Blinkit",
+            "mrp_inr": mrp, "price_inr": price,
+            "stock": 100 if in_stock else 0, "in_stock": in_stock,
+            "rating": float(r.get("rating") or 4.2), "review_count": 500,
+            "discount_pct": round(100 * (mrp - price) / mrp, 1) if mrp else 0.0,
+            "unit_price_inr": _unit_price(price, size, unit),
+            "substitute_group": sub_group,
+        })
+    return catalog
+
+
+def _reverse_category(sub_group: str | None) -> str:
+    """Reverse-map an internal substitute_group to a plausible Blinkit category string."""
+    rev = {
+        "chocolate": "chocolates", "chips": "chips & crisps", "milk": "milk",
+        "tea": "tea", "coffee": "coffee", "juice": "fruit juice",
+        "toothpaste": "oral care", "earbuds": "audio & accessories",
+        "edible_oil": "grocery", "flagship_phone": "electronics",
+        "midrange_phone": "electronics", "tws_earbuds": "audio & accessories",
+    }
+    return rev.get(sub_group or "", "grocery")
+
+
+def _persist_blinkit_from_catalog(catalog_entries: list[dict]):
+    """Write a blinkit_products.json seed from existing BL-* catalog entries.
+
+    This is a data-provenance safety net: when the original blinkit_products.json
+    is missing, we reconstruct it from the current catalog so that build() does
+    not accidentally wipe the rich BL-* data on the next run.
+    """
+    raw = []
+    for item in catalog_entries:
+        if not item["sku"].startswith("BL-"):
+            continue
+        unit_str = f"{item['pack_size']} {item['unit']}" if item.get("pack_size") else "1 piece"
+        raw.append({
+            "product_name": item["title"],
+            "category": _reverse_category(item.get("substitute_group")),
+            "price_inr": item["price_inr"],
+            "mrp_inr": item["mrp_inr"],
+            "unit": unit_str,
+            "in_stock": item.get("in_stock", True),
+            "rating": item.get("rating", 4.2),
+        })
+    if raw:
+        BLINKIT_PATH.parent.mkdir(parents=True, exist_ok=True)
+        BLINKIT_PATH.write_text(json.dumps(raw, indent=2, ensure_ascii=False))
+
+
 def build(seed: int = 13) -> dict:
-    """Generate all four datasets and write them to data/. Returns a summary."""
+    """Generate catalog and price datasets and write them to data/. Returns a summary."""
     rng = random.Random(seed)
-    for p in (CATALOG_PATH, PRICES_PATH, REVIEWS_PATH, COMPLAINTS_PATH):
+    for p in (CATALOG_PATH, PRICES_PATH):
         p.parent.mkdir(parents=True, exist_ok=True)
 
-    # --- catalog ---
-    catalog = []
+    # --- data provenance guard: if blinkit_products.json is missing but we have  ---
+    #     a catalog with BL-* entries, reconstruct the raw seed from them so the    ---
+    #     rich real-scraped data survives across rebuilds.                         ---
+    if not BLINKIT_PATH.exists() and CATALOG_PATH.exists():
+        try:
+            existing = json.loads(CATALOG_PATH.read_text())
+            bl_items = [x for x in existing if x.get("sku", "").startswith("BL-")]
+            if bl_items:
+                _persist_blinkit_from_catalog(bl_items)
+        except Exception:
+            pass
+
+    # --- catalog: real Blinkit products (BL-*) first, then synthetic seed (SF-*) ---
+    catalog = build_real_catalog()
     name_to_group = {}
     for grp, names in _SUBSTITUTE_GROUPS.items():
         for nm in names:
@@ -146,7 +247,6 @@ def build(seed: int = 13) -> dict:
         for month in range(1, 13):
             fest = config.festival_for_month(month)
             bias = fest["discount_bias"] if fest else 0.0
-            # festival months bias prices down; demand months add noise
             noise = rng.uniform(-0.04, 0.04)
             factor = 1.0 - bias * rng.uniform(0.4, 1.0) + noise
             obs = max(1, _round_paise(base * factor))
@@ -160,46 +260,9 @@ def build(seed: int = 13) -> dict:
             })
     _write_jsonl(PRICES_PATH, price_rows)
 
-    # --- Hinglish reviews with aspect labels ---
-    review_rows = []
-    rid = 0
-    for item in catalog:
-        n = rng.randint(3, 6)
-        for _ in range(n):
-            text, aspects = rng.choice(_REVIEW_TEMPLATES)
-            rid += 1
-            review_rows.append({
-                "review_id": f"R{rid:04d}", "sku": item["sku"], "title": item["title"],
-                "text": text, "aspects": aspects,
-                "lang": "hinglish",
-            })
-    _write_jsonl(REVIEWS_PATH, review_rows)
-
-    # --- complaints ---
-    complaint_rows = []
-    cid = 0
-    items_for_complaints = [c["title"] for c in catalog]
-    for ctype, templates in _COMPLAINT_TEMPLATES.items():
-        for _ in range(8):  # 8 per type -> balanced
-            tmpl = rng.choice(templates)
-            item = rng.choice(items_for_complaints)
-            price = rng.choice([26, 142, 449, 2799, 21999, 67999])
-            amt = price + rng.choice([20, 50, 100])
-            cid += 1
-            complaint_rows.append({
-                "complaint_id": f"C{cid:04d}",
-                "text": tmpl.format(item=item, price=price, amt=amt),
-                "complaint_type": ctype,
-                "sku_title": item,
-            })
-    rng.shuffle(complaint_rows)
-    _write_jsonl(COMPLAINTS_PATH, complaint_rows)
-
     return {
         "catalog": {"path": str(CATALOG_PATH), "n": len(catalog)},
         "prices": {"path": str(PRICES_PATH), "n": len(price_rows)},
-        "reviews": {"path": str(REVIEWS_PATH), "n": len(review_rows)},
-        "complaints": {"path": str(COMPLAINTS_PATH), "n": len(complaint_rows)},
     }
 
 
@@ -227,7 +290,7 @@ def _write_jsonl(path: Path, rows: list[dict]) -> None:
 
 # --- loaders ---------------------------------------------------------------------
 def _ensure() -> None:
-    if not all(p.exists() for p in (CATALOG_PATH, PRICES_PATH, REVIEWS_PATH, COMPLAINTS_PATH)):
+    if not all(p.exists() for p in (CATALOG_PATH, PRICES_PATH)):
         build()
 
 
@@ -239,16 +302,6 @@ def load_catalog() -> list[dict]:
 def load_prices() -> list[dict]:
     _ensure()
     return [json.loads(l) for l in PRICES_PATH.read_text().splitlines() if l.strip()]
-
-
-def load_reviews() -> list[dict]:
-    _ensure()
-    return [json.loads(l) for l in REVIEWS_PATH.read_text().splitlines() if l.strip()]
-
-
-def load_complaints() -> list[dict]:
-    _ensure()
-    return [json.loads(l) for l in COMPLAINTS_PATH.read_text().splitlines() if l.strip()]
 
 
 def find_sku(query: str) -> dict | None:

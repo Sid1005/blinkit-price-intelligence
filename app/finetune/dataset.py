@@ -37,13 +37,6 @@ TEMPLATES = {
         "Limited stock: {p} prices rising fast this week.",
         "{p} mehnga ho gaya, sab jagah short supply hai.",
     ],
-    "review_sentiment": [
-        "{p} ki quality bahut achhi hai, paisa vasool.",
-        "Bekar product, {p} ekdum ghatiya nikla.",
-        "{p} genuine hai, sealed packaging mili, satisfied.",
-        "Worst experience, {p} fake jaisa lag raha hai.",
-        "{p} value for money, rating 5 star deta hu.",
-    ],
     "complaint_policy": [
         "Maine {p} return kiya par refund nahi aaya 10 din se.",
         "Delivery boy ne {p} pe COD me extra paise liye.",
@@ -131,5 +124,44 @@ def load(split: str) -> list[dict]:
     return [json.loads(l) for l in fp.read_text().splitlines() if l.strip()]
 
 
+# --- price-regression dataset (the LoRA price arm + eval MAE comparison) ---------
+PRICE_TRAIN_PATH = config.DATA_DIR / "price_train.jsonl"
+PRICE_TEST_PATH = config.DATA_DIR / "price_test.jsonl"
+
+
+def build_price_dataset(seed: int = 42) -> dict:
+    """Format catalog price observations as ``{text, price}`` rows with an 80/20 split.
+
+    Each row is ``"<title>, <festival>, <platform>" -> price_inr``. This mirrors the
+    schema the Colab notebook (lora.ipynb) trains on, and is consumed by the eval
+    harness MAE comparison.
+    """
+    from app import commerce_data
+
+    rows = []
+    for r in commerce_data.load_prices():
+        festival = r.get("festival") or "No Festival"
+        # `text` is what the LoRA notebook trains on; the structured fields let the eval
+        # recover title/festival/platform without fragile string splitting.
+        rows.append({"text": f"{r['title']}, {festival}, {r['platform']}",
+                     "title": r["title"], "festival": festival,
+                     "platform": r["platform"], "price": float(r["price_inr"])})
+    random.Random(seed).shuffle(rows)
+    split = int(len(rows) * 0.8)
+    train, test = rows[:split], rows[split:]
+    PRICE_TRAIN_PATH.write_text("\n".join(json.dumps(r) for r in train))
+    PRICE_TEST_PATH.write_text("\n".join(json.dumps(r) for r in test))
+    return {"train": {"path": str(PRICE_TRAIN_PATH), "n": len(train)},
+            "test": {"path": str(PRICE_TEST_PATH), "n": len(test)}}
+
+
+def load_price(split: str) -> list[dict]:
+    fp = PRICE_TRAIN_PATH if split == "train" else PRICE_TEST_PATH
+    if not fp.exists():
+        build_price_dataset()
+    return [json.loads(l) for l in fp.read_text().splitlines() if l.strip()]
+
+
 if __name__ == "__main__":
     print(json.dumps(build(), indent=2))
+    print(json.dumps(build_price_dataset(), indent=2))

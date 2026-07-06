@@ -1,6 +1,7 @@
-"""Generate the India Commerce SignalForge explainer doc (static HTML).
+"""Generate the Blinkit Price Intelligence explainer doc (static HTML).
 
-Maps the Indian-commerce product back to all 8 course weeks in the minimalist design.
+Reads orchestration/coverage_map.json and generates docs/index.html with
+architecture flow and course-week mapping. Two decision surfaces only.
 Run:  python docs/build_docs.py  ->  docs/index.html
 """
 from __future__ import annotations
@@ -31,34 +32,38 @@ padding:2px 10px;font-size:12px;margin:0 6px 6px 0}
 
 FLOW = """scout ──▶ classify ──▶ verify ──▶ IntentRouter
                                             │
-              ┌─────────────────────────────┼─────────────────────────────┐
-              ▼                              ▼                              ▼
-       DealPredictor              SubstitutionRanker               ComplaintTriage
-   (meta-learner + Groq        (catalog ranking + unit          (type + policy-grounded
-    + RAG + festival)            value + availability)            resolution, escalate)
-              └─────────────────────────────┼─────────────────────────────┘
-                                            ▼
-                                   Brief + Memory + UI"""
+              ┌─────────────────────────────┤
+              ▼                              ▼
+        PricePredictor              SubstituteFinder
+    (5-arm comparison:        (catalog ranking + unit
+     RF + LoRA + Claude       value + availability
+     + Groq/RAG + ensemble        + stock check)
+     arbitrator)
+              └─────────────────────────────┘
+                            ▼
+                   Brief + Memory + UI"""
 
 WEEK_NOTES = {
     "week1": "Groq powers every runtime LLM call. Tavily scrapes Blinkit/Amazon-style "
              "evidence; pages become markdown briefs and strict JSON SKU/price signals.",
-    "week2": "Groq fast/strong/OSS router, a six-tab Gradio cockpit, streaming chat, "
-             "five callable tools, product-screenshot vision, and deal-card + TTS generation hooks.",
+    "week2": "Groq fast/strong/OSS router, a four-tab Gradio cockpit, streaming chat, "
+             "callable tools, product-screenshot vision, and deal-card + TTS generation hooks.",
     "week3": "HF pipelines do zero-shot signals, Hinglish aspect-sentiment, and brand NER; "
-             "sentence-transformers embed the KB; Groq Whisper transcribes voice complaints.",
-    "week4": "Groq synthesizes product-listing parsers (scored vs a hand-written baseline) and a "
-             "C++ unit-normalization kernel that is compiled and timed against Python.",
-    "week5": "LangChain + Chroma over festival/pricing/policy/substitution docs and the catalog, "
-             "with hybrid reranking, query rewriting, and full RAG evals (MRR, nDCG, faithfulness).",
-    "week6": "Curated Indian datasets with dedup/leakage checks, unit-normalization features, "
-             "random/constant/rule/sklearn/PyTorch baselines, a RandomForest+linear meta-learner, "
-             "and W&B/offline experiment tracking. Frontier FT is structurally complete (runbook).",
-    "week7": "LoRA/PEFT fine-tunes bert-tiny on Hinglish commerce labels, evaluated against Groq/"
-             "sklearn/PyTorch; adapter + dataset publish to the HF Hub; QLoRA 4-bit is a CUDA runbook.",
-    "week8": "The agentic spine emits a typed Brief with one of three decision variants, blends a "
-             "trained meta-learner ensemble, remembers prior briefs, notifies on high-confidence "
-             "deals/escalations, resists prompt injection, and deploys as a Gradio app.",
+             "sentence-transformers embed the KB; Groq Whisper transcribes voice queries.",
+    "week4": "Deterministic parser candidates benchmarked against gold listings; "
+             "unit-normalization kernel timed head-to-head across kg/g/l/ml. "
+             "Optional Groq-synthesised codegen if key present.",
+    "week5": "Chroma + LangChain over festival/pricing/policy/substitution docs and the catalog, "
+             "with hybrid reranking, query rewriting, and retrieval evals (recall, MRR).",
+    "week6": "Curated Indian datasets with unit-normalization features, "
+             "random/constant/rule/sklearn baselines, a RandomForest+linear meta-learner "
+             "with train/test MAE visibility, and W&B/offline experiment tracking.",
+    "week7": "LoRA/PEFT fine-tunes bert-tiny on Hinglish commerce labels; "
+             "LoRA price regression on distilbert-base via Colab notebook; "
+             "adapter + dataset publish to the HF Hub; QLoRA 4-bit CUDA runbook.",
+    "week8": "The agentic spine emits a typed Brief with two decision variants, blends a "
+             "trained meta-learner ensemble, remembers prior briefs in SQLite, "
+             "resists prompt injection, and deploys as a Gradio app.",
 }
 
 
@@ -66,34 +71,39 @@ def build() -> str:
     cov = json.loads(COVERAGE.read_text())
     weeks = cov.get("weeks", {})
     sections = []
-    for wk, wd in weeks.items():
+    for wk in sorted(weeks.keys()):
+        wd = weeks[wk]
         tags = "".join(f'<span class="tag">{html.escape(c["desc"])}</span>'
                        for c in wd["concepts"].values())
         note = WEEK_NOTES.get(wk, "")
+        proof = wd.get("proof_commands", [])
+        proof_html = ""
+        if proof:
+            proof_lines = "".join(f"<li><code>{html.escape(c)}</code></li>" for c in proof[:3])
+            proof_html = f'<p style="margin-top:8px;font-size:13px;color:var(--mut)">Proof: <ul style="margin:4px 0 0 18px;font-size:12px">{proof_lines}</ul></p>'
         sections.append(
             f'<div class="card"><h3>{html.escape(wd["title"])}</h3>'
-            f'<p>{html.escape(note)}</p>{tags}</div>')
+            f'<p>{html.escape(note)}</p>{tags}{proof_html}</div>')
     page = f"""<!doctype html><html lang="en"><head><meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
-<title>India Commerce SignalForge — How it works</title><style>{CSS}</style></head><body><div class="wrap">
-<h1>India Commerce SignalForge</h1>
-<p class="sub">A single Indian-commerce engine with three decision surfaces, mapping to all 8 course weeks.</p>
+<title>Blinkit Price Intelligence — How it works</title><style>{CSS}</style></head><body><div class="wrap">
+<h1>Blinkit Price Intelligence</h1>
+<p class="sub">Festival-aware Indian quick-commerce price prediction — two decision surfaces, mapped to all 8 course weeks.</p>
 <div class="card">
-<p><b>The product.</b> Indian shoppers ask three recurring questions: <i>is this a good price right
-now?</i>, <i>what should I buy instead?</i>, and <i>how do I resolve this order complaint?</i>
-SignalForge answers all three from one agent spine, with festival-aware INR pricing, catalog-grounded
-substitution, and policy-grounded complaint triage. Review understanding is shared Hinglish NLP
-enrichment, not a separate app.</p>
-<p><b>Scope &amp; safety.</b> Prices are curated demo data, clearly labelled — we do not claim live
-Blinkit/Amazon quotes. Complaint triage cites policy, never issues binding refunds, and marks uncertain
-cases as requiring human confirmation.</p>
+<p><b>The product.</b> Indian shoppers ask two recurring questions: <i>is this a good price right
+now?</i> and <i>what should I buy instead?</i>
+Blinkit Price Intelligence answers both from one agent spine, with festival-aware INR pricing
+and catalog-grounded substitution. Review understanding is shared Hinglish NLP enrichment.</p>
+<p><b>Scope &amp; safety.</b> Catalog prices combine real scraped Blinkit products (BL-* SKUs)
+with curated synthetic SKUs (SF-*), clearly labelled — this project does <b>not</b> claim live
+quotes. Festival context is auto-detected from the current month, never parsed from the user's query.</p>
 </div>
 <h2>Architecture</h2>
 <div class="flow">{html.escape(FLOW)}</div>
 <h2>How each course week shows up</h2>
 {''.join(sections)}
-<p class="foot">Runtime LLM: Groq · Open models/Hub: Hugging Face · Web evidence: Tavily ·
-Tracking: W&amp;B/offline · Translate: Gemini/Groq · See RUNBOOK.md for external steps.</p>
+<p class="foot">Runtime LLM: Groq · Frontier pricing: Anthropic/Claude · Open models/Hub: Hugging Face ·
+Web evidence: Tavily · Tracking: W&amp;B/offline · Translation: Gemini/Groq · See RUNBOOK.md for full guide.</p>
 </div></body></html>"""
     OUT.write_text(page)
     return str(OUT)
