@@ -21,3 +21,6 @@ venv/
 *.log
 wandb/
 data/runs/*.json
+
+# nested course repo (kept local only)
+llm_eng/
