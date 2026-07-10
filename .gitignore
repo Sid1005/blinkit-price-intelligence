@@ -24,3 +24,64 @@ data/runs/*.json
 
 # nested course repo (kept local only)
 llm_eng/
+
+# --- Chroma vector store: rebuildable from the source docs, don't bloat the repo ---
+data/chroma/
+
+# --- Work in progress: QLoRA specialist + ensemble arms (kept local until scored) ---
+app/pricer/specialist.py
+app/finetune/
+lora.ipynb
+data/lora_adapter/
+data/*/price_lora_adapter/
+data/price_meta.json
+data/rf_price_model.pkl
+data/price_train.jsonl
+data/price_test.jsonl
+
+# --- Legacy bespoke capstone: superseded by app/pricer + app/substitution.
+#     Kept on disk during the migration, not part of the published pipeline. ---
+app/agents/
+app/codegen/
+app/media/
+app/monitoring/
+app/commerce_data.py
+app/gemini_live.py
+app/i18n.py
+app/notify.py
+app/ui.py
+app/rag/
+app/nlp/hf_pipeline.py
+app/ingest/scraper.py
+app/knowledge_base/cod_policy.md
+app/knowledge_base/complaint_examples.md
+app/knowledge_base/festival_calendar.md
+app/knowledge_base/pricing_playbook.md
+app/knowledge_base/return_refund_policy.md
+dashboard/
+CHANGES.md
+DEMO.md
+RUNBOOK.md
+data/catalog/
+data/blinkit_products.json
+data/memory.sqlite
+data/labels.json
+data/signals_train.jsonl
+data/signals_val.jsonl
+data/signals_test.jsonl
+data/signals_golden.jsonl
+evals/harness.py
+evals/golden/
+evals/results/latest.json
+evals/results/results_loop1.json
+evals/results/results_loop2.json
+evals/results/results_loop3.json
+evals/results/results_loop4.json
+evals/results/results_loop5.json
+evals/results/results_loop6.json
+evals/results/results_loop7.json
+evals/results/results_loop8.json
+data/prices/
+docs/
+orchestration/
+tavily/

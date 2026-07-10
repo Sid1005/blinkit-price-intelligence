@@ -27,22 +27,26 @@ def client() -> Groq:
 
 
 def chat(messages: list[dict], model: str | None = None, temperature: float = 0.3,
-         max_tokens: int = 1024, json_mode: bool = False) -> str:
+         max_tokens: int = 1024, json_mode: bool = False, reasoning_effort: str | None = None) -> str:
     """Single-shot completion. Returns the assistant text."""
     kwargs = dict(model=model or config.DEFAULT_MODEL, messages=messages,
                   temperature=temperature, max_tokens=max_tokens)
     if json_mode:
         kwargs["response_format"] = {"type": "json_object"}
+    if reasoning_effort:
+        kwargs["reasoning_effort"] = reasoning_effort
     resp = client().chat.completions.create(**kwargs)
     return resp.choices[0].message.content or ""
 
 
 def chat_usage(messages: list[dict], model: str | None = None, temperature: float = 0.3,
-               max_tokens: int = 1024) -> tuple[str, dict]:
+               max_tokens: int = 1024, json_mode: bool = False) -> tuple[str, dict]:
     """Completion that also returns token usage (for cost/eval telemetry)."""
-    resp = client().chat.completions.create(
-        model=model or config.DEFAULT_MODEL, messages=messages,
-        temperature=temperature, max_tokens=max_tokens)
+    kwargs = dict(model=model or config.DEFAULT_MODEL, messages=messages,
+                  temperature=temperature, max_tokens=max_tokens)
+    if json_mode:
+        kwargs["response_format"] = {"type": "json_object"}
+    resp = client().chat.completions.create(**kwargs)
     u = resp.usage
     return resp.choices[0].message.content or "", {
         "prompt_tokens": getattr(u, "prompt_tokens", 0),

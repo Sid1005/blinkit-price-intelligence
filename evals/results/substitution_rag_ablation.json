@@ -1,0 +1,2246 @@
+{
+  "n_examples": 40,
+  "wall_clock_s": 158.54,
+  "no_rag_summary": {
+    "n": 40,
+    "error_rate": 0.025,
+    "exists_in_catalog_rate": 0.375,
+    "same_aisle_rate": 0.8,
+    "price_stated_count": 14,
+    "price_accuracy_rate": 0.2857,
+    "avg_cost_usd": 0.001995,
+    "total_cost_usd": 0.079806,
+    "avg_latency_s": 2.853,
+    "total_latency_s": 114.107
+  },
+  "rag_summary": {
+    "n": 40,
+    "error_rate": 0.025,
+    "exists_in_catalog_rate": 0.975,
+    "same_aisle_rate": 0.8974,
+    "price_stated_count": 12,
+    "price_accuracy_rate": 1.0,
+    "avg_cost_usd": 0.000874,
+    "total_cost_usd": 0.034978,
+    "avg_latency_s": 1.016,
+    "total_latency_s": 40.623
+  },
+  "records": [
+    {
+      "product_name": "4700BC Signature Popcorn Gift Pack",
+      "category": "Chips & Namkeen",
+      "bucket": "Chips & Namkeen",
+      "in_stock": false,
+      "price_inr": 209,
+      "no_rag": {
+        "result": {
+          "substitute": "ACT II Butter Popcorn Combo Pack",
+          "reasoning": "It's a widely available microwave popcorn multi-pack brand on Blinkit that offers a similar snacking/gifting variety at roughly ₹150-200 for a combo.",
+          "model": "claude-sonnet-5",
+          "input_tokens": 196,
+          "output_tokens": 93,
+          "cost_usd": 0.001983,
+          "latency_s": 3.532,
+          "sources": [],
+          "error": null
+        },
+        "score": {
+          "candidate_name": "ACT II Butter Popcorn Combo Pack",
+          "match_score": 0.781,
+          "matched_product": "Act II Butter Popcorn - Microwave",
+          "exists_in_catalog": true,
+          "same_aisle": false,
+          "price_stated": 150.0,
+          "price_accurate": false,
+          "had_error": false
+        }
+      },
+      "rag": {
+        "result": {
+          "substitute": "Let's Try Namkeen Combo",
+          "reasoning": "Let's Try Namkeen Combo is 60.5% cheaper per kg/L and has a 40% off discount, making it a suitable alternative to the unavailable 4700BC Signature Popcorn Gift Pack.",
+          "model": "llama-3.3-70b-versatile",
+          "input_tokens": 1332,
+          "output_tokens": 66,
+          "cost_usd": 0.000838,
+          "latency_s": 12.327,
+          "sources": [
+            "candies-gum.md",
+            "chips-namkeen.md",
+            "cold-drinks-juices-energy-drinks.md",
+            "frozen-instant-food.md"
+          ],
+          "error": null
+        },
+        "score": {
+          "candidate_name": "Let's Try Namkeen Combo",
+          "match_score": 1.0,
+          "matched_product": "Let's Try Namkeen Combo",
+          "exists_in_catalog": true,
+          "same_aisle": true,
+          "price_stated": null,
+          "price_accurate": null,
+          "had_error": false
+        }
+      }
+    },
+    {
+      "product_name": "Organic India Premium Speciality Tulsi Tea Green Tea Gift Pack",
+      "category": "fruit juices and energy drinks",
+      "bucket": "Cold Drinks, Juices & Energy Drinks",
+      "in_stock": false,
+      "price_inr": 699,
+      "no_rag": {
+        "result": {
+          "substitute": "Organic India Tulsi Green Tea (100 g pack)",
+          "reasoning": "It's from the same brand and uses the same tulsi-green tea blend, just in a regular pack instead of the gift box, typically priced around ₹190-₹210.",
+          "model": "claude-sonnet-5",
+          "input_tokens": 207,
+          "output_tokens": 91,
+          "cost_usd": 0.001986,
+          "latency_s": 3.028,
+          "sources": [],
+          "error": null
+        },
+        "score": {
+          "candidate_name": "Organic India Tulsi Green Tea (100 g pack)",
+          "match_score": 0.706,
+          "matched_product": "Organic India Premium Speciality Tulsi Tea Green Tea Gift Pack",
+          "exists_in_catalog": false,
+          "same_aisle": false,
+          "price_stated": null,
+          "price_accurate": null,
+          "had_error": false
+        }
+      },
+      "rag": {
+        "result": {
+          "substitute": "Twinings The Silk Route Collection Tea Gift Set",
+          "reasoning": "Twinings The Silk Route Collection Tea Gift Set is a suitable alternative with a similar price point of ₹200 and 60% off, making it a viable option in the same aisle.",
+          "model": "llama-3.3-70b-versatile",
+          "input_tokens": 1216,
+          "output_tokens": 63,
+          "cost_usd": 0.000767,
+          "latency_s": 0.645,
+          "sources": [
+            "cold-drinks-juices-energy-drinks.md",
+            "tea-coffee-milk-drinks.md"
+          ],
+          "error": null
+        },
+        "score": {
+          "candidate_name": "Twinings The Silk Route Collection Tea Gift Set",
+          "match_score": 1.0,
+          "matched_product": "Twinings The Silk Route Collection Tea Gift Set",
+          "exists_in_catalog": true,
+          "same_aisle": true,
+          "price_stated": 200.0,
+          "price_accurate": true,
+          "had_error": false
+        }
+      }
+    },
+    {
+      "product_name": "Cremica Butter Cookies Gift Pack",
+      "category": "Bakery & Biscuits",
+      "bucket": "Bakery & Biscuits",
+      "in_stock": false,
+      "price_inr": 126,
+      "no_rag": {
+        "result": {
+          "substitute": "Britannia Good Day Butter Cookies Gift Pack",
+          "reasoning": "Britannia Good Day offers a similar buttery cookie taste and gifting-style packaging, and is widely available at around ₹100-150 for a pack.",
+          "model": "claude-sonnet-5",
+          "input_tokens": 194,
+          "output_tokens": 89,
+          "cost_usd": 0.001917,
+          "latency_s": 2.218,
+          "sources": [],
+          "error": null
+        },
+        "score": {
+          "candidate_name": "Britannia Good Day Butter Cookies Gift Pack",
+          "match_score": 0.868,
+          "matched_product": "Britannia Good Day Butter Cookies",
+          "exists_in_catalog": true,
+          "same_aisle": true,
+          "price_stated": 100.0,
+          "price_accurate": false,
+          "had_error": false
+        }
+      },
+      "rag": {
+        "result": {
+          "substitute": "Britannia Good Day Butter Cookies",
+          "reasoning": "Britannia Good Day Butter Cookies is a suitable alternative with a similar product category and a relatively lower price of ₹35.",
+          "model": "llama-3.3-70b-versatile",
+          "input_tokens": 1390,
+          "output_tokens": 47,
+          "cost_usd": 0.000857,
+          "latency_s": 0.534,
+          "sources": [
+            "bakery-biscuits.md"
+          ],
+          "error": null
+        },
+        "score": {
+          "candidate_name": "Britannia Good Day Butter Cookies",
+          "match_score": 1.0,
+          "matched_product": "Britannia Good Day Butter Cookies",
+          "exists_in_catalog": true,
+          "same_aisle": true,
+          "price_stated": 35.0,
+          "price_accurate": true,
+          "had_error": false
+        }
+      }
+    },
+    {
+      "product_name": "Parle Hide & Seek Milano Centre Filled Cream Biscuits",
+      "category": "Bakery & Biscuits",
+      "bucket": "Bakery & Biscuits",
+      "in_stock": false,
+      "price_inr": 85,
+      "no_rag": {
+        "result": {
+          "substitute": "Britannia Bourbon Cream Biscuits",
+          "reasoning": "Both are chocolate-based cream-filled biscuits with a similar indulgent taste profile, and Bourbon is widely available for around ₹30 for a 100g pack.",
+          "model": "claude-sonnet-5",
+          "input_tokens": 204,
+          "output_tokens": 91,
+          "cost_usd": 0.001977,
+          "latency_s": 3.266,
+          "sources": [],
+          "error": null
+        },
+        "score": {
+          "candidate_name": "Britannia Bourbon Cream Biscuits",
+          "match_score": 0.708,
+          "matched_product": "Britannia Good Day Cashew Biscuit",
+          "exists_in_catalog": true,
+          "same_aisle": true,
+          "price_stated": 30.0,
+          "price_accurate": false,
+          "had_error": false
+        }
+      },
+      "rag": {
+        "result": {
+          "substitute": "Sunfeast Dark Fantasy Choco-Fills Cookies",
+          "reasoning": "Sunfeast Dark Fantasy Choco-Fills Cookies is an alternative brand and is 6.9% cheaper per kg/L.",
+          "model": "llama-3.3-70b-versatile",
+          "input_tokens": 1356,
+          "output_tokens": 51,
+          "cost_usd": 0.00084,
+          "latency_s": 1.079,
+          "sources": [
+            "bakery-biscuits.md"
+          ],
+          "error": null
+        },
+        "score": {
+          "candidate_name": "Sunfeast Dark Fantasy Choco-Fills Cookies",
+          "match_score": 1.0,
+          "matched_product": "Sunfeast Dark Fantasy Choco-Fills Cookies",
+          "exists_in_catalog": true,
+          "same_aisle": true,
+          "price_stated": null,
+          "price_accurate": null,
+          "had_error": false
+        }
+      }
+    },
+    {
+      "product_name": "Zandu Avaleha Jaggery Chyawanprash For Immunity",
+      "category": "Chyawanprash",
+      "bucket": "Pharma, Wellness & Ayurveda",
+      "in_stock": true,
+      "price_inr": 409,
+      "no_rag": {
+        "result": {
+          "substitute": "Dabur Chyawanprash",
+          "reasoning": "Dabur Chyawanprash is a widely available immunity-boosting Ayurvedic jam similar to Zandu's, typically priced around ₹250-300 for a 500g jar.",
+          "model": "claude-sonnet-5",
+          "input_tokens": 203,
+          "output_tokens": 90,
+          "cost_usd": 0.001959,
+          "latency_s": 2.171,
+          "sources": [],
+          "error": null
+        },
+        "score": {
+          "candidate_name": "Dabur Chyawanprash",
+          "match_score": 0.667,
+          "matched_product": "Zandu Shilajit Chyawanprash",
+          "exists_in_catalog": true,
+          "same_aisle": true,
+          "price_stated": 250.0,
+          "price_accurate": false,
+          "had_error": false
+        }
+      },
+      "rag": {
+        "result": {
+          "substitute": "Honitus Hot Sip Ayurvedic Kaadha",
+          "reasoning": "Honitus Hot Sip Ayurvedic Kaadha is 20-45% cheaper per unit compared to other alternatives and has a high score of 0.93, making it a suitable substitute for Zandu Avaleha Jaggery Chyawanprash For Immunity.",
+          "model": "llama-3.3-70b-versatile",
+          "input_tokens": 1312,
+          "output_tokens": 85,
+          "cost_usd": 0.000841,
+          "latency_s": 0.83,
+          "sources": [
+            "pharma-wellness-ayurveda.md"
+          ],
+          "error": null
+        },
+        "score": {
+          "candidate_name": "Honitus Hot Sip Ayurvedic Kaadha",
+          "match_score": 1.0,
+          "matched_product": "Honitus Hot Sip Ayurvedic Kaadha",
+          "exists_in_catalog": true,
+          "same_aisle": true,
+          "price_stated": null,
+          "price_accurate": null,
+          "had_error": false
+        }
+      }
+    },
+    {
+      "product_name": "Tata Sampann Organic Arhar Dal Unpolished",
+      "category": "Toor, Urad & Chana",
+      "bucket": "Atta, Rice & Dal",
+      "in_stock": true,
+      "price_inr": 131,
+      "no_rag": {
+        "result": {
+          "substitute": "24 Mantra Organic Arhar Dal",
+          "reasoning": "It's a comparable organic, unpolished toor/arhar dal brand widely available on Blinkit, typically priced around ₹180-200 for 500g-1kg pack.",
+          "model": "claude-sonnet-5",
+          "input_tokens": 199,
+          "output_tokens": 90,
+          "cost_usd": 0.001947,
+          "latency_s": 4.624,
+          "sources": [],
+          "error": null
+        },
+        "score": {
+          "candidate_name": "24 Mantra Organic Arhar Dal",
+          "match_score": 0.731,
+          "matched_product": "24 Mantra Organic Peanuts",
+          "exists_in_catalog": true,
+          "same_aisle": false,
+          "price_stated": 180.0,
+          "price_accurate": true,
+          "had_error": false
+        }
+      },
+      "rag": {
+        "result": {
+          "substitute": "Basic Arhar/ Toor Dal",
+          "reasoning": "Basic Arhar/ Toor Dal is 48.1% cheaper per kg/L than Tata Sampann Organic Arhar Dal Unpolished and is available in stock with a 43% discount.",
+          "model": "llama-3.3-70b-versatile",
+          "input_tokens": 2553,
+          "output_tokens": 63,
+          "cost_usd": 0.001556,
+          "latency_s": 0.985,
+          "sources": [
+            "atta-rice-dal.md"
+          ],
+          "error": null
+        },
+        "score": {
+          "candidate_name": "Basic Arhar/ Toor Dal",
+          "match_score": 1.0,
+          "matched_product": "Basic Arhar/ Toor Dal",
+          "exists_in_catalog": true,
+          "same_aisle": true,
+          "price_stated": null,
+          "price_accurate": null,
+          "had_error": false
+        }
+      }
+    },
+    {
+      "product_name": "The Cinnamon Kitchen Almond Flour & Cacao Protein Cookies",
+      "category": "Gourmet Bakery",
+      "bucket": "Gourmet & World Food",
+      "in_stock": true,
+      "price_inr": 196,
+      "no_rag": {
+        "result": {
+          "substitute": "Yogabar Almond Flour & Cacao Protein Cookies",
+          "reasoning": "Yogabar offers a similar almond flour and cacao based protein cookie with a comparable nutritional profile, typically priced around ₹150-180 for a pack.",
+          "model": "claude-sonnet-5",
+          "input_tokens": 207,
+          "output_tokens": 94,
+          "cost_usd": 0.002031,
+          "latency_s": 2.47,
+          "sources": [],
+          "error": null
+        },
+        "score": {
+          "candidate_name": "Yogabar Almond Flour & Cacao Protein Cookies",
+          "match_score": 0.747,
+          "matched_product": "The Cinnamon Kitchen Almond Flour & Cacao Protein Cookies",
+          "exists_in_catalog": false,
+          "same_aisle": false,
+          "price_stated": null,
+          "price_accurate": null,
+          "had_error": false
+        }
+      },
+      "rag": {
+        "result": {
+          "substitute": "McVitie's Digestive High Fibre Biscuit",
+          "reasoning": "McVitie's Digestive High Fibre Biscuit is a suitable substitute due to its relatively low price of ₹20 and a score of 0.97, making it a cheaper alternative in the same aisle.",
+          "model": "llama-3.3-70b-versatile",
+          "input_tokens": 1420,
+          "output_tokens": 73,
+          "cost_usd": 0.000895,
+          "latency_s": 0.626,
+          "sources": [
+            "bakery-biscuits.md"
+          ],
+          "error": null
+        },
+        "score": {
+          "candidate_name": "McVitie's Digestive High Fibre Biscuit",
+          "match_score": 1.0,
+          "matched_product": "McVitie's Digestive High Fibre Biscuit",
+          "exists_in_catalog": true,
+          "same_aisle": false,
+          "price_stated": 20.0,
+          "price_accurate": true,
+          "had_error": false
+        }
+      }
+    },
+    {
+      "product_name": "Haldiram's Boondi",
+      "category": "Namkeen Snacks",
+      "bucket": "Chips & Namkeen",
+      "in_stock": true,
+      "price_inr": 55,
+      "no_rag": {
+        "result": {
+          "substitute": "Bikaji Boondi",
+          "reasoning": "Bikaji is a widely available Indian brand offering a similar crispy gram-flour boondi snack as a close substitute to Haldiram's, typically priced around Rs. 50-60 for a standard pack.",
+          "model": "claude-sonnet-5",
+          "input_tokens": 187,
+          "output_tokens": 95,
+          "cost_usd": 0.001986,
+          "latency_s": 2.864,
+          "sources": [],
+          "error": null
+        },
+        "score": {
+          "candidate_name": "Bikaji Boondi",
+          "match_score": 0.621,
+          "matched_product": "Haldiram's Boondi",
+          "exists_in_catalog": false,
+          "same_aisle": false,
+          "price_stated": null,
+          "price_accurate": null,
+          "had_error": false
+        }
+      },
+      "rag": {
+        "result": {
+          "substitute": "Haldiram's Classic Salted Peanuts",
+          "reasoning": "Haldiram's Classic Salted Peanuts is 8.3% cheaper per unit compared to Haldiram's Boondi.",
+          "model": "llama-3.3-70b-versatile",
+          "input_tokens": 1258,
+          "output_tokens": 52,
+          "cost_usd": 0.000783,
+          "latency_s": 0.331,
+          "sources": [
+            "chips-namkeen.md"
+          ],
+          "error": null
+        },
+        "score": {
+          "candidate_name": "Haldiram's Classic Salted Peanuts",
+          "match_score": 1.0,
+          "matched_product": "Haldiram's Classic Salted Peanuts",
+          "exists_in_catalog": true,
+          "same_aisle": true,
+          "price_stated": null,
+          "price_accurate": null,
+          "had_error": false
+        }
+      }
+    },
+    {
+      "product_name": "Conscious Food Raw Sugar / Khandsari",
+      "category": "Oil, Ghee & Masala",
+      "bucket": "Oil, Ghee & Masala",
+      "in_stock": true,
+      "price_inr": 81,
+      "no_rag": {
+        "result": {
+          "substitute": "Dhampure Speciality Khandsari Sugar",
+          "reasoning": "It's a similar unrefined raw cane sugar alternative widely available on quick-commerce apps, typically priced around ₹90-110 for 500g.",
+          "model": "claude-sonnet-5",
+          "input_tokens": 196,
+          "output_tokens": 85,
+          "cost_usd": 0.001863,
+          "latency_s": 2.422,
+          "sources": [],
+          "error": null
+        },
+        "score": {
+          "candidate_name": "Dhampure Speciality Khandsari Sugar",
+          "match_score": 0.554,
+          "matched_product": "Amma's Special Dosa Idli Batter",
+          "exists_in_catalog": false,
+          "same_aisle": false,
+          "price_stated": null,
+          "price_accurate": null,
+          "had_error": false
+        }
+      },
+      "rag": {
+        "result": {
+          "substitute": "Whole Farm Grocery Sugar (Packet)",
+          "reasoning": "Whole Farm Grocery Sugar is 64.8% cheaper per kg/L compared to Conscious Food Raw Sugar / Khandsari.",
+          "model": "llama-3.3-70b-versatile",
+          "input_tokens": 1409,
+          "output_tokens": 46,
+          "cost_usd": 0.000868,
+          "latency_s": 0.827,
+          "sources": [
+            "oil-ghee-masala.md"
+          ],
+          "error": null
+        },
+        "score": {
+          "candidate_name": "Whole Farm Grocery Sugar (Packet)",
+          "match_score": 1.0,
+          "matched_product": "Whole Farm Grocery Sugar (Packet)",
+          "exists_in_catalog": true,
+          "same_aisle": true,
+          "price_stated": null,
+          "price_accurate": null,
+          "had_error": false
+        }
+      }
+    },
+    {
+      "product_name": "Amul Cheese Slices",
+      "category": "Cheese & Butter",
+      "bucket": "Cheese & Butter",
+      "in_stock": true,
+      "price_inr": 82,
+      "no_rag": {
+        "result": {
+          "substitute": "Britannia Cheese Slices",
+          "reasoning": "Britannia Cheese Slices offer a similar processed cheese taste and texture for sandwiches and burgers, typically priced around Rs. 120 for a pack of 10 slices.",
+          "model": "claude-sonnet-5",
+          "input_tokens": 187,
+          "output_tokens": 89,
+          "cost_usd": 0.001896,
+          "latency_s": 2.261,
+          "sources": [],
+          "error": null
+        },
+        "score": {
+          "candidate_name": "Britannia Cheese Slices",
+          "match_score": 0.78,
+          "matched_product": "Britannia Laughing Cow Cheese Slices",
+          "exists_in_catalog": true,
+          "same_aisle": true,
+          "price_stated": 120.0,
+          "price_accurate": true,
+          "had_error": false
+        }
+      },
+      "rag": {
+        "result": {
+          "substitute": "Amul Cheese Cubes",
+          "reasoning": "Amul Cheese Cubes is a suitable substitute as it is from the same brand and has a similar price point of ₹129, with a price per kg/L of ₹645.0.",
+          "model": "llama-3.3-70b-versatile",
+          "input_tokens": 1251,
+          "output_tokens": 58,
+          "cost_usd": 0.000784,
+          "latency_s": 0.459,
+          "sources": [
+            "cheese-butter.md"
+          ],
+          "error": null
+        },
+        "score": {
+          "candidate_name": "Amul Cheese Cubes",
+          "match_score": 1.0,
+          "matched_product": "Amul Cheese Cubes",
+          "exists_in_catalog": true,
+          "same_aisle": true,
+          "price_stated": 129.0,
+          "price_accurate": true,
+          "had_error": false
+        }
+      }
+    },
+    {
+      "product_name": "Godrej Aer O - Hanging Car Freshener (Cool Aqua)",
+      "category": "Car Fresheners",
+      "bucket": "Air & Car Fresheners",
+      "in_stock": true,
+      "price_inr": 96,
+      "no_rag": {
+        "result": {
+          "substitute": "Ambi Pur Car Freshener Hanging Clip (Cool Fresh/Aqua)",
+          "reasoning": "It's a similarly priced (~Rs 150) hanging car air freshener with a comparable cool, aquatic fragrance profile.",
+          "model": "claude-sonnet-5",
+          "input_tokens": 205,
+          "output_tokens": 95,
+          "cost_usd": 0.00204,
+          "latency_s": 2.261,
+          "sources": [],
+          "error": null
+        },
+        "score": {
+          "candidate_name": "Ambi Pur Car Freshener Hanging Clip (Cool Fresh/Aqua)",
+          "match_score": 0.549,
+          "matched_product": "CamPure Air & Car Freshener Insta (Original)",
+          "exists_in_catalog": false,
+          "same_aisle": false,
+          "price_stated": null,
+          "price_accurate": null,
+          "had_error": false
+        }
+      },
+      "rag": {
+        "result": {
+          "substitute": "Godrej Aer Car Freshener (Caramel Latte)",
+          "reasoning": "Godrej Aer Car Freshener (Caramel Latte) is a suitable alternative from the same brand and aisle, priced at ₹99.",
+          "model": "llama-3.3-70b-versatile",
+          "input_tokens": 1345,
+          "output_tokens": 54,
+          "cost_usd": 0.000836,
+          "latency_s": 0.559,
+          "sources": [
+            "air-car-fresheners.md"
+          ],
+          "error": null
+        },
+        "score": {
+          "candidate_name": "Godrej Aer Car Freshener (Caramel Latte)",
+          "match_score": 1.0,
+          "matched_product": "Godrej Aer Car Freshener (Caramel Latte)",
+          "exists_in_catalog": true,
+          "same_aisle": true,
+          "price_stated": 99.0,
+          "price_accurate": true,
+          "had_error": false
+        }
+      }
+    },
+    {
+      "product_name": "Kimirica Instant Voucher",
+      "category": "Beauty E-Card",
+      "bucket": "Gift Cards",
+      "in_stock": true,
+      "price_inr": 430,
+      "no_rag": {
+        "result": {
+          "substitute": "The Body Shop Gift Voucher",
+          "reasoning": "Since Kimirica Instant Voucher is unavailable, The Body Shop Gift Voucher offers a similar instant gifting option for bath and body products at a comparable price point.",
+          "model": "claude-sonnet-5",
+          "input_tokens": 189,
+          "output_tokens": 89,
+          "cost_usd": 0.001902,
+          "latency_s": 3.293,
+          "sources": [],
+          "error": null
+        },
+        "score": {
+          "candidate_name": "The Body Shop Gift Voucher",
+          "match_score": 0.873,
+          "matched_product": "The Body Shop Instant Voucher",
+          "exists_in_catalog": true,
+          "same_aisle": true,
+          "price_stated": null,
+          "price_accurate": null,
+          "had_error": false
+        }
+      },
+      "rag": {
+        "result": {
+          "substitute": "Nat Habit Instant Voucher",
+          "reasoning": "Nat Habit Instant Voucher is 9.3% cheaper per unit compared to Kimirica Instant Voucher.",
+          "model": "llama-3.3-70b-versatile",
+          "input_tokens": 1158,
+          "output_tokens": 43,
+          "cost_usd": 0.000717,
+          "latency_s": 0.371,
+          "sources": [
+            "gift-cards.md"
+          ],
+          "error": null
+        },
+        "score": {
+          "candidate_name": "Nat Habit Instant Voucher",
+          "match_score": 1.0,
+          "matched_product": "Nat Habit Instant Voucher",
+          "exists_in_catalog": true,
+          "same_aisle": true,
+          "price_stated": null,
+          "price_accurate": null,
+          "had_error": false
+        }
+      }
+    },
+    {
+      "product_name": "Tata Tea Premium",
+      "category": "tea and coffee",
+      "bucket": "Tea, Coffee & Milk Drinks",
+      "in_stock": true,
+      "price_inr": 455,
+      "no_rag": {
+        "result": {
+          "substitute": "Society Tea Premium",
+          "reasoning": "Society Tea Premium offers a similar strong, robust CTC tea blend and is widely available on Blinkit at a comparable price point of around ₹140 for 500g.",
+          "model": "claude-sonnet-5",
+          "input_tokens": 186,
+          "output_tokens": 81,
+          "cost_usd": 0.001773,
+          "latency_s": 2.179,
+          "sources": [],
+          "error": null
+        },
+        "score": {
+          "candidate_name": "Society Tea Premium",
+          "match_score": 0.743,
+          "matched_product": "Tata Tea Premium",
+          "exists_in_catalog": false,
+          "same_aisle": false,
+          "price_stated": null,
+          "price_accurate": null,
+          "had_error": false
+        }
+      },
+      "rag": {
+        "result": {
+          "substitute": "Tata Tea Premium Tea",
+          "reasoning": "Tata Tea Premium Tea is a similar product from the same brand Tata, priced at ₹125, which is relatively cheaper.",
+          "model": "llama-3.3-70b-versatile",
+          "input_tokens": 1170,
+          "output_tokens": 45,
+          "cost_usd": 0.000726,
+          "latency_s": 0.482,
+          "sources": [
+            "tea-coffee-milk-drinks.md"
+          ],
+          "error": null
+        },
+        "score": {
+          "candidate_name": "Tata Tea Premium Tea",
+          "match_score": 1.0,
+          "matched_product": "Tata Tea Premium Tea",
+          "exists_in_catalog": true,
+          "same_aisle": true,
+          "price_stated": 125.0,
+          "price_accurate": true,
+          "had_error": false
+        }
+      }
+    },
+    {
+      "product_name": "Vaseline Gluta Hya Dewy Radiance Serum Body Lotion",
+      "category": "Body & Skin Care",
+      "bucket": "Body & Skin Care",
+      "in_stock": true,
+      "price_inr": 312,
+      "no_rag": {
+        "result": {
+          "substitute": "Vaseline Healthy Glowing Radiant Skin Body Lotion",
+          "reasoning": "It's from the same Vaseline range with a similar brightening/glow benefit and is more widely stocked, typically priced around ₹199 for 400ml.",
+          "model": "claude-sonnet-5",
+          "input_tokens": 206,
+          "output_tokens": 93,
+          "cost_usd": 0.002013,
+          "latency_s": 2.57,
+          "sources": [],
+          "error": null
+        },
+        "score": {
+          "candidate_name": "Vaseline Healthy Glowing Radiant Skin Body Lotion",
+          "match_score": 0.707,
+          "matched_product": "Vaseline Gluta Hya Dewy Radiance Serum Body Lotion",
+          "exists_in_catalog": false,
+          "same_aisle": false,
+          "price_stated": null,
+          "price_accurate": null,
+          "had_error": false
+        }
+      },
+      "rag": {
+        "result": {
+          "substitute": "Nivea Body Milk Nourishing Body Lotion",
+          "reasoning": "Nivea Body Milk Nourishing Body Lotion is 58.3% cheaper per unit compared to Vaseline Gluta Hya Dewy Radiance Serum Body Lotion and is in stock.",
+          "model": "llama-3.3-70b-versatile",
+          "input_tokens": 1489,
+          "output_tokens": 67,
+          "cost_usd": 0.000931,
+          "latency_s": 0.425,
+          "sources": [
+            "body-skin-care.md"
+          ],
+          "error": null
+        },
+        "score": {
+          "candidate_name": "Nivea Body Milk Nourishing Body Lotion",
+          "match_score": 1.0,
+          "matched_product": "Nivea Body Milk Nourishing Body Lotion",
+          "exists_in_catalog": true,
+          "same_aisle": true,
+          "price_stated": null,
+          "price_accurate": null,
+          "had_error": false
+        }
+      }
+    },
+    {
+      "product_name": "Rabri by Amul",
+      "category": "Indian Sweets",
+      "bucket": "Indian Sweets & Mithai",
+      "in_stock": true,
+      "price_inr": 30,
+      "no_rag": {
+        "result": {
+          "substitute": "Amul Basundi",
+          "reasoning": "It's a similarly rich, sweetened thickened milk dessert from the same brand with a comparable taste and texture to Rabri.",
+          "model": "claude-sonnet-5",
+          "input_tokens": 185,
+          "output_tokens": 67,
+          "cost_usd": 0.00156,
+          "latency_s": 1.887,
+          "sources": [],
+          "error": null
+        },
+        "score": {
+          "candidate_name": "Amul Basundi",
+          "match_score": 0.514,
+          "matched_product": "Amul Blend Diced Cheese",
+          "exists_in_catalog": false,
+          "same_aisle": false,
+          "price_stated": null,
+          "price_accurate": null,
+          "had_error": false
+        }
+      },
+      "rag": {
+        "result": {
+          "substitute": "Kheer by Amul",
+          "reasoning": "Kheer by Amul is an alternative brand with a cheaper sticker price and is available in the same aisle.",
+          "model": "llama-3.3-70b-versatile",
+          "input_tokens": 1393,
+          "output_tokens": 44,
+          "cost_usd": 0.000857,
+          "latency_s": 0.387,
+          "sources": [
+            "cheese-butter.md",
+            "indian-sweets-mithai.md",
+            "oil-ghee-masala.md"
+          ],
+          "error": null
+        },
+        "score": {
+          "candidate_name": "Kheer by Amul",
+          "match_score": 1.0,
+          "matched_product": "Kheer by Amul",
+          "exists_in_catalog": true,
+          "same_aisle": true,
+          "price_stated": null,
+          "price_accurate": null,
+          "had_error": false
+        }
+      }
+    },
+    {
+      "product_name": "CrystalPure Alum",
+      "category": "Men's Grooming",
+      "bucket": "Men's Grooming",
+      "in_stock": true,
+      "price_inr": 109,
+      "no_rag": {
+        "result": {
+          "substitute": "Patanjali Phitkari (Alum Block)",
+          "reasoning": "Patanjali's alum block serves the same purpose as CrystalPure Alum for water purification, skincare, and post-shave use, and is widely available for around ₹30-50.",
+          "model": "claude-sonnet-5",
+          "input_tokens": 186,
+          "output_tokens": 91,
+          "cost_usd": 0.001923,
+          "latency_s": 3.821,
+          "sources": [],
+          "error": null
+        },
+        "score": {
+          "candidate_name": "Patanjali Phitkari (Alum Block)",
+          "match_score": 0.571,
+          "matched_product": "Patanjali Amla Herbal Juice",
+          "exists_in_catalog": false,
+          "same_aisle": false,
+          "price_stated": null,
+          "price_accurate": null,
+          "had_error": false
+        }
+      },
+      "rag": {
+        "result": {
+          "substitute": "Gillette Presto 2-Blade Smoother Shaving Men's Razor",
+          "reasoning": "Gillette Presto 2-Blade Smoother Shaving Men's Razor is 0.9% more expensive per unit than CrystalPure Alum and has a similar score of 0.90.",
+          "model": "llama-3.3-70b-versatile",
+          "input_tokens": 1212,
+          "output_tokens": 75,
+          "cost_usd": 0.000774,
+          "latency_s": 0.525,
+          "sources": [
+            "men-s-grooming.md"
+          ],
+          "error": null
+        },
+        "score": {
+          "candidate_name": "Gillette Presto 2-Blade Smoother Shaving Men's Razor",
+          "match_score": 1.0,
+          "matched_product": "Gillette Presto 2-Blade Smoother Shaving Men's Razor",
+          "exists_in_catalog": true,
+          "same_aisle": true,
+          "price_stated": null,
+          "price_accurate": null,
+          "had_error": false
+        }
+      }
+    },
+    {
+      "product_name": "Patanjali Super Dishwash Bar - Buy 3 Get 1 Free",
+      "category": "detergents and dishwash",
+      "bucket": "Detergents & Dishwash",
+      "in_stock": true,
+      "price_inr": 72,
+      "no_rag": {
+        "result": {
+          "substitute": "Vim Dishwash Bar (Pack of 3, 200g each)",
+          "reasoning": "Vim is a widely available, effective dishwashing bar priced around ₹75 for a pack of 3, making it a reliable substitute for Patanjali's offer.",
+          "model": "claude-sonnet-5",
+          "input_tokens": 206,
+          "output_tokens": 95,
+          "cost_usd": 0.002043,
+          "latency_s": 2.087,
+          "sources": [],
+          "error": null
+        },
+        "score": {
+          "candidate_name": "Vim Dishwash Bar (Pack of 3, 200g each)",
+          "match_score": 0.735,
+          "matched_product": "Vim Lemon Dishwash Bar (Pack of 4)",
+          "exists_in_catalog": true,
+          "same_aisle": true,
+          "price_stated": 75.0,
+          "price_accurate": true,
+          "had_error": false
+        }
+      },
+      "rag": {
+        "result": {
+          "substitute": "Rin Detergent Bar",
+          "reasoning": "Rin Detergent Bar is a suitable alternative with a similar price point at ₹10 and a comparable price per kg/L at ₹76.92.",
+          "model": "llama-3.3-70b-versatile",
+          "input_tokens": 1451,
+          "output_tokens": 52,
+          "cost_usd": 0.000897,
+          "latency_s": 0.513,
+          "sources": [
+            "detergents-dishwash.md"
+          ],
+          "error": null
+        },
+        "score": {
+          "candidate_name": "Rin Detergent Bar",
+          "match_score": 1.0,
+          "matched_product": "Rin Detergent Bar",
+          "exists_in_catalog": true,
+          "same_aisle": true,
+          "price_stated": 10.0,
+          "price_accurate": true,
+          "had_error": false
+        }
+      }
+    },
+    {
+      "product_name": "Green Chilli (Hari Mirch)",
+      "category": "Vegetables & Fruits",
+      "bucket": "Vegetables & Fruits",
+      "in_stock": true,
+      "price_inr": 14,
+      "no_rag": {
+        "result": {
+          "substitute": "Byadgi/Kashmiri Red Chilli (loose, ~100g pack)",
+          "reasoning": "If fresh green chillies are unavailable, dried red chillies can substitute for adding heat and flavor to curries and tadkas, though they'll impart a different color and slightly different taste; a 100g pack typically costs around ₹40-50.",
+          "model": "claude-sonnet-5",
+          "input_tokens": 192,
+          "output_tokens": 124,
+          "cost_usd": 0.002436,
+          "latency_s": 4.087,
+          "sources": [],
+          "error": null
+        },
+        "score": {
+          "candidate_name": "Byadgi/Kashmiri Red Chilli (loose, ~100g pack)",
+          "match_score": 0.5,
+          "matched_product": "MDH Deggi Red Chilli Powder",
+          "exists_in_catalog": false,
+          "same_aisle": false,
+          "price_stated": null,
+          "price_accurate": null,
+          "had_error": false
+        }
+      },
+      "rag": {
+        "result": {
+          "substitute": "",
+          "reasoning": "There is no suitable alternative for Green Chilli (Hari Mirch) in the provided context.",
+          "model": "llama-3.3-70b-versatile",
+          "input_tokens": 1410,
+          "output_tokens": 34,
+          "cost_usd": 0.000859,
+          "latency_s": 1.214,
+          "sources": [
+            "oil-ghee-masala.md"
+          ],
+          "error": "unparseable response: '{\\n  \"substitute\": \"\",\\n   \"reasoning\": \"There is no suitable alternative for Green Chilli (Hari Mirch) in the provided context.\"\\n}'"
+        },
+        "score": {
+          "candidate_name": "",
+          "match_score": 0.0,
+          "matched_product": null,
+          "exists_in_catalog": false,
+          "same_aisle": false,
+          "price_stated": null,
+          "price_accurate": null,
+          "had_error": true
+        }
+      }
+    },
+    {
+      "product_name": "Tuco Kids Natural Reetha Kids Shampoo",
+      "category": "Baby Skin & Hair Care",
+      "bucket": "Baby Skin & Hair Care",
+      "in_stock": true,
+      "price_inr": 379,
+      "no_rag": {
+        "result": {
+          "substitute": "Mamaearth Gentle Cleansing Shampoo for Kids",
+          "reasoning": "It's a widely available natural, tear-free kids shampoo with plant-based ingredients similar to Tuco's reetha formula, typically priced around ₹199 for 200ml.",
+          "model": "claude-sonnet-5",
+          "input_tokens": 199,
+          "output_tokens": 100,
+          "cost_usd": 0.002097,
+          "latency_s": 2.371,
+          "sources": [],
+          "error": null
+        },
+        "score": {
+          "candidate_name": "Mamaearth Gentle Cleansing Shampoo for Kids",
+          "match_score": 0.487,
+          "matched_product": "Yardley Gentlemen Men's Grooming Kit",
+          "exists_in_catalog": false,
+          "same_aisle": false,
+          "price_stated": null,
+          "price_accurate": null,
+          "had_error": false
+        }
+      },
+      "rag": {
+        "result": {
+          "substitute": "Baby Dove Rich Moisture Baby Lotion",
+          "reasoning": "Baby Dove Rich Moisture Baby Lotion is a suitable alternative as it is from a similar aisle and has a significantly lower price per kg/L.",
+          "model": "llama-3.3-70b-versatile",
+          "input_tokens": 1438,
+          "output_tokens": 52,
+          "cost_usd": 0.000889,
+          "latency_s": 0.501,
+          "sources": [
+            "baby-skin-hair-care.md",
+            "hair-care.md"
+          ],
+          "error": null
+        },
+        "score": {
+          "candidate_name": "Baby Dove Rich Moisture Baby Lotion",
+          "match_score": 1.0,
+          "matched_product": "Baby Dove Rich Moisture Baby Lotion",
+          "exists_in_catalog": true,
+          "same_aisle": true,
+          "price_stated": null,
+          "price_accurate": null,
+          "had_error": false
+        }
+      }
+    },
+    {
+      "product_name": "Amawat Calcutta Paan Mouth Freshener",
+      "category": "paan corner",
+      "bucket": "Paan Corner",
+      "in_stock": true,
+      "price_inr": 200,
+      "no_rag": {
+        "result": {
+          "substitute": "Pass Pass Paan Chatoria Mouth Freshener",
+          "reasoning": "It offers a similar sweet paan-flavoured mouth freshener experience and is widely available at a budget-friendly price of around ₹10-20 per pack.",
+          "model": "claude-sonnet-5",
+          "input_tokens": 197,
+          "output_tokens": 91,
+          "cost_usd": 0.001956,
+          "latency_s": 3.627,
+          "sources": [],
+          "error": null
+        },
+        "score": {
+          "candidate_name": "Pass Pass Paan Chatoria Mouth Freshener",
+          "match_score": 0.64,
+          "matched_product": "Amawat Calcutta Paan Mouth Freshener",
+          "exists_in_catalog": false,
+          "same_aisle": false,
+          "price_stated": null,
+          "price_accurate": null,
+          "had_error": false
+        }
+      },
+      "rag": {
+        "result": {
+          "substitute": "GO DESi Meetha Paan Desi Mints",
+          "reasoning": "GO DESi Meetha Paan Desi Mints is 60.0% cheaper per unit and has a similar score, making it a suitable alternative to Amawat Calcutta Paan Mouth Freshener.",
+          "model": "llama-3.3-70b-versatile",
+          "input_tokens": 1280,
+          "output_tokens": 72,
+          "cost_usd": 0.000812,
+          "latency_s": 0.442,
+          "sources": [
+            "air-car-fresheners.md",
+            "paan-corner.md"
+          ],
+          "error": null
+        },
+        "score": {
+          "candidate_name": "GO DESi Meetha Paan Desi Mints",
+          "match_score": 1.0,
+          "matched_product": "GO DESi Meetha Paan Desi Mints",
+          "exists_in_catalog": true,
+          "same_aisle": true,
+          "price_stated": null,
+          "price_accurate": null,
+          "had_error": false
+        }
+      }
+    },
+    {
+      "product_name": "Orbit Spearmint Flavour Sugar Free Chewing Gum",
+      "category": "Candies & Gum",
+      "bucket": "Candies & Gum",
+      "in_stock": true,
+      "price_inr": 50,
+      "no_rag": {
+        "result": {
+          "substitute": "Wrigley's Doublemint Sugar Free Chewing Gum",
+          "reasoning": "It offers a similar cool mint flavour and sugar-free formula as a close substitute for Orbit Spearmint, typically priced around Rs. 10 for a pack.",
+          "model": "claude-sonnet-5",
+          "input_tokens": 203,
+          "output_tokens": 97,
+          "cost_usd": 0.002064,
+          "latency_s": 2.2,
+          "sources": [],
+          "error": null
+        },
+        "score": {
+          "candidate_name": "Wrigley's Doublemint Sugar Free Chewing Gum",
+          "match_score": 0.682,
+          "matched_product": "Orbit Spearmint Flavour Sugar Free Chewing Gum",
+          "exists_in_catalog": false,
+          "same_aisle": false,
+          "price_stated": null,
+          "price_accurate": null,
+          "had_error": false
+        }
+      },
+      "rag": {
+        "result": {
+          "substitute": "Happydent Wave Sugarfree Mint Chewing Gum 18 Pcs",
+          "reasoning": "Happydent Wave Sugarfree Mint Chewing Gum 18 Pcs is 8.0% cheaper per unit than Orbit Spearmint Flavour Sugar Free Chewing Gum.",
+          "model": "llama-3.3-70b-versatile",
+          "input_tokens": 1214,
+          "output_tokens": 63,
+          "cost_usd": 0.000766,
+          "latency_s": 0.797,
+          "sources": [
+            "candies-gum.md"
+          ],
+          "error": null
+        },
+        "score": {
+          "candidate_name": "Happydent Wave Sugarfree Mint Chewing Gum 18 Pcs",
+          "match_score": 1.0,
+          "matched_product": "Happydent Wave Sugarfree Mint Chewing Gum 18 Pcs",
+          "exists_in_catalog": true,
+          "same_aisle": true,
+          "price_stated": null,
+          "price_accurate": null,
+          "had_error": false
+        }
+      }
+    },
+    {
+      "product_name": "Whole Farm Roasted Peanuts",
+      "category": "Dry Fruits Snacks",
+      "bucket": "Dry Fruits, Nuts & Seeds",
+      "in_stock": true,
+      "price_inr": 123,
+      "no_rag": {
+        "result": {
+          "substitute": "Nutraj California Roasted Peanuts",
+          "reasoning": "A widely available roasted peanuts brand on quick-commerce apps offering a similar crunchy, protein-rich snack as a direct substitute for Whole Farm Roasted Peanuts.",
+          "model": "claude-sonnet-5",
+          "input_tokens": 192,
+          "output_tokens": 96,
+          "cost_usd": 0.002016,
+          "latency_s": 4.236,
+          "sources": [],
+          "error": null
+        },
+        "score": {
+          "candidate_name": "Nutraj California Roasted Peanuts",
+          "match_score": 0.586,
+          "matched_product": "24 Mantra Organic Peanuts",
+          "exists_in_catalog": false,
+          "same_aisle": false,
+          "price_stated": null,
+          "price_accurate": null,
+          "had_error": false
+        }
+      },
+      "rag": {
+        "result": {
+          "substitute": "Whole Farm Premium Raw Peanuts",
+          "reasoning": "Whole Farm Premium Raw Peanuts is a suitable alternative with a similar product category and is 46% off.",
+          "model": "llama-3.3-70b-versatile",
+          "input_tokens": 1331,
+          "output_tokens": 43,
+          "cost_usd": 0.000819,
+          "latency_s": 0.612,
+          "sources": [
+            "dry-fruits-nuts-seeds.md"
+          ],
+          "error": null
+        },
+        "score": {
+          "candidate_name": "Whole Farm Premium Raw Peanuts",
+          "match_score": 1.0,
+          "matched_product": "Whole Farm Premium Raw Peanuts",
+          "exists_in_catalog": true,
+          "same_aisle": true,
+          "price_stated": null,
+          "price_accurate": null,
+          "had_error": false
+        }
+      }
+    },
+    {
+      "product_name": "Worldone Pencil Pouch (Transparent)",
+      "category": "Pencil Pouches and Storage Accessories",
+      "bucket": "Pencil Pouches And Storage Accessories",
+      "in_stock": true,
+      "price_inr": 50,
+      "no_rag": {
+        "result": {
+          "substitute": "Camlin Kokuyo Transparent Pencil Pouch",
+          "reasoning": "It's a similar transparent PVC pencil pouch from a widely available Indian stationery brand, typically priced around Rs 60-100.",
+          "model": "claude-sonnet-5",
+          "input_tokens": 195,
+          "output_tokens": 84,
+          "cost_usd": 0.001845,
+          "latency_s": 2.813,
+          "sources": [],
+          "error": null
+        },
+        "score": {
+          "candidate_name": "Camlin Kokuyo Transparent Pencil Pouch",
+          "match_score": 0.451,
+          "matched_product": "Worldone Pencil Pouch (Transparent)",
+          "exists_in_catalog": false,
+          "same_aisle": false,
+          "price_stated": null,
+          "price_accurate": null,
+          "had_error": false
+        }
+      },
+      "rag": {
+        "result": {
+          "substitute": "FunBlast Pencil Pouch (Transparent)",
+          "reasoning": "Since Worldone Pencil Pouch is unavailable, FunBlast Pencil Pouch is a suitable alternative from the same aisle and is in stock.",
+          "model": "llama-3.3-70b-versatile",
+          "input_tokens": 1114,
+          "output_tokens": 54,
+          "cost_usd": 0.0007,
+          "latency_s": 0.915,
+          "sources": [
+            "health-hygiene-devices.md",
+            "pencil-pouches-and-storage-accessories.md",
+            "pharma-wellness-ayurveda.md"
+          ],
+          "error": null
+        },
+        "score": {
+          "candidate_name": "FunBlast Pencil Pouch (Transparent)",
+          "match_score": 1.0,
+          "matched_product": "FunBlast Pencil Pouch (Transparent)",
+          "exists_in_catalog": true,
+          "same_aisle": true,
+          "price_stated": null,
+          "price_accurate": null,
+          "had_error": false
+        }
+      }
+    },
+    {
+      "product_name": "Cadbury Dairy Milk Silk Oreo Milk Chocolate Bar",
+      "category": "Chocolates",
+      "bucket": "Chocolates",
+      "in_stock": true,
+      "price_inr": 100,
+      "no_rag": {
+        "result": {
+          "substitute": "",
+          "reasoning": "",
+          "model": "claude-sonnet-5",
+          "input_tokens": 207,
+          "output_tokens": 140,
+          "cost_usd": 0.002721,
+          "latency_s": 2.631,
+          "sources": [],
+          "error": "unparseable response: '{\"substitute\": \"Cadbury Dairy Milk Silk Oreo Chocolate Bar (Amul Chocozoo Cookie Crunch)\", \"reasoning\": \"If the exact Silk Oreo bar is unavailable, Amul\\'s Chocozoo Cookie Crunch offers a similar cream'"
+        },
+        "score": {
+          "candidate_name": "",
+          "match_score": 0.0,
+          "matched_product": null,
+          "exists_in_catalog": false,
+          "same_aisle": false,
+          "price_stated": null,
+          "price_accurate": null,
+          "had_error": true
+        }
+      },
+      "rag": {
+        "result": {
+          "substitute": "Cadbury Perk Plus Coated Wafer Chocolate Bar",
+          "reasoning": "Cadbury Perk Plus Coated Wafer Chocolate Bar is a cheaper alternative from the same brand Cadbury, priced at ₹20 with a 10% off.",
+          "model": "llama-3.3-70b-versatile",
+          "input_tokens": 1467,
+          "output_tokens": 59,
+          "cost_usd": 0.000912,
+          "latency_s": 0.623,
+          "sources": [
+            "chocolates.md"
+          ],
+          "error": null
+        },
+        "score": {
+          "candidate_name": "Cadbury Perk Plus Coated Wafer Chocolate Bar",
+          "match_score": 1.0,
+          "matched_product": "Cadbury Perk Plus Coated Wafer Chocolate Bar",
+          "exists_in_catalog": true,
+          "same_aisle": true,
+          "price_stated": 20.0,
+          "price_accurate": true,
+          "had_error": false
+        }
+      }
+    },
+    {
+      "product_name": "Havmor Chocolate Ice Cream Cake",
+      "category": "Cakes & Others",
+      "bucket": "Cakes & Pastries",
+      "in_stock": true,
+      "price_inr": 306,
+      "no_rag": {
+        "result": {
+          "substitute": "Baskin Robbins Chocolate Ice Cream Cake",
+          "reasoning": "It's a widely available chocolate ice cream cake alternative with a similar rich chocolate flavor profile, typically priced around ₹600-700 depending on size.",
+          "model": "claude-sonnet-5",
+          "input_tokens": 195,
+          "output_tokens": 92,
+          "cost_usd": 0.001965,
+          "latency_s": 3.18,
+          "sources": [],
+          "error": null
+        },
+        "score": {
+          "candidate_name": "Baskin Robbins Chocolate Ice Cream Cake",
+          "match_score": 0.782,
+          "matched_product": "Baskin Robbins Choco Fudge Doublet Ice Cream Bar",
+          "exists_in_catalog": true,
+          "same_aisle": true,
+          "price_stated": 600.0,
+          "price_accurate": false,
+          "had_error": false
+        }
+      },
+      "rag": {
+        "result": {
+          "substitute": "Get-A-Way Black Forest Ice Cream Cake Slice",
+          "reasoning": "Get-A-Way Black Forest Ice Cream Cake Slice is a suitable alternative with a similar price point and is available in the same aisle.",
+          "model": "llama-3.3-70b-versatile",
+          "input_tokens": 1327,
+          "output_tokens": 52,
+          "cost_usd": 0.000824,
+          "latency_s": 0.582,
+          "sources": [
+            "cakes-pastries.md"
+          ],
+          "error": null
+        },
+        "score": {
+          "candidate_name": "Get-A-Way Black Forest Ice Cream Cake Slice",
+          "match_score": 1.0,
+          "matched_product": "Get-A-Way Black Forest Ice Cream Cake Slice",
+          "exists_in_catalog": true,
+          "same_aisle": true,
+          "price_stated": null,
+          "price_accurate": null,
+          "had_error": false
+        }
+      }
+    },
+    {
+      "product_name": "Scotch Brite Silver Sparks Scrub Pad (Regular)",
+      "category": "Dishwashing Accessories",
+      "bucket": "Dishwashing Accessories",
+      "in_stock": true,
+      "price_inr": 55,
+      "no_rag": {
+        "result": {
+          "substitute": "Scotch-Brite Scrub Pad (Green, Regular)",
+          "reasoning": "It's the same brand's classic scrub pad with equivalent scrubbing power for utensils, typically priced around Rs. 20-25 for a pack.",
+          "model": "claude-sonnet-5",
+          "input_tokens": 203,
+          "output_tokens": 90,
+          "cost_usd": 0.001959,
+          "latency_s": 3.877,
+          "sources": [],
+          "error": null
+        },
+        "score": {
+          "candidate_name": "Scotch-Brite Scrub Pad (Green, Regular)",
+          "match_score": 0.734,
+          "matched_product": "Scotch Brite Silver Sparks Scrub Pad (Regular)",
+          "exists_in_catalog": false,
+          "same_aisle": false,
+          "price_stated": null,
+          "price_accurate": null,
+          "had_error": false
+        }
+      },
+      "rag": {
+        "result": {
+          "substitute": "Scotch Brite Sponge Scrub",
+          "reasoning": "Scotch Brite Sponge Scrub is a suitable alternative as it is from the same brand and aisle, and is only 26.7% pricier per unit than Scotch Brite Silver Sparks Scrub Pad (Regular).",
+          "model": "llama-3.3-70b-versatile",
+          "input_tokens": 1185,
+          "output_tokens": 69,
+          "cost_usd": 0.000754,
+          "latency_s": 0.716,
+          "sources": [
+            "dishwashing-accessories.md"
+          ],
+          "error": null
+        },
+        "score": {
+          "candidate_name": "Scotch Brite Sponge Scrub",
+          "match_score": 1.0,
+          "matched_product": "Scotch Brite Sponge Scrub",
+          "exists_in_catalog": true,
+          "same_aisle": true,
+          "price_stated": null,
+          "price_accurate": null,
+          "had_error": false
+        }
+      }
+    },
+    {
+      "product_name": "Amma's Special Coconut Chutney",
+      "category": "Indian Chutney & Pickle",
+      "bucket": "Sauces & Spreads",
+      "in_stock": true,
+      "price_inr": 55,
+      "no_rag": {
+        "result": {
+          "substitute": "MTR Ready-to-Eat Coconut Chutney",
+          "reasoning": "MTR's coconut chutney is a widely available packaged alternative that tastes similar and pairs well with dosa/idli, typically priced around Rs. 50-60.",
+          "model": "claude-sonnet-5",
+          "input_tokens": 191,
+          "output_tokens": 92,
+          "cost_usd": 0.001953,
+          "latency_s": 2.116,
+          "sources": [],
+          "error": null
+        },
+        "score": {
+          "candidate_name": "MTR Ready-to-Eat Coconut Chutney",
+          "match_score": 0.708,
+          "matched_product": "iD Coconut Chutney",
+          "exists_in_catalog": true,
+          "same_aisle": true,
+          "price_stated": 50.0,
+          "price_accurate": false,
+          "had_error": false
+        }
+      },
+      "rag": {
+        "result": {
+          "substitute": "Khetika Coconut Chutney",
+          "reasoning": "Khetika Coconut Chutney is 7.1% cheaper per kg/L and has a similar aisle, making it a suitable alternative to Amma's Special Coconut Chutney.",
+          "model": "llama-3.3-70b-versatile",
+          "input_tokens": 1366,
+          "output_tokens": 60,
+          "cost_usd": 0.000853,
+          "latency_s": 0.648,
+          "sources": [
+            "sauces-spreads.md"
+          ],
+          "error": null
+        },
+        "score": {
+          "candidate_name": "Khetika Coconut Chutney",
+          "match_score": 1.0,
+          "matched_product": "Khetika Coconut Chutney",
+          "exists_in_catalog": true,
+          "same_aisle": true,
+          "price_stated": null,
+          "price_accurate": null,
+          "had_error": false
+        }
+      }
+    },
+    {
+      "product_name": "SuperBottoms Kid's Briefs",
+      "category": "Baby Care",
+      "bucket": "Baby Care",
+      "in_stock": true,
+      "price_inr": 358,
+      "no_rag": {
+        "result": {
+          "substitute": "Superstar Kids' Cotton Training Pants",
+          "reasoning": "Superstar training pants are a similar cotton brief-style alternative for toddlers, widely available on Indian grocery apps and typically priced around ₹250-350 for a pack.",
+          "model": "claude-sonnet-5",
+          "input_tokens": 192,
+          "output_tokens": 92,
+          "cost_usd": 0.001956,
+          "latency_s": 2.194,
+          "sources": [],
+          "error": null
+        },
+        "score": {
+          "candidate_name": "Superstar Kids' Cotton Training Pants",
+          "match_score": 0.5,
+          "matched_product": "SuperBottoms Kid's Briefs",
+          "exists_in_catalog": false,
+          "same_aisle": false,
+          "price_stated": null,
+          "price_accurate": null,
+          "had_error": false
+        }
+      },
+      "rag": {
+        "result": {
+          "substitute": "Nolan West Girls Kids Socks (Pink, Black, 3 - 5 years)",
+          "reasoning": "Nolan West Girls Kids Socks is 38.3% cheaper per unit compared to SuperBottoms Kid's Briefs and is in stock.",
+          "model": "llama-3.3-70b-versatile",
+          "input_tokens": 1538,
+          "output_tokens": 63,
+          "cost_usd": 0.000957,
+          "latency_s": 0.544,
+          "sources": [
+            "baby-care.md",
+            "feminine-hygiene.md"
+          ],
+          "error": null
+        },
+        "score": {
+          "candidate_name": "Nolan West Girls Kids Socks (Pink, Black, 3 - 5 years)",
+          "match_score": 1.0,
+          "matched_product": "Nolan West Girls Kids Socks (Pink, Black, 3 - 5 years)",
+          "exists_in_catalog": true,
+          "same_aisle": true,
+          "price_stated": null,
+          "price_accurate": null,
+          "had_error": false
+        }
+      }
+    },
+    {
+      "product_name": "Harvest Gold Strawberry Cream Bun",
+      "category": "Bread & Pav",
+      "bucket": "Bread & Pav",
+      "in_stock": true,
+      "price_inr": 10,
+      "no_rag": {
+        "result": {
+          "substitute": "Britannia Cream Bun Strawberry",
+          "reasoning": "It's a very similar sweet fruit-cream-filled bun from another major bakery brand, widely available at grocery stores for around Rs. 30-40.",
+          "model": "claude-sonnet-5",
+          "input_tokens": 195,
+          "output_tokens": 82,
+          "cost_usd": 0.001815,
+          "latency_s": 2.18,
+          "sources": [],
+          "error": null
+        },
+        "score": {
+          "candidate_name": "Britannia Cream Bun Strawberry",
+          "match_score": 0.577,
+          "matched_product": "Bonn Vanilla Cream Bun",
+          "exists_in_catalog": false,
+          "same_aisle": false,
+          "price_stated": null,
+          "price_accurate": null,
+          "had_error": false
+        }
+      },
+      "rag": {
+        "result": {
+          "substitute": "Harvest Gold Choco Cream Bun",
+          "reasoning": "Harvest Gold Choco Cream Bun is a suitable substitute as it has the same unit price and is from the same alternative brand.",
+          "model": "llama-3.3-70b-versatile",
+          "input_tokens": 1608,
+          "output_tokens": 48,
+          "cost_usd": 0.000987,
+          "latency_s": 0.452,
+          "sources": [
+            "bread-pav.md"
+          ],
+          "error": null
+        },
+        "score": {
+          "candidate_name": "Harvest Gold Choco Cream Bun",
+          "match_score": 1.0,
+          "matched_product": "Harvest Gold Choco Cream Bun",
+          "exists_in_catalog": true,
+          "same_aisle": true,
+          "price_stated": null,
+          "price_accurate": null,
+          "had_error": false
+        }
+      }
+    },
+    {
+      "product_name": "Aptamil Gold Stage 3 Infant Formula (12 months+)",
+      "category": "Baby Food",
+      "bucket": "Baby Food & Diapers",
+      "in_stock": true,
+      "price_inr": 1010,
+      "no_rag": {
+        "result": {
+          "substitute": "Nestle Lactogrow Stage 3 Growing Up Formula (12-24 months)",
+          "reasoning": "Nestle Lactogrow is a widely available toddler growth formula in India comparable to Aptamil Gold Stage 3, typically priced around Rs. 550-600 for a 400g pack.",
+          "model": "claude-sonnet-5",
+          "input_tokens": 203,
+          "output_tokens": 113,
+          "cost_usd": 0.002304,
+          "latency_s": 2.42,
+          "sources": [],
+          "error": null
+        },
+        "score": {
+          "candidate_name": "Nestle Lactogrow Stage 3 Growing Up Formula (12-24 months)",
+          "match_score": 0.66,
+          "matched_product": "Aptamil Gold Stage 3 Infant Formula (12 months+)",
+          "exists_in_catalog": false,
+          "same_aisle": false,
+          "price_stated": null,
+          "price_accurate": null,
+          "had_error": false
+        }
+      },
+      "rag": {
+        "result": {
+          "substitute": "Similac Isomil Infant Formula (Upto 24 M)",
+          "reasoning": "Similac Isomil Infant Formula is 36.1% cheaper per unit compared to Aptamil Gold Stage 3 Infant Formula.",
+          "model": "llama-3.3-70b-versatile",
+          "input_tokens": 1294,
+          "output_tokens": 57,
+          "cost_usd": 0.000808,
+          "latency_s": 0.544,
+          "sources": [
+            "baby-food-diapers.md"
+          ],
+          "error": null
+        },
+        "score": {
+          "candidate_name": "Similac Isomil Infant Formula (Upto 24 M)",
+          "match_score": 1.0,
+          "matched_product": "Similac Isomil Infant Formula (Upto 24 M)",
+          "exists_in_catalog": true,
+          "same_aisle": true,
+          "price_stated": null,
+          "price_accurate": null,
+          "had_error": false
+        }
+      }
+    },
+    {
+      "product_name": "Pepe Jeans Stay Vibrant Body Spray (Rich Cedarwood)",
+      "category": "perfumes and deodorants",
+      "bucket": "Perfumes & Deodorants",
+      "in_stock": true,
+      "price_inr": 269,
+      "no_rag": {
+        "result": {
+          "substitute": "Wild Stone Code Platinum Body Spray",
+          "reasoning": "It offers a similar long-lasting woody fragrance profile for men and is widely available on Blinkit at around ₹190 for 150ml.",
+          "model": "claude-sonnet-5",
+          "input_tokens": 209,
+          "output_tokens": 80,
+          "cost_usd": 0.001827,
+          "latency_s": 2.164,
+          "sources": [],
+          "error": null
+        },
+        "score": {
+          "candidate_name": "Wild Stone Code Platinum Body Spray",
+          "match_score": 0.514,
+          "matched_product": "Derm Ease Park Body Deodorant Spray",
+          "exists_in_catalog": false,
+          "same_aisle": false,
+          "price_stated": null,
+          "price_accurate": null,
+          "had_error": false
+        }
+      },
+      "rag": {
+        "result": {
+          "substitute": "Nivea Body Milk Nourishing Body Lotion",
+          "reasoning": "Nivea Body Milk Nourishing Body Lotion is a cheaper alternative at ₹130, which is 58.3% cheaper per unit compared to other options in the same aisle.",
+          "model": "llama-3.3-70b-versatile",
+          "input_tokens": 1376,
+          "output_tokens": 64,
+          "cost_usd": 0.000862,
+          "latency_s": 0.436,
+          "sources": [
+            "body-skin-care.md",
+            "hair-care.md"
+          ],
+          "error": null
+        },
+        "score": {
+          "candidate_name": "Nivea Body Milk Nourishing Body Lotion",
+          "match_score": 1.0,
+          "matched_product": "Nivea Body Milk Nourishing Body Lotion",
+          "exists_in_catalog": true,
+          "same_aisle": false,
+          "price_stated": 130.0,
+          "price_accurate": true,
+          "had_error": false
+        }
+      }
+    },
+    {
+      "product_name": "Absolutpet Probiotic Chew Dog Supplement",
+      "category": "Pet Care",
+      "bucket": "Pet Care",
+      "in_stock": true,
+      "price_inr": 699,
+      "no_rag": {
+        "result": {
+          "substitute": "Drools Focus Adult Dog Supplement Chews",
+          "reasoning": "Drools is a widely available Indian pet brand offering probiotic/digestive support chews similar to Absolutpet, typically priced around ₹350-450 for a pack.",
+          "model": "claude-sonnet-5",
+          "input_tokens": 198,
+          "output_tokens": 92,
+          "cost_usd": 0.001974,
+          "latency_s": 2.621,
+          "sources": [],
+          "error": null
+        },
+        "score": {
+          "candidate_name": "Drools Focus Adult Dog Supplement Chews",
+          "match_score": 0.644,
+          "matched_product": "Drools Absolute Calcium Bone Dog Supplement - 40 Pcs",
+          "exists_in_catalog": true,
+          "same_aisle": true,
+          "price_stated": 350.0,
+          "price_accurate": false,
+          "had_error": false
+        }
+      },
+      "rag": {
+        "result": {
+          "substitute": "Medfly Healthcare Defender Pro Deworming Dog Supplement",
+          "reasoning": "Medfly Healthcare Defender Pro Deworming Dog Supplement is a suitable alternative as it is from a similar pet care category and is in stock.",
+          "model": "llama-3.3-70b-versatile",
+          "input_tokens": 1896,
+          "output_tokens": 53,
+          "cost_usd": 0.001161,
+          "latency_s": 0.619,
+          "sources": [
+            "baby-food-diapers.md",
+            "pet-care.md",
+            "tea-coffee-milk-drinks.md"
+          ],
+          "error": null
+        },
+        "score": {
+          "candidate_name": "Medfly Healthcare Defender Pro Deworming Dog Supplement",
+          "match_score": 1.0,
+          "matched_product": "Medfly Healthcare Defender Pro Deworming Dog Supplement",
+          "exists_in_catalog": true,
+          "same_aisle": true,
+          "price_stated": null,
+          "price_accurate": null,
+          "had_error": false
+        }
+      }
+    },
+    {
+      "product_name": "Rosier Malai Paneer",
+      "category": "paneer and curd",
+      "bucket": "Paneer & Curd",
+      "in_stock": true,
+      "price_inr": 115,
+      "no_rag": {
+        "result": {
+          "substitute": "Amul Malai Paneer",
+          "reasoning": "Amul Malai Paneer is a widely available, similarly soft and creamy paneer variant that can easily replace Rosier's version, typically priced around Rs. 90-100 for 200g.",
+          "model": "claude-sonnet-5",
+          "input_tokens": 188,
+          "output_tokens": 90,
+          "cost_usd": 0.001914,
+          "latency_s": 4.478,
+          "sources": [],
+          "error": null
+        },
+        "score": {
+          "candidate_name": "Amul Malai Paneer",
+          "match_score": 0.722,
+          "matched_product": "Rosier Malai Paneer",
+          "exists_in_catalog": false,
+          "same_aisle": false,
+          "price_stated": null,
+          "price_accurate": null,
+          "had_error": false
+        }
+      },
+      "rag": {
+        "result": {
+          "substitute": "Milky Mist Low Fat High Protein Paneer",
+          "reasoning": "Milky Mist Low Fat High Protein Paneer is 30.4% cheaper per kg/L compared to Rosier Malai Paneer and has a high score of 1.00.",
+          "model": "llama-3.3-70b-versatile",
+          "input_tokens": 1332,
+          "output_tokens": 62,
+          "cost_usd": 0.000835,
+          "latency_s": 0.838,
+          "sources": [
+            "paneer-curd.md"
+          ],
+          "error": null
+        },
+        "score": {
+          "candidate_name": "Milky Mist Low Fat High Protein Paneer",
+          "match_score": 1.0,
+          "matched_product": "Milky Mist Low Fat High Protein Paneer",
+          "exists_in_catalog": true,
+          "same_aisle": true,
+          "price_stated": null,
+          "price_accurate": null,
+          "had_error": false
+        }
+      }
+    },
+    {
+      "product_name": "Samyang Ramen Instant Noodles - Carbo Hot Chicken Flavour",
+      "category": "cooking sauces and ketchup",
+      "bucket": "Cooking Sauces & Ketchup",
+      "in_stock": true,
+      "price_inr": 150,
+      "no_rag": {
+        "result": {
+          "substitute": "Nongshim Shin Ramyun Black Noodle Soup",
+          "reasoning": "It's a similarly spicy, savory Korean-style instant noodle option that can satisfy the craving for a bold, hot chicken-style ramen, typically priced around ₹150-200 per pack.",
+          "model": "claude-sonnet-5",
+          "input_tokens": 208,
+          "output_tokens": 104,
+          "cost_usd": 0.002184,
+          "latency_s": 3.073,
+          "sources": [],
+          "error": null
+        },
+        "score": {
+          "candidate_name": "Nongshim Shin Ramyun Black Noodle Soup",
+          "match_score": 0.765,
+          "matched_product": "Nongshim Kimchi Ramyun Noodles",
+          "exists_in_catalog": true,
+          "same_aisle": false,
+          "price_stated": 150.0,
+          "price_accurate": false,
+          "had_error": false
+        }
+      },
+      "rag": {
+        "result": {
+          "substitute": "Maggi 2 Minutes Instant Noodles Made With Quality Spices",
+          "reasoning": "Maggi 2 Minutes Instant Noodles Made With Quality Spices is a cheaper alternative with a price of ₹79 and ₹188.1 per kg/L, and is available with a 12% off discount.",
+          "model": "llama-3.3-70b-versatile",
+          "input_tokens": 1411,
+          "output_tokens": 71,
+          "cost_usd": 0.000889,
+          "latency_s": 1.764,
+          "sources": [
+            "cooking-sauces-ketchup.md"
+          ],
+          "error": null
+        },
+        "score": {
+          "candidate_name": "Maggi 2 Minutes Instant Noodles Made With Quality Spices",
+          "match_score": 1.0,
+          "matched_product": "Maggi 2 Minutes Instant Noodles Made With Quality Spices",
+          "exists_in_catalog": true,
+          "same_aisle": false,
+          "price_stated": 79.0,
+          "price_accurate": true,
+          "had_error": false
+        }
+      }
+    },
+    {
+      "product_name": "L'Oréal Professionnel Absolut Repair Damage Shampoo",
+      "category": "Hair Care",
+      "bucket": "Hair Care",
+      "in_stock": true,
+      "price_inr": 795,
+      "no_rag": {
+        "result": {
+          "substitute": "L'Oréal Paris Total Repair 5 Shampoo",
+          "reasoning": "It's from the same brand family and targets damaged hair repair with a similar formulation approach, typically priced around ₹350-400 for a 340ml bottle, making it a more accessible alternative to the professional range.",
+          "model": "claude-sonnet-5",
+          "input_tokens": 203,
+          "output_tokens": 106,
+          "cost_usd": 0.002199,
+          "latency_s": 2.26,
+          "sources": [],
+          "error": null
+        },
+        "score": {
+          "candidate_name": "L'Oréal Paris Total Repair 5 Shampoo",
+          "match_score": 0.659,
+          "matched_product": "L'Oreal Paris Hyaluron Pure 72H Purifying Shampoo",
+          "exists_in_catalog": true,
+          "same_aisle": true,
+          "price_stated": 350.0,
+          "price_accurate": false,
+          "had_error": false
+        }
+      },
+      "rag": {
+        "result": {
+          "substitute": "Dove Intense Repair Shampoo",
+          "reasoning": "Dove Intense Repair Shampoo is an alternative brand with a similar price point and a 5% discount.",
+          "model": "llama-3.3-70b-versatile",
+          "input_tokens": 1495,
+          "output_tokens": 45,
+          "cost_usd": 0.000918,
+          "latency_s": 0.508,
+          "sources": [
+            "hair-care.md"
+          ],
+          "error": null
+        },
+        "score": {
+          "candidate_name": "Dove Intense Repair Shampoo",
+          "match_score": 1.0,
+          "matched_product": "Dove Intense Repair Shampoo",
+          "exists_in_catalog": true,
+          "same_aisle": true,
+          "price_stated": null,
+          "price_accurate": null,
+          "had_error": false
+        }
+      }
+    },
+    {
+      "product_name": "Nuovi Alphabets & Number Stencil Ruler Set (Multicolor)",
+      "category": "Rulers and Scales",
+      "bucket": "Rulers And Scales",
+      "in_stock": true,
+      "price_inr": 149,
+      "no_rag": {
+        "result": {
+          "substitute": "Camlin Alphabet & Number Stencil Ruler Set",
+          "reasoning": "It's a similar multicolor stencil ruler set for drawing letters and numbers, widely available as a stationery basic priced around Rs.20-30.",
+          "model": "claude-sonnet-5",
+          "input_tokens": 207,
+          "output_tokens": 88,
+          "cost_usd": 0.001941,
+          "latency_s": 4.575,
+          "sources": [],
+          "error": null
+        },
+        "score": {
+          "candidate_name": "Camlin Alphabet & Number Stencil Ruler Set",
+          "match_score": 0.774,
+          "matched_product": "Nuovi Alphabets & Number Stencil Ruler Set (Multicolor)",
+          "exists_in_catalog": false,
+          "same_aisle": false,
+          "price_stated": null,
+          "price_accurate": null,
+          "had_error": false
+        }
+      },
+      "rag": {
+        "result": {
+          "substitute": "Nuovi Metal 30cm Scale (Silver)",
+          "reasoning": "Nuovi Metal 30cm Scale is 49.7% cheaper per unit and is from the same brand and aisle.",
+          "model": "llama-3.3-70b-versatile",
+          "input_tokens": 1033,
+          "output_tokens": 49,
+          "cost_usd": 0.000648,
+          "latency_s": 0.642,
+          "sources": [
+            "health-hygiene-devices.md",
+            "perfumes-deodorants.md",
+            "rulers-and-scales.md"
+          ],
+          "error": null
+        },
+        "score": {
+          "candidate_name": "Nuovi Metal 30cm Scale (Silver)",
+          "match_score": 1.0,
+          "matched_product": "Nuovi Metal 30cm Scale (Silver)",
+          "exists_in_catalog": true,
+          "same_aisle": true,
+          "price_stated": null,
+          "price_accurate": null,
+          "had_error": false
+        }
+      }
+    },
+    {
+      "product_name": "Oreo Golden Vanilla Sandwich Cream Biscuits",
+      "category": "Cream Biscuits",
+      "bucket": "Bakery & Biscuits",
+      "in_stock": true,
+      "price_inr": 29,
+      "no_rag": {
+        "result": {
+          "substitute": "Britannia Milk Bikis Golden Bakery",
+          "reasoning": "It's a widely available vanilla-flavoured biscuit similar in taste to Oreo Golden, typically priced around Rs. 30 for a pack.",
+          "model": "claude-sonnet-5",
+          "input_tokens": 202,
+          "output_tokens": 86,
+          "cost_usd": 0.001896,
+          "latency_s": 2.112,
+          "sources": [],
+          "error": null
+        },
+        "score": {
+          "candidate_name": "Britannia Milk Bikis Golden Bakery",
+          "match_score": 0.73,
+          "matched_product": "Britannia Milk Bikis - Biscuit",
+          "exists_in_catalog": true,
+          "same_aisle": true,
+          "price_stated": 30.0,
+          "price_accurate": true,
+          "had_error": false
+        }
+      },
+      "rag": {
+        "result": {
+          "substitute": "Sunfeast Dark Fantasy Bourbon Biscuits",
+          "reasoning": "Sunfeast Dark Fantasy Bourbon Biscuits is 50.0% cheaper per unit compared to Parle-G Glucose Biscuit and is a viable alternative brand.",
+          "model": "llama-3.3-70b-versatile",
+          "input_tokens": 2251,
+          "output_tokens": 59,
+          "cost_usd": 0.001375,
+          "latency_s": 1.612,
+          "sources": [
+            "bakery-biscuits.md"
+          ],
+          "error": null
+        },
+        "score": {
+          "candidate_name": "Sunfeast Dark Fantasy Bourbon Biscuits",
+          "match_score": 1.0,
+          "matched_product": "Sunfeast Dark Fantasy Bourbon Biscuits",
+          "exists_in_catalog": true,
+          "same_aisle": true,
+          "price_stated": null,
+          "price_accurate": null,
+          "had_error": false
+        }
+      }
+    },
+    {
+      "product_name": "Urban Platter Shirataki Noodles",
+      "category": "Imported Noodles & Pasta",
+      "bucket": "Noodles & Pasta",
+      "in_stock": true,
+      "price_inr": 180,
+      "no_rag": {
+        "result": {
+          "substitute": "Sattvic Foods Konjac Shirataki Noodles",
+          "reasoning": "It's a similar low-carb, gluten-free konjac-based noodle alternative widely available on Indian grocery platforms, typically priced around ₹350-400.",
+          "model": "claude-sonnet-5",
+          "input_tokens": 192,
+          "output_tokens": 91,
+          "cost_usd": 0.001941,
+          "latency_s": 2.164,
+          "sources": [],
+          "error": null
+        },
+        "score": {
+          "candidate_name": "Sattvic Foods Konjac Shirataki Noodles",
+          "match_score": 0.609,
+          "matched_product": "Urban Platter Shirataki Noodles",
+          "exists_in_catalog": false,
+          "same_aisle": false,
+          "price_stated": null,
+          "price_accurate": null,
+          "had_error": false
+        }
+      },
+      "rag": {
+        "result": {
+          "substitute": "Maggi 2 Minutes Instant Noodles Made With Quality Spices",
+          "reasoning": "Maggi 2 Minutes Instant Noodles Made With Quality Spices is a suitable alternative with a similar product description and a competitive price of ₹79.",
+          "model": "llama-3.3-70b-versatile",
+          "input_tokens": 1412,
+          "output_tokens": 58,
+          "cost_usd": 0.000879,
+          "latency_s": 2.066,
+          "sources": [
+            "cooking-sauces-ketchup.md"
+          ],
+          "error": null
+        },
+        "score": {
+          "candidate_name": "Maggi 2 Minutes Instant Noodles Made With Quality Spices",
+          "match_score": 1.0,
+          "matched_product": "Maggi 2 Minutes Instant Noodles Made With Quality Spices",
+          "exists_in_catalog": true,
+          "same_aisle": false,
+          "price_stated": 79.0,
+          "price_accurate": true,
+          "had_error": false
+        }
+      }
+    },
+    {
+      "product_name": "MARS Cosmetics Edge of Desire Lip Liner (01-Lusty Pink)",
+      "category": "Lip Cosmetics",
+      "bucket": "Cosmetics & Lip Care",
+      "in_stock": true,
+      "price_inr": 69,
+      "no_rag": {
+        "result": {
+          "substitute": "Swiss Beauty Matte Lip Liner (Pink shade)",
+          "reasoning": "It offers a similar creamy matte pink lip liner formula at a budget-friendly price of around ₹150, making it a close and easily available substitute on Blinkit.",
+          "model": "claude-sonnet-5",
+          "input_tokens": 210,
+          "output_tokens": 95,
+          "cost_usd": 0.002055,
+          "latency_s": 3.476,
+          "sources": [],
+          "error": null
+        },
+        "score": {
+          "candidate_name": "Swiss Beauty Matte Lip Liner (Pink shade)",
+          "match_score": 0.744,
+          "matched_product": "Swiss Beauty Bold Matt Lip Liner (Maroon)",
+          "exists_in_catalog": true,
+          "same_aisle": true,
+          "price_stated": 150.0,
+          "price_accurate": false,
+          "had_error": false
+        }
+      },
+      "rag": {
+        "result": {
+          "substitute": "Noor Skincare Rose Lip Scrub Exfoliator",
+          "reasoning": "Noor Skincare Rose Lip Scrub Exfoliator is 64.2% cheaper per kg/L compared to MARS Cosmetics Edge of Desire Lip Liner.",
+          "model": "llama-3.3-70b-versatile",
+          "input_tokens": 1525,
+          "output_tokens": 60,
+          "cost_usd": 0.000947,
+          "latency_s": 0.837,
+          "sources": [
+            "cosmetics-lip-care.md"
+          ],
+          "error": null
+        },
+        "score": {
+          "candidate_name": "Noor Skincare Rose Lip Scrub Exfoliator",
+          "match_score": 1.0,
+          "matched_product": "Noor Skincare Rose Lip Scrub Exfoliator",
+          "exists_in_catalog": true,
+          "same_aisle": true,
+          "price_stated": null,
+          "price_accurate": null,
+          "had_error": false
+        }
+      }
+    },
+    {
+      "product_name": "Borosil Prime Glass Bottle with Steel Lid",
+      "category": "Bottles & Flasks",
+      "bucket": "Bottles & Flasks",
+      "in_stock": true,
+      "price_inr": 379.0,
+      "no_rag": {
+        "result": {
+          "substitute": "Cello Puro Glass Bottle with Steel Lid",
+          "reasoning": "Cello Puro is a widely available borosilicate-style glass bottle with a similar steel lid design, offering comparable durability and heat resistance at around ₹300-400.",
+          "model": "claude-sonnet-5",
+          "input_tokens": 198,
+          "output_tokens": 93,
+          "cost_usd": 0.001989,
+          "latency_s": 2.298,
+          "sources": [],
+          "error": null
+        },
+        "score": {
+          "candidate_name": "Cello Puro Glass Bottle with Steel Lid",
+          "match_score": 0.81,
+          "matched_product": "Borosil Prime Glass Bottle with Steel Lid",
+          "exists_in_catalog": false,
+          "same_aisle": false,
+          "price_stated": null,
+          "price_accurate": null,
+          "had_error": false
+        }
+      },
+      "rag": {
+        "result": {
+          "substitute": "Cello Venice Plastic Bottle Set of 3",
+          "reasoning": "Cello Venice Plastic Bottle Set of 3 is a suitable alternative with a similar price point of ₹269.0 and a 44.0% discount.",
+          "model": "llama-3.3-70b-versatile",
+          "input_tokens": 1208,
+          "output_tokens": 56,
+          "cost_usd": 0.000757,
+          "latency_s": 0.806,
+          "sources": [
+            "bottles-flasks.md"
+          ],
+          "error": null
+        },
+        "score": {
+          "candidate_name": "Cello Venice Plastic Bottle Set of 3",
+          "match_score": 1.0,
+          "matched_product": "Cello Venice Plastic Bottle Set of 3",
+          "exists_in_catalog": true,
+          "same_aisle": true,
+          "price_stated": 269.0,
+          "price_accurate": true,
+          "had_error": false
+        }
+      }
+    }
+  ]
+}

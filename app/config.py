@@ -1,14 +1,13 @@
-"""Central configuration for India Commerce SignalForge.
+"""Central configuration for the Price Intelligence pipeline.
 
-Loads credentials from the repo-root .env, defines the Groq model registry, the
-Indian festival calendar, the commerce label taxonomy, and resolves project paths.
+Loads credentials from the repo-root .env, defines the Groq model registry, and
+resolves project paths shared by the Amazon and Blinkit pricer parts.
 
 Provider policy:
-  * Runtime LLM inference  -> Groq only.
-  * Open models / datasets / Hub -> Hugging Face only.
-  * Web evidence           -> Tavily.
-  * Experiment tracking    -> Weights & Biases (optional; offline JSONL fallback).
-  * Live translation       -> Gemini (optional; Groq fallback). See app/i18n.py.
+  * Runtime LLM inference      -> Groq (rewrite, parse, price, RAG).
+  * Second frontier arm        -> Anthropic / Claude.
+  * Embeddings / open models / dataset Hub -> Hugging Face.
+  * Web scraping               -> Tavily.
 """
 from __future__ import annotations
 
@@ -24,8 +23,16 @@ FIXTURES_DIR = CAPSTONE_DIR / "fixtures"
 CHROMA_DIR = DATA_DIR / "chroma"
 MEMORY_DB = DATA_DIR / "memory.sqlite"
 ADAPTER_DIR = DATA_DIR / "lora_adapter"            # signal classifier (week 7)
-PRICE_ADAPTER_DIR = DATA_DIR / "price_lora_adapter"  # price regression LoRA (notebook)
 RUNS_DIR = DATA_DIR / "runs"          # offline experiment-tracking logs
+
+
+def price_adapter_dir(source: str) -> Path:
+    """Per-source QLoRA price-specialist adapter dir, e.g. data/amazon/price_lora_adapter/.
+
+    Amazon and Blinkit get independent adapters (different currency, catalog,
+    price distribution) — never a single shared path.
+    """
+    return DATA_DIR / source / "price_lora_adapter"
 
 for _d in (DATA_DIR, KB_DIR, FIXTURES_DIR, RUNS_DIR):
     _d.mkdir(parents=True, exist_ok=True)
@@ -58,6 +65,11 @@ WANDB_API_KEY = os.environ.get("WANDB_API_KEY", "")
 # Anthropic frontier model for the Claude pricing arm (zero-shot, no RAG).
 ANTHROPIC_PRICE_MODEL = "claude-haiku-4-5"
 
+# Anthropic frontier model for the Blinkit substitution no-RAG arm (zero-shot,
+# no retrieval, no catalog access) — the baseline the Groq+RAG arm is compared
+# against in the substitution_rag_ablation eval.
+ANTHROPIC_SUBSTITUTE_MODEL = "claude-sonnet-5"
+
 # --- Groq model registry — tiers used by the multi-model router (weeks 2 & 4). ---
 # Names verified against the live Groq API at build time.
 GROQ_MODELS = {
@@ -76,7 +88,7 @@ HF_EMBED_MODEL = "sentence-transformers/all-MiniLM-L6-v2"
 HF_SENTIMENT_MODEL = "distilbert-base-uncased-finetuned-sst-2-english"
 HF_ZEROSHOT_MODEL = "typeform/distilbert-base-uncased-mnli"
 HF_NER_MODEL = "dslim/bert-base-NER"
-HF_FINETUNE_BASE = "prajjwal1/bert-tiny"
+HF_FINETUNE_BASE = "google/bert_uncased_L-2_H-128_A-2"
 
 # --- India commerce taxonomy ----------------------------------------------------
 # Intents the router dispatches across the two decision surfaces.

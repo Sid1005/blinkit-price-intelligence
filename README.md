@@ -1,159 +1,236 @@
-# Blinkit Price Intelligence
+# Price Intelligence
 
-**Live pages:** [project explainer](https://sid1005.github.io/blinkit-price-intelligence/) · [metrics dashboard](https://sid1005.github.io/blinkit-price-intelligence/dashboard.html) · demo script: [`DEMO.md`](DEMO.md)
+A price-prediction lab that runs the **same pipeline over two very different datasets** and
+lets the models fight it out on a shared scoreboard.
 
-Festival-aware Indian quick-commerce price prediction, with two decision surfaces over a
-single agent spine:
+I curate a dataset, engineer features, and then throw the whole zoo at the price:
+**linear regression, bag-of-words + linear regression, random forest, XGBoost**, and
+**zero-shot frontier LLMs** (Groq + Claude). Every arm is scored by the *same* evaluator —
+MAE, RMSE, R², hit-rate — so the leaderboard is honest and directly comparable.<br>
+On top of that there's a **RAG** substitution engine for Blinkit that I A/B against a
+no-retrieval baseline, and the fine-tuned **QLoRA** specialist + **ensemble** arms are next
+in line (see [Roadmap](#roadmap)).
 
-- **Price Predictor** — festival-aware INR price prediction shown as a **5-arm model
-  comparison**: RandomForest, LoRA regression, Claude frontier (zero-shot), Groq + RAG,
-  and a Groq ensemble arbitrator that reasons over the other four.
-- **Substitute Finder** — ranked alternatives when a SKU is unavailable, overpriced, poor
-  value, or poorly reviewed, grounded in the substitution guide.
+Two datasets, one pipeline:
 
-Review understanding is shared **Hinglish NLP enrichment**, not a separate app.
+- **Amazon** — a faithful reproduction of Ed Donner's *"The Price Is Right"* course pricer on
+  `McAuley-Lab/Amazon-Reviews-2023` (USD). 20,000-row lite train split, 1,000 test.
+- **Blinkit** — the exact same code on **real scraped Indian quick-commerce data** (INR, no
+  synthetic rows). 921 SKUs pulled live via Tavily, plus a RAG substitution engine on top.
 
-> **Scope & safety.** Catalog prices combine real scraped Blinkit products (BL-* SKUs)
-> with curated synthetic SKUs (SF-*), clearly labelled — this project does **not** claim
-> live quotes. Festival context is auto-detected from the current month, never parsed from
-> the user's query.
+Running one pipeline over both sources gives an honest Amazon-vs-Blinkit comparison and shows
+where a big pile of data (Amazon) vs a small real one (Blinkit) changes which model wins.
 
-## The 5 arms
+## What's in here
 
-| Arm | What it is | Claim |
-|---|---|---|
-| RandomForest | Stacked classical ML over structured features | Domain baseline trained on Blinkit data |
-| LoRA regression | `distilbert-base-uncased` fine-tuned `{product, festival, platform} -> price` | Domain-adapted small model (trained on Colab) |
-| Claude frontier | Anthropic API, pure zero-shot, no RAG, no training data | Large model with no Blinkit exposure |
-| Groq + RAG | Groq grounded in the pricing playbook + festival calendar | RAG beats pure zero-shot |
-| Groq ensemble arbitrator | Groq reasons over all four estimates, picks the final price | Meta-reasoning |
-
-The comparison is shown both live per query (UI table) and as offline MAE on a held-out
-20% test split (`price_comparison` eval suite).
+- **Classical ML baselines** (`app/pricer/baselines.py`) — `LinearRegression` on engineered
+  features (weight, text length, word count, category), **BoW `CountVectorizer` +
+  LinearRegression**, **RandomForest**, and **XGBoost**. Course week-6/day-3-4 parity.
+- **Frontier zero-shot arms** (`app/pricer/frontier.py`) — **Groq** (`llama-3.3-70b`) and
+  **Anthropic Claude**, each asked to price an item from its description alone, no training,
+  no retrieval. The "can a big model just guess it?" arm the classical models have to beat.
+- **A shared evaluator** (`app/pricer/evaluator.py`) — one `Tester` scores every arm the same
+  way (MAE / RMSE / R² / green-orange-red hit-rate) and renders scatter + cumulative-error
+  charts, so nothing gets to grade its own homework.
+- **Real data curation** (`app/pricer/loaders.py`, `parser.py`, `preprocessor.py`) — streams
+  Amazon's raw per-category JSONL directly (the old `trust_remote_code` loader script is dead
+  in `datasets>=3.0`), scrubs/filters with the course rules, rewrites each description into a
+  clean summary with Groq, and curates train/val/test splits.
+- **A live Blinkit scraper** (`app/ingest/scrape_blinkit.py`) — iterates category listing
+  pages via **Tavily** search + extract, parses each card into structured JSON with Groq,
+  dedupes by `(name, unit)`, and keeps only rows with a real numeric price. **No synthetic
+  SKUs anywhere** — 921 real priced products.
+- **A RAG substitution engine** (`app/substitution/`) — when a Blinkit SKU is out of stock,
+  retrieve real in-aisle alternatives from a dedicated **Chroma** index (built from 51 real
+  aisle docs, embedded with `all-MiniLM-L6-v2`) and have the LLM recommend one **grounded only
+  in what was retrieved** — then A/B it against the same model with no retrieval at all.
+- **Your own Hugging Face datasets** (`app/pricer/hub.py`) — curated splits are pushed to
+  *your* HF namespace (resolved from `HF_TOKEN` via `whoami()`), not someone else's, and read
+  back from there.
+- **Plain JSONL for everything** — every eval writes its raw records to `evals/results/`, so
+  every number in this README is reproducible from the data in the repo.
 
 ## Provider policy
 
 | Capability | Provider |
 |---|---|
-| Runtime LLM inference | **Groq** (`GROQ_API_KEY`) |
-| Frontier pricing arm | **Anthropic / Claude** (`ANTHROPIC_API_KEY`) |
-| Open models / datasets / Hub | **Hugging Face** (`HF_TOKEN`) |
-| Web evidence | **Tavily** (`TAVILY_API_KEY`) |
-| Experiment tracking | **W&B** (`WANDB_API_KEY`, optional) -> offline JSONL fallback |
-| Live translation | **Gemini** (`GEMINI_API_KEY`) -> Groq fallback |
+| Runtime LLM inference (rewrite, parse, price, RAG) | **Groq** (`GROQ_API_KEY`) |
+| Second frontier arm (pricing + no-RAG substitution) | **Anthropic / Claude** (`ANTHROPIC_API_KEY`) |
+| Embeddings, open models, dataset Hub | **Hugging Face** (`HF_TOKEN`) — `all-MiniLM-L6-v2` |
+| Live web scraping | **Tavily** (`TAVILY_API_KEY`) |
 
-## Architecture
+## How it actually works
 
-```
-scout -> classify -> verify -> IntentRouter -> { PricePredictor (5 arms) | SubstituteFinder } -> Brief -> Memory/UI
-```
-
-The RandomForest arm is a **trained stacked ensemble** (RandomForest + linear
-meta-learner) fit on an 80/20 split (train + held-out test MAE both reported, so
-overfitting is visible), conditioned on the Indian festival calendar.
-
-## Layout
+Both datasets flow through the identical pipeline — only the loader and the currency change:
 
 ```
-capstone/
-  app/
-    config.py              # keys, Groq registry, festival calendar, taxonomy
-    llm/                   # groq_client (chat/stream/json/vision/whisper), router
-    ingest/scraper.py      # Tavily search/extract; scrape_blinkit.py (data provenance)
-    nlp/                   # embeddings, hf_pipeline (sentiment/aspect/zeroshot/NER/translate)
-    rag/                   # Chroma store (hybrid rerank, headlines, rewrite) + grounded RAG
-    agents/                # schemas, intent_router, tools, memory, meta_learner, ensemble
-    finetune/              # dataset, baselines, signal LoRA, price-LoRA inference, frontier pricer
-    monitoring/            # experiment tracking (W&B / offline)
-    media/                 # price-card image, TTS
-    codegen/               # parser benchmarks, unit-norm kernel (Week 4, offline-safe)
-    i18n.py                # Gemini live translate (Groq fallback)
-    notify.py              # deal notification hook
-    ui.py                  # Gradio cockpit (Predictor/Substitute/Translate/Analytics)
-    knowledge_base/*.md    # festival, pricing, policy, substitution docs
-  data/
-    blinkit_products.json  # real scraped Blinkit products (seed for BL-* catalog)
-    catalog/products.json  # combined catalog (BL-* real + SF-* synthetic)
-    price_lora_adapter/    # drop the Colab-trained adapter here (auto-detected)
-  dashboard/
-    build_dashboard.py     # generates dashboard/index.html with summary stats
-  evals/
-    harness.py             # offline-safe eval harness with 6 suites
-    golden/golden.json     # golden test data for all suites
-  orchestration/
-    coverage_map.json      # Week 1-8 to capstone concept mapping
-  docs/
-    build_docs.py          # generates docs/index.html explainer
-  lora.ipynb               # Colab notebook: trains the LoRA price-regression arm
-  DEMO.md                  # 3-5 minute demo script for GitHub
+curate (scrub + filter + Groq rewrite)  ->  push to HF Hub  ->  pull back
+   ->  classical baselines (LinReg / BoW / RandomForest / XGBoost)
+   ->  frontier zero-shot (Groq + Claude)
+   ->  [Blinkit only] RAG substitution (retrieve real aisle -> grounded pick)
+   ->  one shared Tester scores every arm: MAE / RMSE / R² / hit-rate
 ```
 
-## Results (eval loop 7, offline-safe suites)
+1. **Same prompt, every arm.** Each item becomes the course price prompt —
+   `"What does this cost to the nearest {dollar|rupee}?\n\n{summary}\n\nPrice is {sym}{price}"`
+   — and the frontier arms see exactly the truncated version the baselines train on, so no arm
+   gets extra information the others don't.
+2. **The evaluator is the referee.** `Tester.test(predictor, label, test_set)` runs any
+   `predict(item) -> float` through the same scoring and charting. Add a new model, implement
+   one method, and it lands on the same leaderboard.
+3. **RAG is grounded, not vibes.** The Blinkit substitution arm can *only* recommend a product
+   that showed up in the retrieved context. If the retrieved aisle has nothing suitable, it
+   returns "no substitute" instead of hallucinating one — and I measure exactly that.
+4. **No synthetic data on the Blinkit side.** Every Blinkit price is a real scraped number.
+   The catalog, the splits, and the substitution docs are all built from the 921-SKU scrape.
 
-| Suite | Metric | Score |
+## Results
+
+### Price prediction leaderboard
+
+Every arm, scored by the same `Tester` on the held-out test split. MAE/RMSE are in the
+dataset's native currency (smaller is better); R² is variance explained (0 = no better than
+always guessing the mean; negative = *worse* than that); hit-rate is the fraction of
+predictions landing in the "green" band.
+
+**Amazon** — 20,000 train / 1,000 test (USD)
+
+| Model | MAE | RMSE | R² | Hit rate |
+|---|---|---|---|---|
+| **XGBoost** | 30.50 | **65.60** | **0.624** | 83.4% |
+| **RandomForest** | **28.30** | 68.71 | 0.588 | 84.0% |
+| Claude frontier (zero-shot) | 32.94 | 105.82 | 0.022 | **84.3%** |
+| Groq frontier (zero-shot) | 34.16 | 100.74 | 0.114 | 81.7% |
+| BoW + LinearRegression | 40.24 | 67.94 | 0.597 | 70.7% |
+| LinearRegression | 40.85 | 94.12 | 0.227 | 83.0% |
+
+**Blinkit** — 736 train / 93 test (INR, real scraped data)
+
+| Model | MAE | RMSE | R² | Hit rate |
+|---|---|---|---|---|
+| **RandomForest** | **126.33** | **240.35** | **0.421** | **45.2%** |
+| XGBoost | 143.54 | 260.50 | 0.320 | 37.6% |
+| Groq frontier (zero-shot) | 173.90 | 435.32 | -0.900 | 41.9% |
+| Claude frontier (zero-shot) | 176.37 | 404.18 | -0.637 | 43.0% |
+| LinearRegression | 190.77 | 345.17 | -0.194 | 22.6% |
+| BoW + LinearRegression | 286.78 | 497.78 | -1.484 | 21.5% |
+
+What the numbers say:
+
+- **Tree ensembles win on both datasets.** RandomForest and XGBoost lead on MAE *and* are the
+  only arms with a comfortably positive R² on Blinkit — everything else there is worse than
+  guessing the average price for every item.
+- **Frontier LLMs beat the *linear* baselines on typical-case accuracy**, on both datasets,
+  purely from world knowledge — but they lose to the trees on MAE and fall apart on R²/RMSE
+  (negative R² on Blinkit means a handful of confident, wildly-wrong guesses blow up the
+  variance).
+- **Data volume decides everything.** Amazon's numbers are categorically stronger across every
+  model because it has ~27× the training data. On Blinkit's 736 rows, `BoW+LinearRegression`
+  (8,000 vocab params, 736 data points) overfits so hard it posts R² = **-1.48** — the same
+  model is perfectly respectable on Amazon.
+
+### RAG vs. no-RAG substitution (Blinkit, 40 out-of-stock SKUs)
+
+Same task both ways: a shopper can't get product X, recommend one alternative. **No-RAG** is
+Claude zero-shot from general knowledge; **RAG** is Groq grounded in the retrieved real aisle.
+
+| Metric | No-RAG (Claude) | **RAG (Groq)** |
 |---|---|---|
-| Intent routing | accuracy | **1.00** (15/15) |
-| Substitution | MRR / coverage | **1.00 / 1.00** |
-| Unit normalization | accuracy | **1.00** (10/10) |
-| RAG retrieval | recall / MRR | **0.86 / 0.93** |
-| Schema validity | valid rate | **1.00** (9/9) |
-| Price comparison | ensemble MAE | **₹34.87** (band coverage 3/5) |
+| Suggestion actually exists in the Blinkit catalog | 37.5% | **97.5%** |
+| Suggestion is in the right aisle | 80.0% | **89.7%** |
+| Stated price is accurate | 28.6% | **100%** |
+| Avg cost / query | $0.0020 | **$0.0009** |
+| Avg latency | 2.85s | **1.02s** |
 
-Honest overfitting disclosure, on purpose: the RandomForest arm reports **train MAE ₹106 vs held-out test MAE ₹391** — the gap is visible in the dashboard rather than hidden, and it's exactly why the ensemble arbitrator (MAE ₹35) beats any single arm. Guardrail suites run live with `RUN_LIVE_EVALS=1`.
+Retrieval takes "exists in the real catalog" from **37.5% → 97.5%** and stated-price accuracy
+from **28.6% → 100%** — while being *cheaper and faster*, because a grounded 70B model doesn't
+need to reason as hard as a frontier model guessing blind.
 
-Every eval loop appends to `evals/results/` and W&B (offline JSONL fallback), so regressions show up as a trend, not an anecdote.
-
-## Course concept coverage
-
-All 8 weeks of the LLM engineering course map to running code — the full
-week-by-week table (concept → file → how to demo it) is generated from
-[`orchestration/coverage_map.json`](orchestration/coverage_map.json) into the
-[explainer page](docs/index.html):
-
-| Week | Theme | Concepts wired in |
-|---|---|---|
-| 1 | Frontier APIs, scraping, prompting, JSON | 7 |
-| 2 | Multi-model APIs, Gradio, tools, multimodal | 5 |
-| 3 | HuggingFace pipelines, tokenizers, open models | 5 |
-| 4 | Code generation & benchmarking | 3 |
-| 5 | RAG: LangChain, Chroma, hybrid retrieval | 5 |
-| 6 | Data curation, classical ML baselines, tracking | 5 |
-| 7 | LoRA/PEFT fine-tuning, HF Hub | 4 |
-| 8 | Agentic spine, safety, deployment | 6 |
-
-## Quickstart
-
-See [`RUNBOOK.md`](RUNBOOK.md) for the full step-by-step. The short version (from
-`capstone/`, using the repo `.venv`):
+## Setting it up yourself
 
 ```bash
+git clone https://github.com/Sid1005/blinkit-price-intelligence.git
+cd blinkit-price-intelligence
 pip install -r requirements.txt
-python -m app.commerce_data            # curate world data (real Blinkit + synthetic)
-python -m app.agents.meta_learner      # train RandomForest arm (80/20 split, reports MAE)
-python -m app.finetune.dataset         # signal + price dataset splits
-python -m app.rag.store                # build the Chroma index
-python evals/harness.py 1              # run all eval suites (incl. price_comparison MAE)
-python dashboard/build_dashboard.py    # generate dashboard/index.html
-python docs/build_docs.py              # generate docs/index.html
-python -m app.ui                       # launch the Gradio app on :7860
+
+cp .env.example .env
+# fill in GROQ_API_KEY, ANTHROPIC_API_KEY, HF_TOKEN, TAVILY_API_KEY
 ```
 
-### Offline fallback behaviour
+**Curate a dataset** (streams, scrubs, Groq-rewrites, splits, pushes to *your* HF account):
 
-Everything is designed to degrade gracefully when API keys are missing:
+```bash
+python -m app.pricer.loaders --source amazon      # Amazon lite, 20k/1k/1k
+python -m app.ingest.scrape_blinkit --full        # scrape ~900+ real Blinkit SKUs
+python -m app.pricer.loaders --source blinkit     # curate + split the scrape
+```
 
-| If missing... | Then... |
-|---|---|
-| `GROQ_API_KEY` | Groq-based arms fail; ensemble uses available arms only. Agent classifies purely locally. |
-| `ANTHROPIC_API_KEY` | Claude frontier arm excluded; comparison shows 4 arms instead of 5. |
-| `TAVILY_API_KEY` | Web evidence disabled; scout uses user snippets only. |
-| `GEMINI_API_KEY` | Translation falls back to Groq; Live API toggle auto-degrades. |
-| `WANDB_API_KEY` | Experiment tracking writes offline JSONL to `data/runs/`. |
-| Price LoRA adapter | Arm 2 shows N/A; advisor suggests running lora.ipynb on Colab. |
+**Run the leaderboard** (any subset of arms; every arm shares the same scorer):
 
-**Key design property:** data curation, meta-learner training, evals, and dashboard are
-all fully offline-safe — they use only local data and deterministic computations.
+```bash
+python -m app.pricer.baselines --source amazon    # LinReg / BoW / RandomForest / XGBoost
+python -m app.pricer.baselines --source blinkit
+python -m app.pricer.frontier  --source amazon    # Groq + Claude zero-shot
+python -m app.pricer.frontier  --source blinkit
+```
 
-The LoRA price arm (Arm 2) is trained separately on Colab via `lora.ipynb`; download the
-adapter into `data/price_lora_adapter/` and it is auto-detected on the next app start.
-Until then the system runs with the other four arms and shows LoRA as N/A.
+**Run the RAG substitution A/B** (Blinkit only):
+
+```bash
+python -m app.substitution.rag_index              # build the Chroma index from real aisle docs
+python scripts/eval_substitution_rag.py           # RAG vs no-RAG over the eval set
+```
+
+Scatter/cumulative-error charts for each arm land in `data/<source>/eval_charts/`, and the
+substitution ablation writes to `evals/results/substitution_rag_ablation.json`.
+
+## Repo map
+
+```
+app/pricer/
+  items.py          the Item data-point + shared price-prompt template + HF push/pull
+  loaders.py        AmazonLoader (streams raw JSONL, lite splits) + BlinkitLoader (80/10/10)
+  parser.py         course scrub/filter rules, generalized so Blinkit rows pass too
+  preprocessor.py   Groq description -> clean summary rewrite
+  baselines.py      LinearRegression / BoW / RandomForest / XGBoost (+ Groq category cleanup)
+  frontier.py       Groq + Claude zero-shot pricing arms
+  evaluator.py      the shared Tester: MAE/RMSE/R²/hit-rate + charts
+  hub.py            push/pull curated datasets to YOUR Hugging Face namespace
+  BASELINES.md      deep-dive: every baseline, what it predicts from, why it scores as it does
+  FRONTIER.md       deep-dive: the zero-shot arms vs the classical leaderboard
+
+app/substitution/
+  rag_index.py       dedicated Chroma index over the real Blinkit aisle docs
+  compare.py         the two substitution arms: no_rag (Claude) vs rag (Groq, grounded)
+  blinkit_catalog.py catalog helpers + candidate ranking for grading
+  evaluate.py        scores both arms: catalog-hit / same-aisle / price-accuracy
+
+app/ingest/scrape_blinkit.py   Tavily scrape -> Groq JSON parse -> deduped priced catalog
+app/llm/                        Groq client + model router
+app/nlp/embeddings.py           all-MiniLM-L6-v2 embedding function for Chroma
+scripts/                        dataset + substitution-doc build + eval entry points
+
+data/blinkit/     921-SKU scrape, curated splits, 51 aisle substitution docs, eval charts
+data/amazon/      category map + eval charts (splits live on the HF Hub)
+evals/results/    raw JSONL/JSON for every scored run
+```
+
+## Roadmap
+
+Everything above is implemented and scored. Two more arms are landing on the same leaderboard
+next — the code lives in a branch and gets pushed once each is fully scored end-to-end:
+
+- **QLoRA price specialist** — 4-bit nf4 QLoRA fine-tune of `meta-llama/Llama-3.2-3B` on the
+  curated price prompts (trained on Colab), scored through the *same* `Tester` as every other
+  arm so the fine-tuned model sits right next to XGBoost and the frontier arms.
+- **Ensemble** — a weighted/arbitrated blend over the available arms
+  (`frontier·0.8 + specialist·0.1 + classical·0.1`, course parity), with the Blinkit ensemble
+  additionally folding in the RAG arm.
+
+## Credit
+
+The pipeline architecture, the price-prompt format, the scrub/filter rules, and the
+classical → frontier → QLoRA → ensemble progression follow Ed Donner's **"LLM Engineering"**
+course ("The Price Is Right", weeks 6–8). This repo reproduces that faithfully on Amazon and
+then runs the identical pipeline over a real, self-scraped Blinkit dataset with a RAG
+substitution engine bolted on.

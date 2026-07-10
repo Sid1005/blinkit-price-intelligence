@@ -1,7 +1,16 @@
 # Substitution Intelligence Guide
 
 How to recommend alternatives when a SKU is unavailable, overpriced, poor value, or
-poorly reviewed. Demo guidance over a curated catalog.
+poorly reviewed.
+
+Grounding for the Blinkit (Part B) substitution arm comes from real scraped data, not
+synthetic catalog rows: `data/blinkit/substitutions/index.md` lists 50 real in-aisle
+buckets (canonicalized from Blinkit's own — sometimes duplicated — category labels)
+built from the 921-SKU scrape in `data/blinkit/blinkit_products.json`, each with a
+ranked top-3 substitute list per SKU. `data/blinkit/substitutions/_no_substitute.md`
+covers the handful of singleton SKUs with no in-aisle alternative in this scrape.
+Every scraped rating came back null, so the ranked buckets substitute brand diversity
+and discount depth for the "quality" signal described below.
 
 ## When to substitute
 
